@@ -1,0 +1,187 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+model aks_pemakai {
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    name       String
+    username   String   @unique
+    password   String
+    email      String   @unique
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+}
+
+model cis_master {
+    no_nas              String   @id @default(auto()) @map("_id") @db.ObjectId
+    created_at_kantor   String
+    nm_nas              String
+    jns_ident           Int
+    no_ident            String
+    masa_ident          DateTime
+    tgl_ident           DateTime
+    acc_off             String
+    bntk_hkm            String
+    gol_pemilik         String
+    status_nas          String
+    flag_hub_bank       Boolean  @default(false)
+    sumber_dana         String
+    tujuan_dana         String
+    maks_trans          String
+    penghasilan_bulan   String
+    penghasilan_lainnya String?
+    pengeluaran_bulan   String
+    pengeluaran_lainnya String?
+    npwp                String?
+    no_telp             String
+    email               String
+    bidang_usaha        String?
+
+    alamat         cis_alamat[]
+    cis_perusahaan cis_perusahaan?
+    cis_perorangan cis_perorangan?
+}
+
+model cis_alamat {
+    id            String @id @default(auto()) @map("_id") @db.ObjectId
+    no_nas        String @db.ObjectId
+    no_urut       Int    @default(1)
+    jns_alamat    String
+    negara        String
+    provinsi      String
+    kota          String
+    kecamatan     String
+    kelurahan     String
+    rt            String
+    rw            String
+    kd_post       String
+    alamat_detail String
+
+    cisMaster cis_master @relation(fields: [no_nas], references: [no_nas])
+}
+
+model cis_perorangan {
+    id                String   @id @default(auto()) @map("_id") @db.ObjectId
+    no_nas            String   @unique @db.ObjectId
+    nm_ibu            String
+    tempat_lahir      String
+    tgl_lahir         DateTime
+    jns_kelamin       String
+    flag_karyawan     Boolean
+    status_pernikahan String
+    nm_pasangan       String
+    no_ident_pasangan String
+    nm_ahli_waris     String
+    agama             String
+    kewarganegaraan   String
+    profesi           String
+    jns_pekerjaan     String
+    jabatan           String
+    nm_kntr           String
+
+    cisMaster cis_master @relation(fields: [no_nas], references: [no_nas])
+}
+
+model cis_perusahaan {
+    id_perusahaan      String         @id @default(auto()) @map("_id") @db.ObjectId
+    no_nas             String         @unique @db.ObjectId
+    jns_usaha_tkt      String
+    flag_bank          Boolean
+    group_nas          String
+    kontak_person      String
+    modal_sendiri      String
+    modal_setor        String
+    status_perusahaan  String
+    no_akte_awal       String
+    tgl_akte_awal      DateTime
+    no_akte_akhir      String
+    tgl_akte_akhir     DateTime
+    nm_notaris         String
+    no_notaris         String
+    tgl_notaris        DateTime
+    no_permohonan_dep  String
+    tgl_permohonan_dep DateTime
+    no_izin_dep        String
+    tgl_izin_dep       DateTime
+    no_pub             String
+    tgl_pub            DateTime
+    cis_pengurus       cis_pengurus[]
+
+    cisMaster cis_master @relation(fields: [no_nas], references: [no_nas])
+}
+
+model cis_pengurus {
+    id_pengurus            String   @id @default(auto()) @map("_id") @db.ObjectId
+    id_perusahaan_instansi String   @db.ObjectId
+    jns_pengurus           String
+    kewarganegaraan        String
+    jns_ident              Int
+    no_ident               String
+    nm_nas                 String
+    masa_ident             String
+    tgl_ident              DateTime
+    tempat_lahir           String
+    tgl_lahir              DateTime
+    no_hp                  String
+    no_telp                String
+    email                  String
+    nm_ibu                 String
+    jabatan                String
+    kepemilikan            Int
+    npwp                   String
+
+    cisPerusahaan cis_perusahaan? @relation(fields: [id_perusahaan_instansi], references: [id_perusahaan])
+}
+
+model para_negara {
+    id_negara  String @id @map("_id") @db.ObjectId
+    keterangan String
+
+    id_provinsi para_provinsi[]
+}
+
+model para_provinsi {
+    id          String @id @default(auto()) @map("_id") @db.ObjectId
+    id_negara   String @db.ObjectId
+    id_provinsi Int    @unique
+
+    para_negara para_negara @relation(fields: [id_negara], references: [id_negara], onDelete: Cascade)
+    para_kota   para_kota[]
+}
+
+model para_kota {
+    id          String @id @default(auto()) @map("_id") @db.ObjectId
+    id_provinsi Int    @unique
+    id_kota     Int    @unique
+    keterangan  String
+
+    para_provinsi  para_provinsi   @relation(fields: [id_provinsi], references: [id_provinsi], onDelete: Cascade)
+    para_kecamatan para_kecamatan?
+}
+
+model para_kecamatan {
+    id           String @id @default(auto()) @map("_id") @db.ObjectId
+    id_kota      Int    @unique
+    id_kecamatan Int    @unique
+    keterangan   String
+
+    para_kota      para_kota        @relation(fields: [id_kota], references: [id_kota], onDelete: Cascade)
+    para_kelurahan para_kelurahan[]
+}
+
+model para_kelurahan {
+    id           String @id @default(auto()) @map("_id") @db.ObjectId
+    id_kecamatan Int    @unique
+    id_kelurahan Int    @unique
+    keterangan   String
+
+    para_kecamatan para_kecamatan? @relation(fields: [id_kecamatan], references: [id_kecamatan], onDelete: Cascade)
+}
