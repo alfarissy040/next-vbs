@@ -3,6 +3,7 @@
 import { Button, Input } from "@nextui-org/react"
 import Image from "next/image"
 import loginBackground from "@/assets/image/bg-login.jpeg"
+import { SiNginx } from "react-icons/si"
 
 
 const LoginPage = () => {
@@ -16,7 +17,9 @@ const LoginPage = () => {
                 {/* login */}
                 <div className="flex-1 px-5 py-3 flex flex-col items-center justify-center">
                     {/* logo */}
-                    <h1 className="font-bold text-3xl text-slate-900 dark:text-white">VBS</h1>
+                    <SiNginx className="text-blue-500 dark:text-secondary w-10 h-10" />
+                    <h1 className="font-bold text-3xl text-slate-900 dark:text-white">Neural Bank</h1>
+                    {/* form */}
                     <div className="w-full max-w-lg mt-10 space-y-3">
                         {/* username */}
                         <Input type="text" variant="bordered" label="Username" isRequired />
