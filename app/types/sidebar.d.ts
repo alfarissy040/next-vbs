@@ -1,1 +1,1 @@
-export type navProps = "home" | "parameter" | "tema";
+export type navProps = "home" | "parameter" | "tema" | "cis";

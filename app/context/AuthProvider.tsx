@@ -18,8 +18,5 @@ export default function AuthProvider({
             console.log(session)
         }
     }, [session]);
-    return <SessionProvider session={{
-        ...session,
-        expires: session?.expires_at ?? new Date().toISOString(),
-    }}>{children}</SessionProvider>;
+    return <SessionProvider session={session}>{children}</SessionProvider>;
 }

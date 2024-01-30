@@ -16,8 +16,11 @@ const config: Config = {
 		}
 	},
 	darkMode: "class",
-	plugins: [nextui({
-		addCommonColors: true,
-	})]
+	plugins: [
+		nextui({
+			addCommonColors: true,
+		}),
+		require('@tailwindcss/typography')
+	]
 }
 export default config

@@ -26,10 +26,21 @@ const ItemHome: React.FC<ItemHomeProps> = ({ setNavState }) => {
             }}
             layout
         >
-            <h3 className="text-medium text-zinc-400 px-2">Settings</h3>
+            <h3 className="text-medium text-zinc-400 px-2">Menu</h3>
+            <li className="sidebar__item justify-between" onClick={() => setNavState("cis")}>
+                <span>Customer Service</span>
+                <FaChevronRight className="w-3 h-3 text-zinc-400" />
+            </li>
             <li className="sidebar__item justify-between" onClick={() => setNavState("parameter")}>
                 <span>Parameter</span>
                 <FaChevronRight className="w-3 h-3 text-zinc-400" />
+            </li>
+            <div className="w-full h-0.5 bg-slate-200 dark:bg-slate-700 my-1" />
+            <h3 className="text-medium text-zinc-400 px-2">Settings</h3>
+            <li>
+                <Link href={"/account"} className="sidebar__item">
+                    Akun
+                </Link>
             </li>
             <li className="sidebar__item justify-between" onClick={() => setNavState("tema")}>
                 <p>
@@ -37,7 +48,6 @@ const ItemHome: React.FC<ItemHomeProps> = ({ setNavState }) => {
                 </p>
                 <FaChevronRight className="w-3 h-3 text-zinc-400" />
             </li>
-            <div className="w-full h-0.5 bg-slate-200 dark:bg-slate-700 my-1" />
             <button className="sidebar__item w-full" onClick={() => signOut()}>
                 Logout
             </button>
