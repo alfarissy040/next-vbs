@@ -1,0 +1,1 @@
+type TTipeNasabah = "perorangan" | "perusahaan" | "pemerintahaan" | "non-profit"

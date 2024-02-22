@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import './globals.css'
-import StyleProvider from './context/StyleProvider'
+
+import dynamic from 'next/dynamic'
 
 const poppins = Poppins({
 	subsets: ['latin'],
@@ -17,13 +18,14 @@ export default async function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
+	const ClientStyleProvider = dynamic(() => import('./context/StyleProvider'), { ssr: false })
 
 	return (
 		<html lang="en">
 			<body className={poppins.className}>
-				<StyleProvider>
+				<ClientStyleProvider>
 					{children}
-				</StyleProvider>
+				</ClientStyleProvider>
 			</body>
 		</html>
 	)

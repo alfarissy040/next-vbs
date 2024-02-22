@@ -21,29 +21,29 @@ model aks_pemakai {
 }
 
 model cis_master {
-    no_nas              String   @id @default(auto()) @map("_id") @db.ObjectId
+    no_nas              String    @id @default(auto()) @map("_id") @db.ObjectId
     created_at_kantor   String
     nm_nas              String
     jns_ident           Int
     no_ident            String
-    masa_ident          DateTime
-    tgl_ident           DateTime
+    masa_ident          Int
+    tgl_ident           DateTime?
     acc_off             String
     bntk_hkm            String
-    gol_pemilik         String
+    gol_pemilik         Int
     status_nas          String
-    flag_hub_bank       Boolean  @default(false)
+    flag_hub_bank       Boolean   @default(false)
     sumber_dana         String
-    tujuan_dana         String
-    maks_trans          String
-    penghasilan_bulan   String
-    penghasilan_lainnya String?
-    pengeluaran_bulan   String
-    pengeluaran_lainnya String?
+    tujuan_dana         Int
+    maks_trans          Int
+    penghasilan_bulan   Int
+    penghasilan_lainnya Int?
+    pengeluaran_bulan   Int
+    pengeluaran_lainnya Int?
     npwp                String?
     no_telp             String
     email               String
-    bidang_usaha        String?
+    bidang_usaha        Int?
 
     alamat         cis_alamat[]
     cis_perusahaan cis_perusahaan?

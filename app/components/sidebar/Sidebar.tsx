@@ -16,7 +16,7 @@ const Sidebar = () => {
     return (
         <aside className="p-3 w-full max-w-xs min-h-[100dvh] bg-white shadow border-r border-slate-200 dark:bg-slate-800 dark:border-slate-600 lg:flex flex-col hidden">
             {/* title */}
-            <div className="flex items-center gap-x-3">
+            <div className="flex justify-center items-center gap-x-3">
                 <SiNginx className="text-blue-500 dark:text-secondary w-10 h-10" />
                 <h1 className="text-xl font-bold text-black dark:text-white">Neural Bank</h1>
             </div>

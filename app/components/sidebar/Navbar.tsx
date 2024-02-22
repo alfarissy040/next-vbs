@@ -26,8 +26,8 @@ const Navbar = () => {
                     <HiMenuAlt2 className='w-6 h-6 text-white' />
                 </Button>
                 <div className="flex items-center gap-x-3">
-                    <SiNginx className="text-secondary w-6 h-6" />
-                    <h1 className=" font-bold text-white">Neural Bank</h1>
+                    <SiNginx className="text-secondary w-6 h-6 sm:block hidden" />
+                    <h1 className="font-bold text-white ">Neural Bank</h1>
                 </div>
                 <div className="ml-auto text-right flex flex-col gap-y-0">
                     <User
