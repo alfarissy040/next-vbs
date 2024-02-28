@@ -20,7 +20,7 @@ const Navbar = () => {
         setNavState("home")
     }, [isOpen])
     return (
-        <nav className='fixed top-0 h-auto w-full'>
+        <nav className='fixed top-0 h-auto w-full z-50'>
             <div className="flex lg:hidden items-center w-full px-4 py-2 bg-blue-500 shadow border-r border-slate-200 dark:bg-blue-700 dark:border-slate-600 sm:gap-x-5 gap-x-3">
                 <Button isIconOnly variant='light' size='sm' onClick={handleToggle} >
                     <HiMenuAlt2 className='w-6 h-6 text-white' />

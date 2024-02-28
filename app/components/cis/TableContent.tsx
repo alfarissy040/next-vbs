@@ -1,14 +1,14 @@
 "use client"
 
 import { useNasabahType } from "@/app/utilities/Cis"
-import { Table, Pagination, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Tooltip, SortDescriptor } from "@nextui-org/react"
+import { Table, Pagination, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Tooltip, SortDescriptor, Spinner } from "@nextui-org/react"
 import { cis_master } from "@prisma/client"
 import Link from "next/link"
 import { useState, useMemo } from "react"
 import { MdRemoveRedEye, MdCreate } from "react-icons/md"
 
 interface sortStateType {
-    column: "nonas" | "nama" | "tipe",
+    column: "no_nas" | "nm_nas" | "type",
     direction: "ascending" | "descending"
 }
 
@@ -16,12 +16,13 @@ interface TableContentProps {
     dataCis: cis_master[]
     isLoading: boolean
     isError: boolean
+    handleSort: (orderBy: TMasterSort, direction: TSortDirection) => void
 }
 
-const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError }) => {
+const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError, handleSort }) => {
     const [page, setPage] = useState(1)
     const [sortState, setSortState] = useState<sortStateType>({
-        column: "nonas",
+        column: "no_nas",
         direction: "ascending"
     })
     const { getBadgeColor, getTypeName } = useNasabahType()
@@ -32,13 +33,13 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
 
     const handleSortChange = (descriptor: SortDescriptor) => {
         setSortState({
-            column: descriptor.column as "nonas" | "nama" | "tipe",
-            direction: descriptor.direction as "ascending" | "descending",
+            column: descriptor.column as TMasterSort,
+            direction: descriptor.direction as TSortDirection,
         });
+        handleSort(descriptor.column as TMasterSort, descriptor.direction as TSortDirection)
     };
     return (
         <Table
-
             aria-label="table for data cis"
             className="h-full overflow-y-auto"
             classNames={{
@@ -71,15 +72,18 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
             isHeaderSticky
         >
             <TableHeader>
-                <TableColumn key="nonas" allowsSorting>NOMOR NASABAH</TableColumn>
-                <TableColumn key="nama" allowsSorting>NAMA</TableColumn>
-                <TableColumn key="tipe" allowsSorting>TIPE</TableColumn>
+                <TableColumn key="no_nas" allowsSorting>NOMOR NASABAH</TableColumn>
+                <TableColumn key="nm_nas" allowsSorting>NAMA</TableColumn>
+                <TableColumn key="type" allowsSorting>TIPE</TableColumn>
                 <TableColumn className="flex justify-center items-center" >MENU</TableColumn>
             </TableHeader>
             <TableBody
                 emptyContent="Data tidak ditemukan!"
                 items={dataCis}
                 isLoading={isLoading}
+                loadingContent={(
+                    <Spinner size="md" />
+                )}
             >
                 {(item) => (
                     <TableRow key={item.no_nas}>

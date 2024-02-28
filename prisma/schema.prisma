@@ -75,11 +75,11 @@ model cis_perorangan {
     tempat_lahir      String
     tgl_lahir         DateTime
     jns_kelamin       String
-    flag_karyawan     Boolean
+    flag_karyawan     Boolean  @default(false)
     status_pernikahan String
-    nm_pasangan       String
-    no_ident_pasangan String
-    nm_ahli_waris     String
+    nm_pasangan       String?
+    no_ident_pasangan String?
+    nm_ahli_waris     String?
     agama             String
     kewarganegaraan   String
     profesi           String

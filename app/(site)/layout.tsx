@@ -14,12 +14,12 @@ export default async function MainLayout({
 
     return (
         <AuthContext session={session}>
-            <div className="w-full lg:flex h-[100dvh] bg-slate-50 dark:bg-slate-900">
+            <div className="w-full lg:flex h-[100dvh] ">
                 {/* sidebar */}
                 <Sidebar />
                 <Navbar />
                 {/* content */}
-                <main className="w-full min-h-[100dvh] p-3 lg:pt-3 pt-14 overflow-y-auto">
+                <main className="w-full h-auto p-3 lg:pt-3 pt-[4.25rem] overflow-y-auto bg-slate-50 dark:bg-slate-900">
                     {children}
                 </main>
             </div>

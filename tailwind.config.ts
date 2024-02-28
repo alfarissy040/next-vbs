@@ -18,7 +18,8 @@ const config: Config = {
 	darkMode: "class",
 	plugins: [
 		nextui({
-			addCommonColors: true,
+			addCommonColors: false,
+
 		}),
 		require('@tailwindcss/typography')
 	]

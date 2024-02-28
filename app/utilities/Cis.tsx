@@ -10,7 +10,7 @@ export const useNasabahType = () => {
             case 3:
                 return "Instansi Pemerintah";
             case 4:
-                return "Non-profit"; // or whatever default value you want
+                return "Lembaga non-profit"; // or whatever default value you want
         }
     }, [])
     const getBadgeColor = useCallback((tipe: number) => {

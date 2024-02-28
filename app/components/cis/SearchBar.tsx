@@ -1,7 +1,7 @@
 "use client"
 
 import { Button, Input } from "@nextui-org/react"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useCallback, useState } from "react"
 import { FaPlus } from "react-icons/fa"
 import { MdSearch } from "react-icons/md"
@@ -12,6 +12,7 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ doSearch }) => {
     const [searchValue, setSearchValue] = useState("");
+    const router = useRouter()
 
     const handleSearch = useCallback(() => {
         doSearch(searchValue)
@@ -37,29 +38,27 @@ const SearchBar: React.FC<SearchBarProps> = ({ doSearch }) => {
                 }}
             />
             {/* btn add */}
-            <Link href="/cis/new" >
-                <Button
-                    className="hidden md:flex"
-                    size="lg"
-                    color="primary"
-                    radius="sm"
-                    endContent={<FaPlus className="w-4 h-4 text-white" />}
-                >
-                    Nasabah baru
-                </Button>
-            </Link>
+            <Button
+                className="hidden md:grid md:grid-flow-col"
+                size="lg"
+                color="primary"
+                radius="sm"
+                endContent={<FaPlus className="w-4 h-4 text-white" />}
+                onClick={() => router.push("/cis/create-nasabah")}
+            >
+                Nasabah baru
+            </Button>
             {/* btn add icon only */}
-            <Link href="/cis/new" >
-                <Button
-                    className="flex md:hidden"
-                    size="lg"
-                    color="primary"
-                    radius="sm"
-                    isIconOnly
-                >
-                    <FaPlus className="w-4 h-4 text-white" />
-                </Button>
-            </Link>
+            <Button
+                className="flex md:hidden"
+                size="lg"
+                color="primary"
+                radius="sm"
+                isIconOnly
+                onClick={() => router.push("/cis/create-nasabah")}
+            >
+                <FaPlus className="w-4 h-4 text-white" />
+            </Button>
         </div>
     )
 }
