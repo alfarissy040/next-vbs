@@ -42,7 +42,7 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
         <Table
             aria-label="table for data cis"
             classNames={{
-                wrapper: "dark:bg-slate-800 bg-slate-100 overflow-auto h-[calc(100dvh-140px)]",
+                wrapper: "dark:bg-slate-800 bg-slate-200 overflow-auto h-[calc(100dvh-140px)] shadow-lg",
                 th: ["dark:bg-slate-900 bg-slate-300 text-slate-600 dark:text-slate-400"],
                 tr: ["dark:hover:bg-slate-800 hover:bg-slate-400 transition-colors"],
             }}
@@ -78,10 +78,8 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
                 <TableColumn className="flex justify-center items-center" >MENU</TableColumn>
             </TableHeader>
             <TableBody
-                emptyContent="Data tidak ditemukan!"
-                // items={[]}
-                items={dataCis}
-                // isLoading={true}
+                emptyContent={isError ? "Something went wrong!" : "Data tidak ditemukan!"}
+                items={isError ? [] : dataCis}
                 isLoading={isLoading}
                 loadingContent={(
                     <Spinner size="md" />
@@ -97,10 +95,13 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
                             </div>
                         </TableCell>
                         <TableCell>
-                            <Chip classNames={{
-                                base: getBadgeColor(item.jns_ident),
-                                content: ["text-white"]
-                            }}>
+                            <Chip
+                                size="sm"
+                                variant="light"
+                                classNames={{
+                                    base: getBadgeColor(item.jns_ident),
+                                    content: ["text-white"]
+                                }}>
                                 {getTypeName(item.jns_ident)}
                             </Chip>
                         </TableCell>
