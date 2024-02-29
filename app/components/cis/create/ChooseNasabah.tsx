@@ -15,9 +15,9 @@ const ChooseNasabah = ({ setFormType }: { setFormType: Dispatch<SetStateAction<T
             transition={{
                 duration: 0.5
             }}
-            className="flex flex-col items-center justify-center w-full flex-1 gap-3">
+            className="flex flex-col items-center justify-center w-full h-auto flex-1 gap-3">
             <h2 className="font-medium text-2xl w-full text-center">Pilih tipe nasabah</h2>
-            <div className="flex items-center gap-3">
+            <div className="grid md:grid-cols-4 grid-cols-2 items-center gap-3">
                 <Card shadow="md" isPressable isHoverable onPress={() => setFormType("perorangan")} classNames={{
                     base: "dark:bg-slate-800 dark:data-[hover=true]:bg-slate-700 bg-slate-100 data-[hover=true]:bg-slate-200"
                 }}>
@@ -26,7 +26,7 @@ const ChooseNasabah = ({ setFormType }: { setFormType: Dispatch<SetStateAction<T
                             <FaUser className="h-full w-full text-orange-600" />
                         </div>
                     </CardBody>
-                    <CardFooter className="text-small justify-between">
+                    <CardFooter className="text-small justify-center">
                         <p className="font-medium">Perorangan</p>
                     </CardFooter>
                 </Card>
@@ -39,7 +39,7 @@ const ChooseNasabah = ({ setFormType }: { setFormType: Dispatch<SetStateAction<T
                             <FaBuilding className="w-full h-full text-yellow-600" />
                         </div>
                     </CardBody>
-                    <CardFooter className="text-small justify-between">
+                    <CardFooter className="text-small justify-center">
                         <p className="font-medium">Perusahaan</p>
                     </CardFooter>
                 </Card>
@@ -52,7 +52,7 @@ const ChooseNasabah = ({ setFormType }: { setFormType: Dispatch<SetStateAction<T
                             <FaBuildingColumns className="w-full h-full text-blue-600" />
                         </div>
                     </CardBody>
-                    <CardFooter className="text-small justify-between">
+                    <CardFooter className="text-small justify-center">
                         <p className="font-medium">Instansi Pemerintah</p>
                     </CardFooter>
                 </Card>
@@ -65,7 +65,7 @@ const ChooseNasabah = ({ setFormType }: { setFormType: Dispatch<SetStateAction<T
                             <FaHandsHelping className="w-full h-full text-green-600" />
                         </div>
                     </CardBody>
-                    <CardFooter className="text-small justify-between">
+                    <CardFooter className="text-small justify-center">
                         <p className="font-medium">Lembaga non-profit</p>
                     </CardFooter>
                 </Card>

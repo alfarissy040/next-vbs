@@ -4,6 +4,6 @@
 
 @layer components {
     .sidebar__item {
-        @apply flex px-2 py-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700 items-center cursor-pointer transition-all
+        @apply flex px-2 py-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700 items-center cursor-pointer transition-all;
     }
 }

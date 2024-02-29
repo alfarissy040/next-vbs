@@ -13,12 +13,13 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({ doSearch }) => {
     const [searchValue, setSearchValue] = useState("");
     const router = useRouter()
+    router.prefetch("/cis/create-nasabah")
 
     const handleSearch = useCallback(() => {
         doSearch(searchValue)
     }, [doSearch, searchValue])
     return (
-        <div className="flex items-center sm:gap-3 gap-2 lg:py-0 sm:py-3 py-5">
+        <div className="flex items-center sm:gap-3 gap-2">
             <Input
                 size="sm"
                 placeholder="Cari Nomor nasabah, Nama atau Nomor Identitas"

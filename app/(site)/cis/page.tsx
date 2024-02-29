@@ -27,7 +27,7 @@ const InformasiCustomer = () => {
   }, [searchParams])
 
   return (
-    <section className="w-full h-full flex flex-col gap-3">
+    <section className="flex flex-col gap-3 flex-1 h-full">
       {/* search bar */}
       <SearchBar doSearch={handleSearch} />
       {/* content */}

@@ -41,14 +41,14 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
     return (
         <Table
             aria-label="table for data cis"
-            className="h-full overflow-y-auto"
             classNames={{
-                wrapper: "dark:bg-slate-800 bg-slate-100",
+                wrapper: "dark:bg-slate-800 bg-slate-100 overflow-auto h-[calc(100dvh-140px)]",
                 th: ["dark:bg-slate-900 bg-slate-300 text-slate-600 dark:text-slate-400"],
-                tr: ["dark:hover:bg-slate-800 hover:bg-slate-400 transition-colors"]
+                tr: ["dark:hover:bg-slate-800 hover:bg-slate-400 transition-colors"],
             }}
             sortDescriptor={sortState}
             onSortChange={handleSortChange}
+            bottomContentPlacement="outside"
             bottomContent={
                 totalPage > 0 ? (
                     <div className="flex w-full justify-center">
@@ -79,7 +79,9 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
             </TableHeader>
             <TableBody
                 emptyContent="Data tidak ditemukan!"
+                // items={[]}
                 items={dataCis}
+                // isLoading={true}
                 isLoading={isLoading}
                 loadingContent={(
                     <Spinner size="md" />
