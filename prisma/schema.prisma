@@ -11,7 +11,7 @@ datasource db {
 }
 
 model aks_pemakai {
-    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    id_pemakai         String   @id @default(auto()) @map("_id") @db.ObjectId
     name       String
     username   String   @unique
     password   String
@@ -21,19 +21,21 @@ model aks_pemakai {
 }
 
 model cis_master {
-    no_nas              String    @id @default(auto()) @map("_id") @db.ObjectId
+    id_master              String    @id @default(auto()) @map("_id") @db.ObjectId
+    no_nas              String    @unique
     created_at_kantor   String
     nm_nas              String
+    tipe_nas Int 
     jns_ident           Int
     no_ident            String
     masa_ident          Int
     tgl_ident           DateTime?
     acc_off             String
-    bntk_hkm            String
+    bntk_hkm            Int
     gol_pemilik         Int
     status_nas          String
     flag_hub_bank       Boolean   @default(false)
-    sumber_dana         String
+    sumber_dana         Int
     tujuan_dana         Int
     maks_trans          Int
     penghasilan_bulan   Int
@@ -51,8 +53,8 @@ model cis_master {
 }
 
 model cis_alamat {
-    id            String @id @default(auto()) @map("_id") @db.ObjectId
-    no_nas        String @db.ObjectId
+    id_alamat            String @id @default(auto()) @map("_id") @db.ObjectId
+    no_nas        String 
     no_urut       Int    @default(1)
     jns_alamat    String
     negara        String
@@ -69,8 +71,8 @@ model cis_alamat {
 }
 
 model cis_perorangan {
-    id                String   @id @default(auto()) @map("_id") @db.ObjectId
-    no_nas            String   @unique @db.ObjectId
+    id_perorangan                String   @id @default(auto()) @map("_id") @db.ObjectId
+    no_nas            String    @unique
     nm_ibu            String
     tempat_lahir      String
     tgl_lahir         DateTime
@@ -92,7 +94,7 @@ model cis_perorangan {
 
 model cis_perusahaan {
     id_perusahaan      String         @id @default(auto()) @map("_id") @db.ObjectId
-    no_nas             String         @unique @db.ObjectId
+    no_nas             String         @unique
     jns_usaha_tkt      String
     flag_bank          Boolean
     group_nas          String
