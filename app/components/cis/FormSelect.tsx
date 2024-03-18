@@ -1,7 +1,7 @@
 "use client"
 
 import { Autocomplete, AutocompleteItem, Select, SelectItem } from "@nextui-org/react"
-import { CSelectPopover, CSelectWarp } from "../ClassnamesData"
+import { CSelectPopover, CSelectWarpA } from "../ClassnamesData"
 import { Controller, FieldValues, RegisterOptions, UseFormReturn, useFormContext } from "react-hook-form"
 
 interface FormSelectProps {
@@ -65,7 +65,7 @@ const FormSelect: React.FC<FormSelectProps> = ({ id, label, placeholder, items, 
                         items={items ?? []}
                         label={label}
                         placeholder={placeholder}
-                        classNames={CSelectWarp}
+                        classNames={CSelectWarpA}
                         errorMessage={errors[id]?.message as string ?? ""}
                         defaultSelectedKeys={value && [value]}
                         isDisabled={isDisabled}

@@ -108,7 +108,7 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
                         <TableCell>
                             <div className="flex items-center justify-center gap-3">
                                 <Tooltip content="Detail">
-                                    <Link href={`/cis/${item.no_nas}/detail`} className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                                    <Link href={`/cis/${item.no_nas}`} className="text-lg text-default-400 cursor-pointer active:opacity-50">
                                         <MdRemoveRedEye className="w-5 h-5 dark:text-slate-50 text-slate-900" />
                                     </Link>
                                 </Tooltip>

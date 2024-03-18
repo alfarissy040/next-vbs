@@ -44,20 +44,6 @@ const CreatePerusahaan: React.FC<CreatePerusahaanProps> = ({ navDirection, typeN
                 <FormInput type="text"
                     formMethod={formMethod}
                     id="kontak_person" label="Nama Kontak" placeholder="Masukan Nama Kontak" isRequired />
-                {/* 3. Status Perusahaan (status_perusahaan) - String */}
-                <FormSelect
-                    items={[
-                        { label: "Cat", value: "cat" },
-                        { label: "Dog", value: "dog" },
-                    ]}
-
-                    formMethod={formMethod}
-                    id="status_perusahaan"
-                    label="Status Perusahaan"
-                    placeholder="Pilih Status Perusahaan"
-                    isSearchable
-                    isRequired
-                />
                 {/* 4. Group Nasabah (group_nas) - String */}
                 <FormSelect
                     items={[
@@ -144,7 +130,7 @@ const CreatePerusahaan: React.FC<CreatePerusahaanProps> = ({ navDirection, typeN
                 {/* 20. Tanggal Publikasi (tgl_pub) - DateTime */}
                 <FormInput type="date"
                     formMethod={formMethod}
-                    id="tgl_permohonan_dep" label="Tanggal Permohonan Departemen" placeholder="Masukan Tanggal Permohonan Departemen" max={new Date().toISOString().split('T')[0] as string} isRequired />
+                    id="tgl_permohonan_dep" label="Tanggal Publikasi" placeholder="Masukan Tanggal Publikasi" max={new Date().toISOString().split('T')[0] as string} isRequired />
 
             </div>
         </motion.div>

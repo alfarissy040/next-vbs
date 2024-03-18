@@ -2,7 +2,7 @@
 
 import { Input } from "@nextui-org/react"
 import { FieldValues, RegisterOptions, UseFormReturn } from "react-hook-form"
-import { CINput } from "./ClassnamesData"
+import { CINputA } from "./ClassnamesData"
 
 interface FormInputProps {
     label: string
@@ -27,7 +27,7 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, placeholder, isR
             label={label}
             placeholder={placeholder}
             inputMode={inputMode}
-            classNames={CINput}
+            classNames={CINputA}
             prefix={prefix}
             {...register(id, {
                 required: { value: isRequired, message: `${label} harus diisi` },

@@ -121,21 +121,6 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
 
                         isRequired
                     />
-                    {/* status nasabah */}
-                    <FormSelect
-                        items={[
-
-                            { label: "Seumur Hidup", value: "1" },
-                            { label: "Berlaku Sampai", value: "0" },
-                        ]}
-
-                        formMethod={formMethod}
-                        id="sts_nas"
-                        label="Status"
-                        placeholder="Pilih Status"
-
-                        isRequired
-                    />
                     {/* sumber dana */}
                     <FormSelect
                         items={[

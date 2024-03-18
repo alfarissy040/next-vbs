@@ -66,8 +66,8 @@ const CreatePerorangan: React.FC<CreatePeroranganProps> = ({ navDirection, formM
                     ]}
 
                     formMethod={formMethod}
-                    id="jns_kel"
-                    label="Jenis Kelamin"
+                    id="flag_karyawan"
+                    label="Karyawan Bank"
                     placeholder="Pilih Jenis Kelamin"
 
                     isRequired
