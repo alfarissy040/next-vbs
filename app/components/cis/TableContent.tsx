@@ -1,31 +1,31 @@
-"use client"
+"use client";
 
-import { useNasabahType } from "@/app/utilities/Cis"
-import { Table, Pagination, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Tooltip, SortDescriptor, Spinner } from "@nextui-org/react"
-import { cis_master } from "@prisma/client"
-import Link from "next/link"
-import { useState, useMemo } from "react"
-import { MdRemoveRedEye, MdCreate } from "react-icons/md"
+import { useNasabahType } from "@/app/utilities/Cis";
+import { Table, Pagination, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Tooltip, SortDescriptor, Spinner } from "@nextui-org/react";
+import { cis_master } from "@prisma/client";
+import Link from "next/link";
+import { useState, useMemo } from "react";
+import { MdRemoveRedEye, MdCreate } from "react-icons/md";
 
 interface sortStateType {
-    column: "no_nas" | "nm_nas" | "type",
-    direction: "ascending" | "descending"
+    column: "no_nas" | "nm_nas" | "type";
+    direction: "ascending" | "descending";
 }
 
 interface TableContentProps {
-    dataCis: cis_master[]
-    isLoading: boolean
-    isError: boolean
-    handleSort: (orderBy: TMasterSort, direction: TSortDirection) => void
+    dataCis: cis_master[];
+    isLoading: boolean;
+    isError: boolean;
+    handleSort: (orderBy: TMasterSort, direction: TSortDirection) => void;
 }
 
 const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError, handleSort }) => {
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(1);
     const [sortState, setSortState] = useState<sortStateType>({
         column: "no_nas",
-        direction: "ascending"
-    })
-    const { getBadgeColor, getTypeName } = useNasabahType()
+        direction: "ascending",
+    });
+    const { getBadgeColor, getTypeName } = useNasabahType();
 
     const totalPage = useMemo(() => {
         return dataCis?.length ? Math.ceil(dataCis.length / 10) : 0;
@@ -36,7 +36,7 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
             column: descriptor.column as TMasterSort,
             direction: descriptor.direction as TSortDirection,
         });
-        handleSort(descriptor.column as TMasterSort, descriptor.direction as TSortDirection)
+        handleSort(descriptor.column as TMasterSort, descriptor.direction as TSortDirection);
     };
     return (
         <Table
@@ -72,19 +72,18 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
             isHeaderSticky
         >
             <TableHeader>
-                <TableColumn key="no_nas" allowsSorting>NOMOR NASABAH</TableColumn>
-                <TableColumn key="nm_nas" allowsSorting>NAMA</TableColumn>
-                <TableColumn key="type" allowsSorting>TIPE</TableColumn>
-                <TableColumn className="flex justify-center items-center" >MENU</TableColumn>
+                <TableColumn key="no_nas" allowsSorting>
+                    NOMOR NASABAH
+                </TableColumn>
+                <TableColumn key="nm_nas" allowsSorting>
+                    NAMA
+                </TableColumn>
+                <TableColumn key="type" allowsSorting>
+                    TIPE
+                </TableColumn>
+                <TableColumn className="flex justify-center items-center">MENU</TableColumn>
             </TableHeader>
-            <TableBody
-                emptyContent={isError ? "Something went wrong!" : "Data tidak ditemukan!"}
-                items={isError ? [] : dataCis}
-                isLoading={isLoading}
-                loadingContent={(
-                    <Spinner size="md" />
-                )}
-            >
+            <TableBody emptyContent={isError ? "Something went wrong!" : "Data tidak ditemukan!"} items={isError ? [] : dataCis} isLoading={isLoading} loadingContent={<Spinner size="md" />}>
                 {(item) => (
                     <TableRow key={item.no_nas}>
                         <TableCell>{item.no_nas}</TableCell>
@@ -99,10 +98,11 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
                                 size="sm"
                                 variant="light"
                                 classNames={{
-                                    base: getBadgeColor(item.jns_ident),
-                                    content: ["text-white"]
-                                }}>
-                                {getTypeName(item.jns_ident)}
+                                    base: getBadgeColor(item.tipe_nas),
+                                    content: ["text-white"],
+                                }}
+                            >
+                                {getTypeName(item.tipe_nas)}
                             </Chip>
                         </TableCell>
                         <TableCell>
@@ -123,7 +123,7 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
                 )}
             </TableBody>
         </Table>
-    )
-}
+    );
+};
 
-export default TableContent
+export default TableContent;
