@@ -1,0 +1,13 @@
+[{"kode":1,"keterangan":"Keterangan KTP (Kartu Tanda Penduduk)","jns_nas":1},
+{"kode":2,"keterangan":"NPWP (Nomor Pokok Wajib Pajak)","jns_nas":1},
+{"kode":3,"keterangan":"SIM (Surat Izin Mengemudi)","jns_nas":1},
+{"kode":4,"keterangan":"SIUP (Surat Izin Usaha Perdagangan)","jns_nas":2},
+{"kode":5,"keterangan":"TDP (Tanda Daftar Perusahaan)","jns_nas":2},
+{"kode":6,"keterangan":"NPWP (Nomor Pokok Wajib Pajak)","jns_nas":2},
+{"kode":7,"keterangan":"SKT (Surat Keterangan Terdaftar)","jns_nas":2},
+{"kode":8,"keterangan":"SKPD (Surat Keputusan Pejabat Daerah)","jns_nas":3},
+{"kode":9,"keterangan":"SKDU (Surat Keterangan Daftar Usaha)","jns_nas":3},
+{"kode":10,"keterangan":"SKTJ (Surat Keterangan Terdaftar Jemaat)","jns_nas":3},
+{"kode":11,"keterangan":"SKT (Surat Keterangan Terdaftar)","jns_nas":4},
+{"kode":12,"keterangan":"SKDU (Surat Keterangan Daftar Usaha)","jns_nas":4},
+{"kode":13,"keterangan":"SKTJ (Surat Keterangan Terdaftar Jemaat)n Tempat Usaha","jns_nas":4}]
