@@ -98,7 +98,8 @@ model cis_perusahaan {
     jns_usaha_tkt      String
     flag_bank          Boolean
     group_nas          String
-    kontak_person      String
+    // * sementara di nonaktifkan
+    // kontak_person      String
     modal_sendiri      String
     modal_setor        String
     status_perusahaan  String

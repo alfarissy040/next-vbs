@@ -20,7 +20,7 @@ declare module "next-auth/jwt" {
     }
 }
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 export const authOption: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
@@ -35,23 +35,26 @@ export const authOption: NextAuthOptions = {
                 if (!credentials) {
                     throw new Error("invalid crendetials!");
                 }
-                const username = credentials?.username
-                const password = credentials?.password
+                const username = credentials?.username;
+                const password = credentials?.password;
 
                 try {
                     const user = await prisma.aks_pemakai.findUnique({
                         where: {
-                            username: username
+                            username: username,
                         },
-                    })
+                    });
 
                     if (!user) throw new Error("User not found!");
 
-                    const isMatch = await compare(password, user.password)
+                    const isMatch = await compare(password, user.password);
 
                     if (!isMatch) throw new Error("Email or password is incorrect");
 
-                    return user
+                    return {
+                        ...user,
+                        id: user.id_pemakai,
+                    };
                 } catch (error) {
                     throw new Error(error as string);
                 }
@@ -84,7 +87,7 @@ export const authOption: NextAuthOptions = {
                 accessToken: refreshedToken.access_token,
                 accessTokenExpires: refreshedToken.expires_at,
                 refreshToken: refreshedToken.refresh_token,
-                error: refreshedToken?.error
+                error: refreshedToken?.error,
             });
         },
         session: async ({ session, token }) => {
@@ -92,36 +95,36 @@ export const authOption: NextAuthOptions = {
             return Promise.resolve({
                 ...session,
                 access_token: token.access_token as string,
-                expires: token.refresh_token as string
+                expires: token.refresh_token as string,
             });
         },
     },
     pages: {
         signIn: "/login",
     },
-    secret: process.env.NEXTAUTH_SECRET
-}
+    secret: process.env.NEXTAUTH_SECRET,
+};
 
 const refreshAccessToken = async (refresh_token: string) => {
     try {
         // Get a new set of tokens with a refreshToken
-        const tokenResponse: JWT = await fetch(process.env.NEXTAUTH_URL + 'auth/refreshToken', {
+        const tokenResponse: JWT = await fetch(process.env.NEXTAUTH_URL + "auth/refreshToken", {
             method: "POST",
             body: JSON.stringify({
-                refresh_token: refresh_token
-            })
-        }).then(response => response.json())
+                refresh_token: refresh_token,
+            }),
+        }).then((response) => response.json());
 
         return {
             access_token: tokenResponse.access_token,
             expires_at: tokenResponse.expires_at,
-            refresh_token: tokenResponse.refresh_token
-        }
+            refresh_token: tokenResponse.refresh_token,
+        };
     } catch (error) {
         return {
-            error: "RefreshAccessTokenError"
-        }
+            error: "RefreshAccessTokenError",
+        };
     }
-}
+};
 
-export const { handlers, auth, signIn, signOut } = NextAuth(authOption)
+export const { handlers, auth, signIn, signOut } = NextAuth(authOption);

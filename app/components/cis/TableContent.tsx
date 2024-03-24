@@ -19,6 +19,9 @@ interface TableContentProps {
     handleSort: (orderBy: TMasterSort, direction: TSortDirection) => void;
 }
 
+// TODOS
+// * sesuaikan data dengan api hasil api
+
 const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError, handleSort }) => {
     const [page, setPage] = useState(1);
     const [sortState, setSortState] = useState<sortStateType>({
