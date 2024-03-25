@@ -11,21 +11,22 @@ datasource db {
 }
 
 model aks_pemakai {
-    id_pemakai         String   @id @default(auto()) @map("_id") @db.ObjectId
+    id_pemakai String @id @default(auto()) @map("_id") @db.ObjectId
     name       String
-    username   String   @unique
+    username   String @unique
     password   String
-    email      String   @unique
+    email      String @unique
+
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
 }
 
 model cis_master {
-    id_master              String    @id @default(auto()) @map("_id") @db.ObjectId
+    id_master           String    @id @default(auto()) @map("_id") @db.ObjectId
     no_nas              String    @unique
     created_at_kantor   String
     nm_nas              String
-    tipe_nas Int 
+    tipe_nas            Int
     jns_ident           Int
     no_ident            String
     masa_ident          Int
@@ -53,8 +54,8 @@ model cis_master {
 }
 
 model cis_alamat {
-    id_alamat            String @id @default(auto()) @map("_id") @db.ObjectId
-    no_nas        String 
+    id_alamat     String @id @default(auto()) @map("_id") @db.ObjectId
+    no_nas        String
     no_urut       Int    @default(1)
     jns_alamat    String
     negara        String
@@ -64,15 +65,15 @@ model cis_alamat {
     kelurahan     String
     rt            String
     rw            String
-    kd_post       String
+    kd_pos        String
     alamat_detail String
 
     cisMaster cis_master @relation(fields: [no_nas], references: [no_nas])
 }
 
 model cis_perorangan {
-    id_perorangan                String   @id @default(auto()) @map("_id") @db.ObjectId
-    no_nas            String    @unique
+    id_perorangan     String   @id @default(auto()) @map("_id") @db.ObjectId
+    no_nas            String   @unique
     nm_ibu            String
     tempat_lahir      String
     tgl_lahir         DateTime
@@ -128,7 +129,7 @@ model cis_pengurus {
     jns_ident              Int
     no_ident               String
     nm_nas                 String
-    masa_ident             String
+    masa_ident             Int
     tgl_ident              DateTime
     tempat_lahir           String
     tgl_lahir              DateTime
@@ -186,4 +187,14 @@ model para_kelurahan {
     keterangan   String
 
     para_kecamatan para_kecamatan? @relation(fields: [id_kecamatan], references: [id_kecamatan], onDelete: Cascade)
+}
+
+model para_jns_ident {
+    id         String @id @default(auto()) @map("_id") @db.ObjectId
+    keterangan String
+}
+
+model para_bntk_hkm {
+    id         String @id @default(auto()) @map("_id") @db.ObjectId
+    keterangan String
 }

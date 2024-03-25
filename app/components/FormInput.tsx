@@ -8,7 +8,7 @@ interface FormInputProps {
     label: string
     id: string
     type: 'text' | 'search' | 'url' | 'tel' | 'email' | 'password' | "date" | "number"
-    placeholder: string
+    placeholder?: string
     isRequired?: boolean
     isDisabled?: boolean
     inputMode?: "text" | "search" | "email" | "tel" | "url" | "none" | "numeric" | "decimal"

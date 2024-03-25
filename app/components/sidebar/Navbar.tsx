@@ -9,11 +9,12 @@ import ItemCis from './ItemCis';
 import ItemHome from './ItemHome';
 import ItemParameter from './ItemParameter';
 import ItemTheme from './ItemTheme';
+import { useSession } from 'next-auth/react';
 
 const Navbar = () => {
     const [navState, setNavState] = useState<navProps>("home")
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+    const { data: dataSession } = useSession()
 
     const handleToggle = useCallback((state: boolean) => {
         setIsMenuOpen(state)
@@ -41,7 +42,7 @@ const Navbar = () => {
             <NavbarContent justify="end">
                 <NavbarItem >
                     <User
-                        name="Faza"
+                        name={dataSession?.user?.name}
                         description="Administrator"
                         classNames={{
                             name: "text-white",

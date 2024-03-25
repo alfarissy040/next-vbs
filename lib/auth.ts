@@ -1,10 +1,8 @@
-import LoginPage from "@/app/login/page";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import { compare } from "bcrypt";
 import { NextAuthOptions } from "next-auth/";
 import { JWT } from "next-auth/jwt";
-import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 declare module "next-auth/jwt" {
@@ -25,13 +23,12 @@ export const authOption: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
         CredentialsProvider({
-            id: "domain-login",
-            name: "Domain Account",
             credentials: {
                 username: { label: "Username", type: "text " },
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials, req) {
+                console.log({ credentials })
                 if (!credentials) {
                     throw new Error("invalid crendetials!");
                 }
@@ -43,6 +40,13 @@ export const authOption: NextAuthOptions = {
                         where: {
                             username: username
                         },
+                        select: {
+                            id_pemakai: true,
+                            username: true,
+                            name: true,
+                            email: true,
+                            password: true
+                        }
                     })
 
                     if (!user) throw new Error("User not found!");
@@ -51,7 +55,12 @@ export const authOption: NextAuthOptions = {
 
                     if (!isMatch) throw new Error("Email or password is incorrect");
 
-                    return user
+                    return Promise.resolve({
+                        id: user.id_pemakai,
+                        username: user.username,
+                        name: user.name,
+                        email: user.email
+                    })
                 } catch (error) {
                     throw new Error(error as string);
                 }
@@ -60,12 +69,20 @@ export const authOption: NextAuthOptions = {
     ],
     session: {
         strategy: "jwt",
+        maxAge: 60 * 60,
+        updateAge: 50 * 60
     },
     jwt: {
         maxAge: 60 * 60, // Set token to expire after 1 hour
     },
     callbacks: {
         async jwt({ token, user, account, session }) {
+            console.log({
+                token: token,
+                user: user,
+                account: account,
+                session: session
+            })
             if (user && account) {
                 // This will only be executed at login. Each next invocation will skip this part.
                 token.access_token = account.access_token!;
@@ -88,6 +105,10 @@ export const authOption: NextAuthOptions = {
             });
         },
         session: async ({ session, token }) => {
+            console.log({
+                session: session,
+                token: token
+            })
             // Here we pass accessToken to the client to be used in authentication with your API
             return Promise.resolve({
                 ...session,
@@ -124,4 +145,3 @@ const refreshAccessToken = async (refresh_token: string) => {
     }
 }
 
-export const { handlers, auth, signIn, signOut } = NextAuth(authOption)

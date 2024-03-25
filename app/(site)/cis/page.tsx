@@ -7,17 +7,23 @@ import { useCallback, useState } from "react"
 
 const InformasiCustomer = () => {
   const [searchParams, setSearchParams] = useState({
-    page: 1, orderBy: "no_nas", direction: "ascending"
+    page: 1, orderBy: "no_nas", direction: "ascending", search: ""
   })
-  const { data: dataCis, isLoading, error } = useCisMaster({
+  const { data, isLoading, error } = useCisMaster({
     page: searchParams.page,
     orderBy: searchParams.orderBy as "no_nas" | "nm_nas" | "type",
-    direction: searchParams.direction as "ascending" | "descending"
+    direction: searchParams.direction as "ascending" | "descending",
+    search: searchParams.search
   })
+
 
   const handleSearch = useCallback((inputData: string) => {
     console.log(inputData)
-  }, [])
+    setSearchParams({
+      ...searchParams,
+      search: inputData
+    })
+  }, [searchParams])
   const handleSort = useCallback((orderBy: TMasterSort, direction: TSortDirection) => {
     setSearchParams({
       ...searchParams,
@@ -28,10 +34,13 @@ const InformasiCustomer = () => {
 
   return (
     <section className="flex flex-col gap-3 flex-1 h-full">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-3xl font-extrabold">Informasi Customer</h1>
+      </div>
       {/* search bar */}
       <SearchBar doSearch={handleSearch} />
       {/* content */}
-      <TableContent dataCis={dataCis ?? []} isLoading={isLoading} isError={error} handleSort={handleSort} />
+      <TableContent dataCis={data} isLoading={isLoading} isError={error} handleSort={handleSort} />
     </section>
   )
 }

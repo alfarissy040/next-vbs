@@ -1,11 +1,11 @@
 "use client";
 
 import { useNasabahType } from "@/app/utilities/Cis";
-import { Table, Pagination, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Tooltip, SortDescriptor, Spinner } from "@nextui-org/react";
+import { Chip, Pagination, SortDescriptor, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from "@nextui-org/react";
 import { cis_master } from "@prisma/client";
 import Link from "next/link";
-import { useState, useMemo } from "react";
-import { MdRemoveRedEye, MdCreate } from "react-icons/md";
+import { useState } from "react";
+import { MdCreate, MdRemoveRedEye } from "react-icons/md";
 
 interface sortStateType {
     column: "no_nas" | "nm_nas" | "type";
@@ -13,23 +13,25 @@ interface sortStateType {
 }
 
 interface TableContentProps {
-    dataCis: cis_master[];
+    dataCis: {
+        page: number
+        itemPerPage: number
+        totalPage: number
+        total: number
+        data?: cis_master[]
+    };
     isLoading: boolean;
     isError: boolean;
     handleSort: (orderBy: TMasterSort, direction: TSortDirection) => void;
 }
 
 const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError, handleSort }) => {
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState((dataCis && dataCis.page) ?? 1);
     const [sortState, setSortState] = useState<sortStateType>({
         column: "no_nas",
         direction: "ascending",
     });
     const { getBadgeColor, getTypeName } = useNasabahType();
-
-    const totalPage = useMemo(() => {
-        return dataCis?.length ? Math.ceil(dataCis.length / 10) : 0;
-    }, [dataCis.length]);
 
     const handleSortChange = (descriptor: SortDescriptor) => {
         setSortState({
@@ -50,7 +52,7 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
             onSortChange={handleSortChange}
             bottomContentPlacement="outside"
             bottomContent={
-                totalPage > 0 ? (
+                dataCis?.total > 0 ? (
                     <div className="flex w-full justify-center">
                         <Pagination
                             isCompact
@@ -58,7 +60,7 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
                             showShadow
                             color="primary"
                             page={page}
-                            total={totalPage}
+                            total={dataCis?.totalPage}
                             onChange={(page) => setPage(page)}
                             classNames={{
                                 next: "dark:bg-slate-700 dark:[&[data-hover=true]:not([data-active=true])]:bg-slate-600 bg-slate-200 [&[data-hover=true]:not([data-active=true])]:bg-slate-300",
@@ -83,14 +85,17 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
                 </TableColumn>
                 <TableColumn className="flex justify-center items-center">MENU</TableColumn>
             </TableHeader>
-            <TableBody emptyContent={isError ? "Something went wrong!" : "Data tidak ditemukan!"} items={isError ? [] : dataCis} isLoading={isLoading} loadingContent={<Spinner size="md" />}>
+            <TableBody
+                items={dataCis?.data ?? []}
+                emptyContent={isError ? "Something went wrong!" : "Data tidak ditemukan!"} isLoading={isLoading}
+                loadingContent={<Spinner size="md" />}>
                 {(item) => (
-                    <TableRow key={item.no_nas}>
-                        <TableCell>{item.no_nas}</TableCell>
+                    <TableRow key={item?.no_nas}>
+                        <TableCell>{item?.no_nas}</TableCell>
                         <TableCell>
                             <div className="flex flex-col">
-                                {item.nm_nas}
-                                <span className="text-slate-400 dark:text-slate-500 text-sm">{item.no_ident}</span>
+                                {item?.nm_nas}
+                                <span className="text-slate-400 dark:text-slate-500 text-sm">{item?.no_ident}</span>
                             </div>
                         </TableCell>
                         <TableCell>
@@ -98,22 +103,22 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
                                 size="sm"
                                 variant="light"
                                 classNames={{
-                                    base: getBadgeColor(item.tipe_nas),
+                                    base: getBadgeColor(item?.tipe_nas),
                                     content: ["text-white"],
                                 }}
                             >
-                                {getTypeName(item.tipe_nas)}
+                                {getTypeName(item?.tipe_nas)}
                             </Chip>
                         </TableCell>
                         <TableCell>
                             <div className="flex items-center justify-center gap-3">
                                 <Tooltip content="Detail">
-                                    <Link href={`/cis/${item.no_nas}`} className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                                    <Link href={`/cis/${item?.no_nas}`} className="text-lg text-default-400 cursor-pointer active:opacity-50">
                                         <MdRemoveRedEye className="w-5 h-5 dark:text-slate-50 text-slate-900" />
                                     </Link>
                                 </Tooltip>
                                 <Tooltip content="Edit">
-                                    <Link href={`/cis/${item.no_nas}/edit`} className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                                    <Link href={`/cis/${item?.no_nas}/edit`} className="text-lg text-default-400 cursor-pointer active:opacity-50">
                                         <MdCreate className="w-5 h-5 dark:text-slate-50 text-slate-900" />
                                     </Link>
                                 </Tooltip>
