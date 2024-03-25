@@ -5,16 +5,12 @@ import FormInstansi from "@/app/components/cis/create/FormInstansi"
 import FormNonProfit from "@/app/components/cis/create/FormNonProfit"
 import FormPerorangan from "@/app/components/cis/create/FormPerorangan"
 import FormPerusahaan from "@/app/components/cis/create/FormPerusahaan"
-import { BreadcrumbItem, Breadcrumbs, Button } from "@nextui-org/react"
+import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { FaChevronLeft } from "react-icons/fa6"
 
 const CreateNasabahPage = () => {
     const [formType, setFormType] = useState<TAddFormState>("home")
-    const router = useRouter()
-    router.prefetch("/cis")
     return (
         <section className="flex flex-col gap-3 flex-1 h-auto">
             <div className="flex flex-col gap-1">

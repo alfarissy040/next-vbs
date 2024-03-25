@@ -11,3 +11,13 @@ export const fetchCisMaster = async (url: string) => {
     }).then((res) => res.json())
         .catch(() => new Error("Something went wrong"))
 }
+
+export const fetchParameter = async (url: string) => {
+    return await fetch(url, {
+        headers: {
+            'X-API-Key': 'a14c6770'
+        }
+    })
+        .then((data) => data.json())
+        .catch(() => new Error("Something went wrong"))
+}

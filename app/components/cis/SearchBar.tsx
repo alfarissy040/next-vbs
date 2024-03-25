@@ -3,7 +3,7 @@
 import { Button, Input } from "@nextui-org/react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { FaPlus } from "react-icons/fa"
 import { MdSearch } from "react-icons/md"
 
@@ -12,21 +12,26 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ doSearch }) => {
-    const [searchValue, setSearchValue] = useState("");
+    const RefInputSearch = useRef<HTMLInputElement>(null);
 
-    const handleSearch = useCallback(() => {
+    const handleSearch = (searchValue: string) => {
         doSearch(searchValue)
-    }, [doSearch, searchValue])
+    }
+    const handleClearValue = useCallback(() => {
+        if (RefInputSearch.current) {
+            RefInputSearch.current.value = ""
+        }
+    }, [])
     return (
-        <div className="flex items-center sm:gap-3 gap-2">
+        <div className="flex items-center sm:gap-2 gap-1">
             <Input
+                ref={RefInputSearch}
                 size="sm"
                 placeholder="Cari Nomor nasabah, Nama atau Nomor Identitas"
                 isClearable
                 fullWidth
                 onValueChange={handleSearch}
-                value={searchValue}
-                onClear={() => setSearchValue("")}
+                onClear={handleClearValue}
                 startContent={
                     <MdSearch className="w-5 h-5 dark:text-slate-400 text-slate-500" />
                 }

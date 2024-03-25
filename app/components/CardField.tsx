@@ -3,8 +3,8 @@
 import clsx from "clsx"
 
 interface CardFieldProps {
-    label: string
-    value: string
+    label?: string
+    value?: string | number | null
     isTextarea?: boolean
 }
 

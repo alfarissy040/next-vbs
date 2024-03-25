@@ -3,8 +3,14 @@
 import { motion } from "framer-motion"
 import CardField from "../CardField"
 import { Divider } from "@nextui-org/divider";
+import { cis_alamat } from "@prisma/client";
 
-const DetailAlamat = () => {
+interface DetailAlamatProps {
+    data?: cis_alamat
+    isLoading: boolean
+}
+
+const DetailAlamat: React.FC<DetailAlamatProps> = ({ data, isLoading }) => {
     return (
         <motion.div className="mt-3"
             initial={{ translateY: 1000, opacity: 0 }}
@@ -18,27 +24,27 @@ const DetailAlamat = () => {
             <h2 className="font-medium md:text-lg">Alamat</h2>
             <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mt-3">
                 {/* jenis alamat */}
-                <CardField label="Jenis Alamat" value="###" />
+                <CardField label="Jenis Alamat" value={data?.jns_alamat} />
                 {/* negara */}
-                <CardField label="Negara" value="###" />
+                <CardField label="Negara" value={data?.negara} />
                 {/* provinsi */}
-                <CardField label="Provinsi" value="###" />
+                <CardField label="Provinsi" value={data?.provinsi} />
                 {/* kota */}
-                <CardField label="Kota" value="###" />
+                <CardField label="Kota" value={data?.kota} />
                 {/* kecamatan */}
-                <CardField label="Kecamatan" value="###" />
+                <CardField label="Kecamatan" value={data?.kecamatan} />
                 {/* kelurahan */}
-                <CardField label="Kelurahan" value="###" />
+                <CardField label="Kelurahan" value={data?.kelurahan} />
                 {/* rt rw */}
                 <div className="flex flex-col md:flex-row items-center gap-3">
-                    <CardField label="RT" value="###" />
-                    <CardField label="RW" value="###" />
+                    <CardField label="RT" value={data?.rt} />
+                    <CardField label="RW" value={data?.rw} />
                 </div>
                 {/* kode pos */}
-                <CardField label="Kode Pos" value="###" />
+                <CardField label="Kode Pos" value={data?.kd_pos} />
                 {/* alamat detail */}
                 <div className="md:col-span-2">
-                    <CardField label="Detail Alamat" value="###" isTextarea />
+                    <CardField label="Detail Alamat" value={data?.alamat_detail} isTextarea />
                 </div>
             </div>
         </motion.div>

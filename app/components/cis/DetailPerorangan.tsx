@@ -3,8 +3,15 @@
 import { motion } from "framer-motion"
 import CardField from "../CardField"
 import { Divider } from "@nextui-org/divider";
+import { cis_perorangan } from "@prisma/client";
+import { getFormatedDate } from "@/app/utilities/action";
 
-const DetailPerorangan = () => {
+interface DetailPeroranganPorps {
+    data?: cis_perorangan
+    isLoading: boolean
+}
+
+const DetailPerorangan: React.FC<DetailPeroranganPorps> = ({ data, isLoading }) => {
     return (
         <motion.div className="mt-3"
             initial={{ translateY: 1000, opacity: 0 }}
@@ -19,35 +26,35 @@ const DetailPerorangan = () => {
             <h2 className="font-medium md:text-lg">Informasi Perorangan</h2>
             <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mt-3">
                 {/* nama ibu */}
-                <CardField label="Nama Ibu" value="###" />
+                <CardField label="Nama Ibu" value={data?.nm_ibu} />
                 {/* tempat lahir */}
-                <CardField label="Tempat Lahir" value="###" />
+                <CardField label="Tempat Lahir" value={data?.tempat_lahir} />
                 {/* tanggal lahir */}
-                <CardField label="Tanggal Lahir" value="###" />
+                <CardField label="Tanggal Lahir" value={getFormatedDate(data?.tgl_lahir as unknown as string)} />
                 {/* jenis kelamin */}
-                <CardField label="Jenis Kelamin" value="###" />
+                <CardField label="Jenis Kelamin" value={data?.jns_kelamin} />
                 {/* flag karyawan */}
-                <CardField label="Karyawan Bank" value="###" />
+                <CardField label="Karyawan Bank Sendiri" value={data?.flag_karyawan ? "Karyawan Sendiri" : "Bukan Karyawan"} />
                 {/* status pernikahan */}
-                <CardField label="Status Pernikahan" value="###" />
+                <CardField label="Status Pernikahan" value={data?.status_pernikahan} />
                 {/* nama pasangan */}
-                <CardField label="Nama Pasangan" value="###" />
+                <CardField label="Nama Pasangan" value={data?.nm_pasangan} />
                 {/* no ident pasangan */}
-                <CardField label="Nomor Identitas Pasangan" value="###" />
+                <CardField label="Nomor Identitas Pasangan" value={data?.no_ident_pasangan} />
                 {/* nama ahli waris */}
-                <CardField label="Nama Ahli Waris" value="###" />
+                <CardField label="Nama Ahli Waris" value={data?.nm_ahli_waris} />
                 {/* agama */}
-                <CardField label="Agama" value="###" />
+                <CardField label="Agama" value={data?.agama} />
                 {/* kewarganegaraan */}
-                <CardField label="Kewarganegaraan" value="###" />
+                <CardField label="Kewarganegaraan" value={data?.kewarganegaraan} />
                 {/* profesi */}
-                <CardField label="Profesi" value="###" />
+                <CardField label="Profesi" value={data?.profesi} />
                 {/* jenis pekerjaan */}
-                <CardField label="Jenis Pekerjaan" value="###" />
+                <CardField label="Jenis Pekerjaan" value={data?.jns_pekerjaan} />
                 {/* jabatan */}
-                <CardField label="Jabatan" value="###" />
+                <CardField label="Jabatan" value={data?.jabatan} />
                 {/* nama kantor */}
-                <CardField label="Nama Kantor" value="###" />
+                <CardField label="Nama Kantor" value={data?.nm_kntr} />
             </div>
         </motion.div>
     )

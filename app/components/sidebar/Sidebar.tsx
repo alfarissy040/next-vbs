@@ -9,10 +9,11 @@ import ItemHome from "./ItemHome";
 import ItemTheme from "./ItemTheme";
 import ItemCis from "./ItemCis";
 import { User } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 
 const Sidebar = () => {
     const [navState, setNavState] = useState<navProps>("home")
-
+    const { data: dataSession } = useSession()
     return (
         <aside className="p-3 w-full max-w-xs min-h-[100dvh] bg-white shadow border-r border-slate-200 dark:bg-slate-800 dark:border-slate-600 lg:flex flex-col hidden">
             {/* title */}
@@ -39,7 +40,7 @@ const Sidebar = () => {
             </nav>
             <div className="px-3">
                 <User
-                    name="Faza"
+                    name={dataSession?.user?.name}
                     description="Administrator"
                     classNames={{
                         description: "text-slate-500"
