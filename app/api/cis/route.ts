@@ -1,4 +1,3 @@
-import getCurrentUser from "@/app/utilities/getCurrentUser";
 import { Prisma, PrismaClient, cis_alamat, cis_master, cis_pengurus, cis_perorangan, cis_perusahaan } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -57,17 +56,11 @@ export async function GET(request: Request) {
             tipe_nas: true,
             no_ident: true,
         },
-        where: {
-            tipe_nas: 4,
-        },
         skip: (page - 1) * itemPerPage,
         take: itemPerPage,
         orderBy: getOrderBy(orderBy, direction),
     };
     const totalQuery: TQueryTotal = {
-        where: {
-            tipe_nas: 4,
-        },
         orderBy: getOrderBy(orderBy, direction),
     };
 
@@ -77,16 +70,19 @@ export async function GET(request: Request) {
                 {
                     no_nas: {
                         startsWith: search as string,
+                        mode: "insensitive"
                     },
                 },
                 {
                     nm_nas: {
                         contains: search as string,
+                        mode: "insensitive"
                     },
                 },
                 {
                     no_ident: {
                         contains: search as string,
+                        mode: "insensitive"
                     },
                 },
             ],
@@ -96,16 +92,19 @@ export async function GET(request: Request) {
                 {
                     no_nas: {
                         startsWith: search as string,
+                        mode: "insensitive"
                     },
                 },
                 {
                     nm_nas: {
                         contains: search as string,
+                        mode: "insensitive"
                     },
                 },
                 {
                     no_ident: {
                         contains: search as string,
+                        mode: "insensitive"
                     },
                 },
             ],
@@ -117,6 +116,11 @@ export async function GET(request: Request) {
         const totalItems = await prisma.cis_master.count(totalQuery);
 
         if (!users) return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
+
+        console.log({
+            query,
+            data: users
+        })
 
         return NextResponse.json({
             page: page,
@@ -162,7 +166,7 @@ export async function POST(request: NextRequest) {
     // if (!currentUser) return NextResponse.json(); @todo
 
     try {
-        await prisma.cis_master.create({
+        const resultMaster = await prisma.cis_master.create({
             data: dataMaster,
         });
 
@@ -191,7 +195,7 @@ export async function POST(request: NextRequest) {
             const fetchPengurus = await prisma.cis_pengurus.create({
                 data: {
                     ...dataPengurus,
-                    id_perusahaan_instansi: fetchPerusahaan.id_perusahaan,
+                    no_nas: resultMaster.no_nas,
                 },
             });
 

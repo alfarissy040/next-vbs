@@ -1,4 +1,5 @@
 "use client"
+import para_kelurahan from "@/dummy/para_kelurahan.json"
 
 const ParameterAgama = () => {
     return (

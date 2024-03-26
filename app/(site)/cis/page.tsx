@@ -18,7 +18,6 @@ const InformasiCustomer = () => {
 
 
   const handleSearch = useCallback((inputData: string) => {
-    console.log(inputData)
     setSearchParams({
       ...searchParams,
       search: inputData
@@ -31,6 +30,12 @@ const InformasiCustomer = () => {
       direction: direction as TSortDirection
     })
   }, [searchParams])
+  const handleChangePage = useCallback((page: number) => {
+    setSearchParams({
+      ...searchParams,
+      page: page
+    })
+  }, [searchParams])
 
   return (
     <section className="flex flex-col gap-3 flex-1 h-full">
@@ -40,7 +45,7 @@ const InformasiCustomer = () => {
       {/* search bar */}
       <SearchBar doSearch={handleSearch} />
       {/* content */}
-      <TableContent dataCis={data} isLoading={isLoading} isError={error} handleSort={handleSort} />
+      <TableContent dataCis={data} isLoading={isLoading} isError={error} handleSort={handleSort} handleChangePage={handleChangePage} />
     </section>
   )
 }

@@ -1,0 +1,72 @@
+[
+  {
+    "kode": 1,
+    "keterangan": "PERORANGAN",
+    "jns_nas": 1
+  },
+  {
+    "kode": 2,
+    "keterangan": "FIRMA (FA.)",
+    "jns_nas": 2
+  },
+  {
+    "kode": 3,
+    "keterangan": "COMANDITER VENOOTSCHAP (CV.)",
+    "jns_nas": 2
+  },
+  {
+    "kode": 4,
+    "keterangan": "PT.  ,NV.  ,LTD.",
+    "jns_nas": 2
+  },
+  {
+    "kode": 5,
+    "keterangan": "PERSEROAN TERBATAS PERSERO(PERSERO)",
+    "jns_nas": 2
+  },
+  {
+    "kode": 6,
+    "keterangan": "PERUSAHAAN UMUM (PERUM)",
+    "jns_nas": 2
+  },
+  {
+    "kode": 7,
+    "keterangan": "PERUSAHAAN JAWATAN(PERJAN)",
+    "jns_nas": 2
+  },
+  {
+    "kode": 8,
+    "keterangan": "PERUSAHAAN DAERAH(PERUSDA)",
+    "jns_nas": 2
+  },
+  {
+    "kode": 9,
+    "keterangan": "KOPERASI (KOP.)",
+    "jns_nas": 2
+  },
+  {
+    "kode": 99,
+    "keterangan": "LAINNYA",
+    "jns_nas": 3
+  },
+  {
+    "kode": 10,
+    "keterangan": "YAYASAN (YAY.)",
+    "jns_nas": 4
+  },
+  {
+    "kode": 11,
+    "keterangan": "ORMAS, LAINNYA",
+    "jns_nas": 4
+  },
+  {
+    "kode": 12,
+    "keterangan": "LEMBAGA",
+    "jns_nas": 2
+  },
+  {
+    "kode": 13,
+    "keterangan": "PERSEROAN PERORANGAN",
+    "jns_nas": 2
+  }
+]

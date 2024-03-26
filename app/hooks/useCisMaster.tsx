@@ -10,11 +10,11 @@ interface UseCisMasterProps {
 
 export const useCisMaster = ({ page, orderBy, direction, search }: UseCisMasterProps = {}) => {
     const queryParams = [
-        search ? `search=${search}` : '',
-        page ? `page=${page}` : '',
-        orderBy ? `orderby=${orderBy}` : '',
-        direction ? `direction=${direction}` : '',
-    ].join('&');
+        search && `search=${search}`,
+        page && `page=${page}`,
+        orderBy && `orderby=${orderBy}`,
+        direction && `direction=${direction}`,
+    ].filter(Boolean).join('&');
     console.log(queryParams)
     const { data, error, isLoading, isValidating, mutate } = useSWR(`/api/cis?${queryParams}`, fetchCisMaster);
     return { data, error, isLoading, isValidating, mutate };

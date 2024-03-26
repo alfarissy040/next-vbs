@@ -1,0 +1,1302 @@
+[
+  {
+    "kode": 0,
+    "keterangan": "TIDAK ADA PENJAMIN"
+  },
+  {
+    "kode": 1,
+    "keterangan": "BANK INDONESIA"
+  },
+  {
+    "kode": 2,
+    "keterangan": "BANK RAKYAT INDONESIA"
+  },
+  {
+    "kode": 5,
+    "keterangan": "BANK BUMI DAYA"
+  },
+  {
+    "kode": 6,
+    "keterangan": "BANK DAGANG NEGARA"
+  },
+  {
+    "kode": 7,
+    "keterangan": "BANK EKSPOR IMPOR INDONESIA"
+  },
+  {
+    "kode": 8,
+    "keterangan": "BANK MANDIRI"
+  },
+  {
+    "kode": 9,
+    "keterangan": "BANK NEGARA INDONESIA"
+  },
+  {
+    "kode": 10,
+    "keterangan": "BANK UMUM NASIONAL"
+  },
+  {
+    "kode": 11,
+    "keterangan": "BANK DANAMON INDONESIA"
+  },
+  {
+    "kode": 12,
+    "keterangan": "BANK DAGANG NASIONAL INDONESIA"
+  },
+  {
+    "kode": 13,
+    "keterangan": "BANK BALI"
+  },
+  {
+    "kode": 14,
+    "keterangan": "BANK CENTRAL ASIA"
+  },
+  {
+    "kode": 15,
+    "keterangan": "BANK DUTA"
+  },
+  {
+    "kode": 16,
+    "keterangan": "BANK INTERNATIONAL INDONESIA"
+  },
+  {
+    "kode": 18,
+    "keterangan": "BANK CENTRAL DAGANG"
+  },
+  {
+    "kode": 19,
+    "keterangan": "PANIN BANK LTD"
+  },
+  {
+    "kode": 20,
+    "keterangan": "BANK ARTA NIAGA KENCANA"
+  },
+  {
+    "kode": 21,
+    "keterangan": "BANK PACIFIC"
+  },
+  {
+    "kode": 22,
+    "keterangan": "BANK NIAGA"
+  },
+  {
+    "kode": 23,
+    "keterangan": "BANK BUANA INDONESIA"
+  },
+  {
+    "kode": 24,
+    "keterangan": "BANK UTAMA"
+  },
+  {
+    "kode": 25,
+    "keterangan": "TAMARA BANK"
+  },
+  {
+    "kode": 26,
+    "keterangan": "LIPPO BANK"
+  },
+  {
+    "kode": 27,
+    "keterangan": "PRIMA EXPRESS BANK"
+  },
+  {
+    "kode": 28,
+    "keterangan": "BANK NILAI INTISARI PENYIMPAN(NISP)"
+  },
+  {
+    "kode": 29,
+    "keterangan": "BANK SURYA"
+  },
+  {
+    "kode": 30,
+    "keterangan": "AMERICAN EXPRESS BANK"
+  },
+  {
+    "kode": 31,
+    "keterangan": "CITIBANK"
+  },
+  {
+    "kode": 32,
+    "keterangan": "THE CHASE MANHATTAN BANK N.A"
+  },
+  {
+    "kode": 33,
+    "keterangan": "BANK OF AMERICA NT & SA"
+  },
+  {
+    "kode": 34,
+    "keterangan": "INTERNATONALE NEDERLANDEN INDONESIA"
+  },
+  {
+    "kode": 35,
+    "keterangan": "BANK SOCIETE GENERALE INDONESIA"
+  },
+  {
+    "kode": 36,
+    "keterangan": "B.MULTINATIONAL FINANCE CORPORATION"
+  },
+  {
+    "kode": 37,
+    "keterangan": "BANK INTER PASIFIC"
+  },
+  {
+    "kode": 38,
+    "keterangan": "ASEAM INDONESIA BANK"
+  },
+  {
+    "kode": 39,
+    "keterangan": "INDOSUEZ INDONESIA BANK"
+  },
+  {
+    "kode": 40,
+    "keterangan": "BANGKOK BANK LTD"
+  },
+  {
+    "kode": 41,
+    "keterangan": "THE HONGKONG & SHANGHAI BANK CORP"
+  },
+  {
+    "kode": 42,
+    "keterangan": "THE BANK OF TOKYO LTD."
+  },
+  {
+    "kode": 43,
+    "keterangan": "LTCB CENTRAL ASIA"
+  },
+  {
+    "kode": 44,
+    "keterangan": "IBJ INDONESIA BANK"
+  },
+  {
+    "kode": 45,
+    "keterangan": "BANK SUMITOMO NIAGA"
+  },
+  {
+    "kode": 46,
+    "keterangan": "MITSHUBISHI BUANA BANK"
+  },
+  {
+    "kode": 47,
+    "keterangan": "DAIWA PERDANIA BANK"
+  },
+  {
+    "kode": 48,
+    "keterangan": "FUJI BANK INTERNATIONAL INDONESIA"
+  },
+  {
+    "kode": 49,
+    "keterangan": "SANWA INDONESIA BANK"
+  },
+  {
+    "kode": 50,
+    "keterangan": "STANDARD CHARTERED BANK"
+  },
+  {
+    "kode": 52,
+    "keterangan": "ABN AMRO BANK NV"
+  },
+  {
+    "kode": 53,
+    "keterangan": "DBS BUANA TAT LEE BANK"
+  },
+  {
+    "kode": 54,
+    "keterangan": "BANK CREDIT LYONNAIS INDONESIA"
+  },
+  {
+    "kode": 55,
+    "keterangan": "SAKURA SWADHARMA BANK"
+  },
+  {
+    "kode": 56,
+    "keterangan": "TOKAI LIPPO BANK"
+  },
+  {
+    "kode": 57,
+    "keterangan": "BANK BNP LIPPO INDONESIA"
+  },
+  {
+    "kode": 58,
+    "keterangan": "UNITED OVERSEAS BANK BALI"
+  },
+  {
+    "kode": 59,
+    "keterangan": "KOREA EXCHANGE BANK DANAMON"
+  },
+  {
+    "kode": 60,
+    "keterangan": "RABOBANK DUTA INDONESIA"
+  },
+  {
+    "kode": 61,
+    "keterangan": "AZN PANIN BANK"
+  },
+  {
+    "kode": 62,
+    "keterangan": "INDONESIA DAI-ICHI KANGYO BANK"
+  },
+  {
+    "kode": 63,
+    "keterangan": "HANIL TAMARA BANK"
+  },
+  {
+    "kode": 64,
+    "keterangan": "BANK  PDFCI"
+  },
+  {
+    "kode": 65,
+    "keterangan": "BANK UPPINDO"
+  },
+  {
+    "kode": 66,
+    "keterangan": "B.INDONESIA INVESTMENT INTENATIONAL"
+  },
+  {
+    "kode": 67,
+    "keterangan": "DEUTSCHE BANK (ASIA) AG."
+  },
+  {
+    "kode": 68,
+    "keterangan": "BANK KOREA COMMERCIAL SURYA"
+  },
+  {
+    "kode": 71,
+    "keterangan": "SEJAHTERA BANK UMUM"
+  },
+  {
+    "kode": 72,
+    "keterangan": "BANK DAGANG BALI"
+  },
+  {
+    "kode": 73,
+    "keterangan": "BANK UNIVERSAL"
+  },
+  {
+    "kode": 74,
+    "keterangan": "BANK ASIA PASIFIC (ASPAC BANK)"
+  },
+  {
+    "kode": 75,
+    "keterangan": "INITED CITY BANK (UNIBANK)"
+  },
+  {
+    "kode": 76,
+    "keterangan": "BANK BUMI ARTA"
+  },
+  {
+    "kode": 77,
+    "keterangan": "BANK RAMA"
+  },
+  {
+    "kode": 78,
+    "keterangan": "BANK BAHARI"
+  },
+  {
+    "kode": 79,
+    "keterangan": "BANK NUSA INTERNASIONAL"
+  },
+  {
+    "kode": 80,
+    "keterangan": "BANK TIARA ASIA"
+  },
+  {
+    "kode": 81,
+    "keterangan": "BANK PELITA"
+  },
+  {
+    "kode": 82,
+    "keterangan": "SUBENTRA BANK"
+  },
+  {
+    "kode": 83,
+    "keterangan": "BANK MASHILL UTAMA"
+  },
+  {
+    "kode": 84,
+    "keterangan": "MODERN BANK"
+  },
+  {
+    "kode": 85,
+    "keterangan": "BANK ARTA GRAHA"
+  },
+  {
+    "kode": 86,
+    "keterangan": "BANK UMUM SERTIVITIA"
+  },
+  {
+    "kode": 87,
+    "keterangan": "BANK EKONOMI RAHARDJA"
+  },
+  {
+    "kode": 88,
+    "keterangan": "BANK ANTAR DAERAH"
+  },
+  {
+    "kode": 89,
+    "keterangan": "BANK HAGAKU (HAGA BANK)"
+  },
+  {
+    "kode": 90,
+    "keterangan": "BANK ARTA PRIMA"
+  },
+  {
+    "kode": 91,
+    "keterangan": "JAYA BANK INTERNATIONAL"
+  },
+  {
+    "kode": 92,
+    "keterangan": "BANK FIRST INDONESIA FINANCE & INV."
+  },
+  {
+    "kode": 93,
+    "keterangan": "BANK IND.FINANCE & INV.COMPANY(IFI)"
+  },
+  {
+    "kode": 94,
+    "keterangan": "BANK PAPAN SEJAHTERA"
+  },
+  {
+    "kode": 95,
+    "keterangan": "BANK CENTURY INTERVEST CORPORATION"
+  },
+  {
+    "kode": 96,
+    "keterangan": "BANK HARAPAN SENTOSA"
+  },
+  {
+    "kode": 97,
+    "keterangan": "BANK MAYAPADA INTERNASIONAL"
+  },
+  {
+    "kode": 98,
+    "keterangan": "BANK DHARMALA"
+  },
+  {
+    "kode": 99,
+    "keterangan": "BANK INDONESIA RAYA"
+  },
+  {
+    "kode": 100,
+    "keterangan": "BANK RISJAD SALIM INTERNATIONAL"
+  },
+  {
+    "kode": 101,
+    "keterangan": "BANK PEMBANGUNAN INDONESIA"
+  },
+  {
+    "kode": 110,
+    "keterangan": "BANK JABAR"
+  },
+  {
+    "kode": 111,
+    "keterangan": "BANK DKI"
+  },
+  {
+    "kode": 112,
+    "keterangan": "BANK PEMB.DAERAH YOGYAKARTA"
+  },
+  {
+    "kode": 113,
+    "keterangan": "BANK PEMB DAERAH JAWA TENGAH"
+  },
+  {
+    "kode": 114,
+    "keterangan": "BANK JATIM"
+  },
+  {
+    "kode": 115,
+    "keterangan": "BANK PEMBANGUNAN DAERAH JAMBI"
+  },
+  {
+    "kode": 116,
+    "keterangan": "BANK PEMBANGUNAN DAERAH ACEH"
+  },
+  {
+    "kode": 117,
+    "keterangan": "BANK PEMB.DAERAH SUMATERA UTARA"
+  },
+  {
+    "kode": 118,
+    "keterangan": "BANK PEMB.DAERAH SUMATERA BARAT"
+  },
+  {
+    "kode": 119,
+    "keterangan": "BANK PEMBANGUNAN DAERAH RIAU"
+  },
+  {
+    "kode": 120,
+    "keterangan": "BANK PEMB.DAERAH SUMATERA SELATAN"
+  },
+  {
+    "kode": 121,
+    "keterangan": "BANK PEMBANGUNAN DAERAH LAMPUNG"
+  },
+  {
+    "kode": 122,
+    "keterangan": "BANK PEMB.DAERAH KALIMANTAN SELATAN"
+  },
+  {
+    "kode": 123,
+    "keterangan": "BANK PEMB.DAERAH KALIMANTAN BARAT"
+  },
+  {
+    "kode": 124,
+    "keterangan": "BANK PEMB.DAERAH KALIMANTAN TIMUR"
+  },
+  {
+    "kode": 125,
+    "keterangan": "BANK PEMB.DAERAH KALIMANTAN TENGAH"
+  },
+  {
+    "kode": 126,
+    "keterangan": "BANK PEMBANGUNAN DAERAH SULSELBAR"
+  },
+  {
+    "kode": 127,
+    "keterangan": "BANK PEMB.DAERAH SULAWESI UTARA"
+  },
+  {
+    "kode": 128,
+    "keterangan": "BANK PEMBANGUNAN DAERAH NTB."
+  },
+  {
+    "kode": 129,
+    "keterangan": "BANK PEMBANGUNAN DAERAH BALI"
+  },
+  {
+    "kode": 130,
+    "keterangan": "BANK PEMBANGUNAN DAERAH NTT."
+  },
+  {
+    "kode": 131,
+    "keterangan": "BANK PEMBANGUNAN DAERAH MALUKU"
+  },
+  {
+    "kode": 132,
+    "keterangan": "BANK PEMBANGUNAN DAERAH IRIAN JAYA"
+  },
+  {
+    "kode": 133,
+    "keterangan": "BANK PEMBANGUNAN DAERAH BENGKULU"
+  },
+  {
+    "kode": 134,
+    "keterangan": "BANK PEMBANGUN DAERAH PALU SULTENG."
+  },
+  {
+    "kode": 135,
+    "keterangan": "BANK PEMB.DAERAH SULAWESI TENGGARA"
+  },
+  {
+    "kode": 136,
+    "keterangan": "BANK PEMB.DAERAH TIMOR TIMUR"
+  },
+  {
+    "kode": 140,
+    "keterangan": "BANK YAKIN MAKMUR (YAMA BANK)"
+  },
+  {
+    "kode": 141,
+    "keterangan": "LAUTAN BERLIAN INTERNATIONAL BANK"
+  },
+  {
+    "kode": 142,
+    "keterangan": "KHARISMA BANK"
+  },
+  {
+    "kode": 143,
+    "keterangan": "BANK NAMURA INTERNUSA"
+  },
+  {
+    "kode": 144,
+    "keterangan": "ANDROMEDA BANK"
+  },
+  {
+    "kode": 145,
+    "keterangan": "BANK NUSANTARA PARAHYANGAN"
+  },
+  {
+    "kode": 146,
+    "keterangan": "BANK SWADESI"
+  },
+  {
+    "kode": 147,
+    "keterangan": "BANK MUAMALAT INDONESIA"
+  },
+  {
+    "kode": 148,
+    "keterangan": "BANK DAGANG DAN INDUSTRI"
+  },
+  {
+    "kode": 149,
+    "keterangan": "HASTIN INTERNASIONAL BANK"
+  },
+  {
+    "kode": 150,
+    "keterangan": "SAHID GAJAH PERKASA BANK"
+  },
+  {
+    "kode": 151,
+    "keterangan": "BANK MESTIKA DHARMA"
+  },
+  {
+    "kode": 152,
+    "keterangan": "BANK METRO EXPRESS"
+  },
+  {
+    "kode": 153,
+    "keterangan": "BANK SHINTA INDONESIA"
+  },
+  {
+    "kode": 154,
+    "keterangan": "TATA BANK"
+  },
+  {
+    "kode": 155,
+    "keterangan": "BANK GUNA INTERNASIONAL"
+  },
+  {
+    "kode": 156,
+    "keterangan": "BANK NASIONAL"
+  },
+  {
+    "kode": 157,
+    "keterangan": "BANK MASPION INDONESIA"
+  },
+  {
+    "kode": 158,
+    "keterangan": "ARTAMEDIA BANK"
+  },
+  {
+    "kode": 159,
+    "keterangan": "BANK HAGAKITA"
+  },
+  {
+    "kode": 160,
+    "keterangan": "BANK INDUSTRI"
+  },
+  {
+    "kode": 161,
+    "keterangan": "BANK GANESHA"
+  },
+  {
+    "kode": 162,
+    "keterangan": "BANK WINDU KENCANA"
+  },
+  {
+    "kode": 200,
+    "keterangan": "BANK TABUNGAN NEGARA"
+  },
+  {
+    "kode": 212,
+    "keterangan": "BANK HIMPUNAN SAUDARA 1906"
+  },
+  {
+    "kode": 213,
+    "keterangan": "BANK TABUNGAN PENSIUNAN NASIONAL"
+  },
+  {
+    "kode": 302,
+    "keterangan": "BANK ANGKASA"
+  },
+  {
+    "kode": 310,
+    "keterangan": "BANK ANRICO"
+  },
+  {
+    "kode": 329,
+    "keterangan": "BANK DEWA RUTJI"
+  },
+  {
+    "kode": 332,
+    "keterangan": "BANK JAKARTA"
+  },
+  {
+    "kode": 348,
+    "keterangan": "BANK KESAWAN"
+  },
+  {
+    "kode": 367,
+    "keterangan": "INTAN BANK"
+  },
+  {
+    "kode": 369,
+    "keterangan": "BANK PATRIOT"
+  },
+  {
+    "kode": 381,
+    "keterangan": "BANK PERNIAGAAN"
+  },
+  {
+    "kode": 388,
+    "keterangan": "BANK ARYA PANDUARTA"
+  },
+  {
+    "kode": 389,
+    "keterangan": "BANK RAHARDJA MAKMUR"
+  },
+  {
+    "kode": 399,
+    "keterangan": "SOUTH EAST ASIA BANK"
+  },
+  {
+    "kode": 401,
+    "keterangan": "BANK PUTRA SUKAPURA"
+  },
+  {
+    "kode": 405,
+    "keterangan": "BANK SWAGUNA"
+  },
+  {
+    "kode": 413,
+    "keterangan": "BANK UMUM MADJAPAHIT DJAYA"
+  },
+  {
+    "kode": 422,
+    "keterangan": "BANK DJASA ARTA"
+  },
+  {
+    "kode": 426,
+    "keterangan": "MEGA BANK"
+  },
+  {
+    "kode": 430,
+    "keterangan": "BANK PINAESAAN"
+  },
+  {
+    "kode": 432,
+    "keterangan": "BANK SURYA NUSANTARA"
+  },
+  {
+    "kode": 441,
+    "keterangan": "BANK BUKOPIN"
+  },
+  {
+    "kode": 451,
+    "keterangan": "BANK SYARIAH MANDIRI"
+  },
+  {
+    "kode": 455,
+    "keterangan": "DANA ASIA BANK"
+  },
+  {
+    "kode": 459,
+    "keterangan": "BUSINESS INTERNASIONAL BANK"
+  },
+  {
+    "kode": 466,
+    "keterangan": "BANK SERI PARTHA"
+  },
+  {
+    "kode": 469,
+    "keterangan": "HALIM INDONESIA BANK"
+  },
+  {
+    "kode": 472,
+    "keterangan": "BANK JASA JAKARTA"
+  },
+  {
+    "kode": 476,
+    "keterangan": "BANK AKEN"
+  },
+  {
+    "kode": 480,
+    "keterangan": "BANK PERKEMBANGAN SURYA KENCANA"
+  },
+  {
+    "kode": 484,
+    "keterangan": "BANK BINTANG MANUNGGAL"
+  },
+  {
+    "kode": 485,
+    "keterangan": "BANK BUMI PUTERA INDONESIA"
+  },
+  {
+    "kode": 486,
+    "keterangan": "SINO BANK"
+  },
+  {
+    "kode": 487,
+    "keterangan": "BANK RAJAWALI INTERNASIONAL"
+  },
+  {
+    "kode": 490,
+    "keterangan": "BANK YUDHA BHAKTI"
+  },
+  {
+    "kode": 491,
+    "keterangan": "BANK MITRA NIAGA"
+  },
+  {
+    "kode": 494,
+    "keterangan": "BANK AGRONIAGA"
+  },
+  {
+    "kode": 498,
+    "keterangan": "BANK INDO MONEX"
+  },
+  {
+    "kode": 500,
+    "keterangan": "BANK DANAHUTAMA"
+  },
+  {
+    "kode": 501,
+    "keterangan": "BANK ROYAL INDONESIA"
+  },
+  {
+    "kode": 502,
+    "keterangan": "BANK DELTA"
+  },
+  {
+    "kode": 503,
+    "keterangan": "ALFINDO BANK"
+  },
+  {
+    "kode": 504,
+    "keterangan": "ASIATIC BANK"
+  },
+  {
+    "kode": 505,
+    "keterangan": "HOKINDO BANK"
+  },
+  {
+    "kode": 506,
+    "keterangan": "BANK UMUM TUGU"
+  },
+  {
+    "kode": 508,
+    "keterangan": "SANGGA KENCANA BANK (SAKE BANK)"
+  },
+  {
+    "kode": 510,
+    "keterangan": "ALFA BANK"
+  },
+  {
+    "kode": 513,
+    "keterangan": "BANK INA PERDANA"
+  },
+  {
+    "kode": 514,
+    "keterangan": "SEWU INTERNATIONAL BANK"
+  },
+  {
+    "kode": 515,
+    "keterangan": "BANK PUTRA SURYA PERKASA"
+  },
+  {
+    "kode": 516,
+    "keterangan": "SUPREME BANK"
+  },
+  {
+    "kode": 517,
+    "keterangan": "BANK BERSAUDARA RAYA"
+  },
+  {
+    "kode": 519,
+    "keterangan": "BANK DWIPA SEMESTA"
+  },
+  {
+    "kode": 520,
+    "keterangan": "PRIMA MASTER BANK"
+  },
+  {
+    "kode": 521,
+    "keterangan": "BANK SWASARINDO INTERNASIONAL"
+  },
+  {
+    "kode": 522,
+    "keterangan": "BANK KREDIT ASIA"
+  },
+  {
+    "kode": 523,
+    "keterangan": "DIPO INTERNATIONAL BANK"
+  },
+  {
+    "kode": 525,
+    "keterangan": "AKITA BANK"
+  },
+  {
+    "kode": 526,
+    "keterangan": "LIMAN INTERNATIONAL BANK"
+  },
+  {
+    "kode": 528,
+    "keterangan": "DEKA BANK"
+  },
+  {
+    "kode": 529,
+    "keterangan": "BANK HARMONI INTERNATIONAL"
+  },
+  {
+    "kode": 531,
+    "keterangan": "ANGLOMAS INTERNATIONAL BANK"
+  },
+  {
+    "kode": 532,
+    "keterangan": "BANK PRASIDHA UTAMA"
+  },
+  {
+    "kode": 533,
+    "keterangan": "BANK SIRATAMA ARTHARAYA(START BANK)"
+  },
+  {
+    "kode": 534,
+    "keterangan": "BANK KOSAGRAHA SEMESTA"
+  },
+  {
+    "kode": 535,
+    "keterangan": "BANK KESEJAHTERAAN EKONOMI"
+  },
+  {
+    "kode": 536,
+    "keterangan": "UTAMA INTERNATIONAL BANK"
+  },
+  {
+    "kode": 537,
+    "keterangan": "BANK BAJA INTERNATIONAL"
+  },
+  {
+    "kode": 538,
+    "keterangan": "ASTRIA RAYA BANK"
+  },
+  {
+    "kode": 542,
+    "keterangan": "BANK ARTOS INDONESIA"
+  },
+  {
+    "kode": 543,
+    "keterangan": "SOLIDA BANK"
+  },
+  {
+    "kode": 544,
+    "keterangan": "BANK METROPOLITAN RAYA"
+  },
+  {
+    "kode": 545,
+    "keterangan": "BANK MATARAM DHANARTA"
+  },
+  {
+    "kode": 546,
+    "keterangan": "GLOBAL INTERNATIONAL BANK"
+  },
+  {
+    "kode": 547,
+    "keterangan": "BANK PURBA DANARTA"
+  },
+  {
+    "kode": 548,
+    "keterangan": "BAMK MULTI ARTA SENTOSA"
+  },
+  {
+    "kode": 549,
+    "keterangan": "FEDERAL BANK"
+  },
+  {
+    "kode": 550,
+    "keterangan": "BANK BEPEDE INDONESIA"
+  },
+  {
+    "kode": 551,
+    "keterangan": "CENTRIS INTERNASIONAL BANK"
+  },
+  {
+    "kode": 552,
+    "keterangan": "SYNERGY BANK"
+  },
+  {
+    "kode": 553,
+    "keterangan": "BANK MAYORA"
+  },
+  {
+    "kode": 554,
+    "keterangan": "BANK BINA ISTANA GEMA (BIG BANK)"
+  },
+  {
+    "kode": 555,
+    "keterangan": "BANK INDEX SELINDO"
+  },
+  {
+    "kode": 556,
+    "keterangan": "BANK BUMIRAYA UTAMA"
+  },
+  {
+    "kode": 557,
+    "keterangan": "BANK SEMBADA ARTANUGROHO (SANHO )"
+  },
+  {
+    "kode": 558,
+    "keterangan": "EXECUTIVE INTERNATIONAL BANK"
+  },
+  {
+    "kode": 559,
+    "keterangan": "CENTRATAMA NASIONAL BANK"
+  },
+  {
+    "kode": 560,
+    "keterangan": "INDOMITRA DEV.BANK (INDOTRADE BANK)"
+  },
+  {
+    "kode": 561,
+    "keterangan": "BANK BUDI INTERNASIONAL"
+  },
+  {
+    "kode": 562,
+    "keterangan": "BANK FAMA INTERNATIONAL"
+  },
+  {
+    "kode": 563,
+    "keterangan": "BANK CITRAHASTA DHANAMANUNGGAL"
+  },
+  {
+    "kode": 564,
+    "keterangan": "BANK SINAR HARAPAN BALI"
+  },
+  {
+    "kode": 565,
+    "keterangan": "BANK ORIENT"
+  },
+  {
+    "kode": 566,
+    "keterangan": "BANK VICTORIA INTERNATIONAL"
+  },
+  {
+    "kode": 567,
+    "keterangan": "BANK HARDA GRIYA"
+  },
+  {
+    "kode": 588,
+    "keterangan": "BPR KARYAJATNIKA SADAYA (BPRKS)"
+  },
+  {
+    "kode": 600,
+    "keterangan": "BANK PERKREDITAN RAKYAT"
+  },
+  {
+    "kode": 801,
+    "keterangan": "P.P.KANTOR PERBEND.& KAS NEG.(KPKN)"
+  },
+  {
+    "kode": 802,
+    "keterangan": "P.P.DEPARTEMEN KEUANGAN"
+  },
+  {
+    "kode": 803,
+    "keterangan": "P.P.DEPARTEMEN HANKAM"
+  },
+  {
+    "kode": 804,
+    "keterangan": "P.P. DEPARTEMEN KEHUTANAN"
+  },
+  {
+    "kode": 805,
+    "keterangan": "DEPARTEMEN PERTANIAN"
+  },
+  {
+    "kode": 806,
+    "keterangan": "PERTAMBANGAN DAN ENERGI"
+  },
+  {
+    "kode": 807,
+    "keterangan": "DEPARTEMEN AGAMA"
+  },
+  {
+    "kode": 809,
+    "keterangan": "DEPARTEMEN LAINNYA"
+  },
+  {
+    "kode": 810,
+    "keterangan": "PEMDA TINGKAT  I"
+  },
+  {
+    "kode": 811,
+    "keterangan": "BADAN & LEMBAGA PEMERINTAH BULOG"
+  },
+  {
+    "kode": 814,
+    "keterangan": "BADAN & LEMBAGA PEMERINTAH LAINNYA"
+  },
+  {
+    "kode": 815,
+    "keterangan": "PERUSAHAAN ASURANSI"
+  },
+  {
+    "kode": 816,
+    "keterangan": "PEMDA TINGKAT  II"
+  },
+  {
+    "kode": 820,
+    "keterangan": "PERUM PEGADAIAN"
+  },
+  {
+    "kode": 821,
+    "keterangan": "BADAN URUSAN LOGISTIK (BULOG)"
+  },
+  {
+    "kode": 822,
+    "keterangan": "BADAN PENYEHATAN PERBANKAN NASIONAL"
+  },
+  {
+    "kode": 823,
+    "keterangan": "INDONESIA DEBT RESTRUCTURING AGENCY"
+  },
+  {
+    "kode": 825,
+    "keterangan": "LEMBAGA PEMBIAYAAN"
+  },
+  {
+    "kode": 827,
+    "keterangan": "LAINNYA"
+  },
+  {
+    "kode": 828,
+    "keterangan": "PERTAMINA"
+  },
+  {
+    "kode": 829,
+    "keterangan": "PERUSAHAAN LISTRIK NEGARA (PLN)"
+  },
+  {
+    "kode": 830,
+    "keterangan": "INDUSTRI PESAWAT TERBANG NASIONAL"
+  },
+  {
+    "kode": 831,
+    "keterangan": "GARUDA INDONESIA AIRWAYS(GIA)"
+  },
+  {
+    "kode": 832,
+    "keterangan": "TELKOM"
+  },
+  {
+    "kode": 833,
+    "keterangan": "JASA MARGA"
+  },
+  {
+    "kode": 834,
+    "keterangan": "PT POS INDONESIA"
+  },
+  {
+    "kode": 835,
+    "keterangan": "DANAREKSA"
+  },
+  {
+    "kode": 836,
+    "keterangan": "JAMSOSTEK"
+  },
+  {
+    "kode": 837,
+    "keterangan": "TASPEN"
+  },
+  {
+    "kode": 838,
+    "keterangan": "JIWASRAYA"
+  },
+  {
+    "kode": 839,
+    "keterangan": "JASA RAHARJA"
+  },
+  {
+    "kode": 840,
+    "keterangan": "JASINDO"
+  },
+  {
+    "kode": 841,
+    "keterangan": "LAINNYA"
+  },
+  {
+    "kode": 842,
+    "keterangan": "PERUM PEGADAIAN"
+  },
+  {
+    "kode": 843,
+    "keterangan": "PERUSAHAAN PEMBIAYAAN"
+  },
+  {
+    "kode": 844,
+    "keterangan": "MODAL VENTURA"
+  },
+  {
+    "kode": 845,
+    "keterangan": "to be confirmed"
+  },
+  {
+    "kode": 846,
+    "keterangan": "P.M.P.PERUSAHAAN ASURANSI DIBWH 51%"
+  },
+  {
+    "kode": 847,
+    "keterangan": "P.M.P.LEMBAGA PEMBIAYAAN DIBWH 51%"
+  },
+  {
+    "kode": 848,
+    "keterangan": "LAINNYA"
+  },
+  {
+    "kode": 849,
+    "keterangan": "BADAN USAHA MILIK DAERAH(BUMD)"
+  },
+  {
+    "kode": 850,
+    "keterangan": "REAL ESTATE"
+  },
+  {
+    "kode": 851,
+    "keterangan": "PERUSAHAAN ASURANSI NASIONAL"
+  },
+  {
+    "kode": 852,
+    "keterangan": "PERUSAHAAN ASURANSI PATUNGAN"
+  },
+  {
+    "kode": 853,
+    "keterangan": "PERUSAHAAN ASURANSI ASING"
+  },
+  {
+    "kode": 855,
+    "keterangan": "LEMBAGA PEMBIAYAAN NASIONAL"
+  },
+  {
+    "kode": 856,
+    "keterangan": "LEMBAGA PEMBIAYAAN PATUNGAN"
+  },
+  {
+    "kode": 857,
+    "keterangan": "LEMBAGA PEMBIAYAAN ASING"
+  },
+  {
+    "kode": 858,
+    "keterangan": "MODAL VENTURA NASIONAL"
+  },
+  {
+    "kode": 859,
+    "keterangan": "MODAL VENTURA PATUNGAN"
+  },
+  {
+    "kode": 860,
+    "keterangan": "MODAL VENTURA ASING"
+  },
+  {
+    "kode": 861,
+    "keterangan": "PERSH.PERSH.LAINNYA NASIONAL"
+  },
+  {
+    "kode": 862,
+    "keterangan": "PERSH.PERSH.LAINNYA PATUNGAN"
+  },
+  {
+    "kode": 863,
+    "keterangan": "PERSH.PERSH.LAINNYA ASING"
+  },
+  {
+    "kode": 865,
+    "keterangan": "YAYASAN DAN BADAN SOSIAL"
+  },
+  {
+    "kode": 866,
+    "keterangan": "to be confirmed"
+  },
+  {
+    "kode": 867,
+    "keterangan": "PRUSAHN PEMBIAYAAN LAINNYA NASIONAL"
+  },
+  {
+    "kode": 868,
+    "keterangan": "PRUSAHN PEMBIAYAAN LAINNYA PATUNGAN"
+  },
+  {
+    "kode": 869,
+    "keterangan": "PRUSHN PEMBIAYAAN LAINNYA ASING"
+  },
+  {
+    "kode": 870,
+    "keterangan": "PERUSAHAAN LAINNYA NASIONAL"
+  },
+  {
+    "kode": 871,
+    "keterangan": "PERUSAHAAN LAINNYA PATUNGAN"
+  },
+  {
+    "kode": 872,
+    "keterangan": "PERUSAHAAN LAINNYA ASING"
+  },
+  {
+    "kode": 873,
+    "keterangan": "DANA PENSIUN"
+  },
+  {
+    "kode": 874,
+    "keterangan": "PERSEORANGAN (SEKT.SWASTA)"
+  },
+  {
+    "kode": 875,
+    "keterangan": "PERUSAHAAN REKSADANA"
+  },
+  {
+    "kode": 876,
+    "keterangan": "BKN. PDDK.PEMERINTAH PUSAT U/ OECD"
+  },
+  {
+    "kode": 877,
+    "keterangan": "YAYASAN,BDN SOSIAL,ORG KEMASYARAKAT"
+  },
+  {
+    "kode": 879,
+    "keterangan": "LEMBAGA PENDIDIKAN"
+  },
+  {
+    "kode": 881,
+    "keterangan": "KOPERASI PRIMER"
+  },
+  {
+    "kode": 882,
+    "keterangan": "K.P.&CAB2. L.K.BKN BNK DI LN U/OECD"
+  },
+  {
+    "kode": 883,
+    "keterangan": "KOPERASI LAINNYA"
+  },
+  {
+    "kode": 884,
+    "keterangan": "KTR PRWKLAN MLK ASING-LBG KEUANGAN"
+  },
+  {
+    "kode": 885,
+    "keterangan": "KTR PRWKLAN MLK ASING-LAINNYA"
+  },
+  {
+    "kode": 886,
+    "keterangan": "PERORANGAN"
+  },
+  {
+    "kode": 889,
+    "keterangan": "SEKTOR SWASTA LAINNYA"
+  },
+  {
+    "kode": 891,
+    "keterangan": "BUKAN PENDDK PEMERINTAH PUSAT"
+  },
+  {
+    "kode": 892,
+    "keterangan": "PRWKLAN NEGARA ASING DAN STAFNYA"
+  },
+  {
+    "kode": 893,
+    "keterangan": "BUMN MILIK NEGARA ASING"
+  },
+  {
+    "kode": 894,
+    "keterangan": "LEMBAGA KEUANGAN BKN BANK DI LN"
+  },
+  {
+    "kode": 895,
+    "keterangan": "BUKAN PENDUDUK SWASTA LAINNYA"
+  },
+  {
+    "kode": 896,
+    "keterangan": "LBG ITRNL BANK PMBNGNN MULTILATERAL"
+  },
+  {
+    "kode": 899,
+    "keterangan": "LEMBAGA LAINNYA"
+  }
+]

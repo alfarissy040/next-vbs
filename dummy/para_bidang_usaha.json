@@ -1,0 +1,86 @@
+[
+  {
+    "kode": 1,
+    "keterangan": "PERTANIAN"
+  },
+  {
+    "kode": 2,
+    "keterangan": "PERIKANAN"
+  },
+  {
+    "kode": 3,
+    "keterangan": "KELAUTAN"
+  },
+  {
+    "kode": 4,
+    "keterangan": "PERTAMBANGAN"
+  },
+  {
+    "kode": 5,
+    "keterangan": "PERINDUSTRIAN"
+  },
+  {
+    "kode": 6,
+    "keterangan": "LISTRIK"
+  },
+  {
+    "kode": 7,
+    "keterangan": "GAS"
+  },
+  {
+    "kode": 8,
+    "keterangan": "AIR"
+  },
+  {
+    "kode": 9,
+    "keterangan": "KONSTRUKSI"
+  },
+  {
+    "kode": 10,
+    "keterangan": "EKSPOR / IMPORT"
+  },
+  {
+    "kode": 11,
+    "keterangan": "DISTRIBUSI"
+  },
+  {
+    "kode": 12,
+    "keterangan": "PEDAGANG ECERAN"
+  },
+  {
+    "kode": 13,
+    "keterangan": "RESTORAN"
+  },
+  {
+    "kode": 14,
+    "keterangan": "PENGANGKUTAN UMUM"
+  },
+  {
+    "kode": 15,
+    "keterangan": "BIRO PERJALANAN"
+  },
+  {
+    "kode": 16,
+    "keterangan": "REAL ESTATE"
+  },
+  {
+    "kode": 17,
+    "keterangan": "KONSULTAN"
+  },
+  {
+    "kode": 18,
+    "keterangan": "HIBURAN"
+  },
+  {
+    "kode": 19,
+    "keterangan": "KESEHATAN"
+  },
+  {
+    "kode": 20,
+    "keterangan": "PENDIDIKAN"
+  },
+  {
+    "kode": 21,
+    "keterangan": "LAIINNYA"
+  }
+]

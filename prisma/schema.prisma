@@ -71,6 +71,7 @@ model cis_master {
     alamat                   cis_alamat[]
     cis_perusahaan           cis_perusahaan?
     cis_perorangan           cis_perorangan?
+    cis_pengurus             cis_pengurus[]
     para_jns_ident           para_jns_ident     @relation(fields: [jns_ident], references: [kode])
     para_bntk_hkm            para_bntk_hkm      @relation(fields: [bntk_hkm], references: [kode])
     para_gol_pmlk            para_gol_pmlk      @relation(fields: [gol_pemilik], references: [kode])
@@ -90,7 +91,7 @@ model cis_alamat {
     id_pengurus   String? @db.ObjectId
     no_urut       Int     @default(1)
     jns_alamat    String
-    negara        Int
+    negara        String
     provinsi      Int
     kota          Int
     kecamatan     Int
@@ -129,7 +130,7 @@ model cis_perorangan {
     no_ident_pasangan String?
     nm_ahli_waris     String?
     agama             Int
-    kewarganegaraan   Int
+    kewarganegaraan   String
     profesi           Int
     jns_pekerjaan     Int
     jabatan           String
@@ -181,7 +182,6 @@ model cis_perusahaan {
     created_at   DateTime @default(now())
     updated_at   DateTime @updatedAt
 
-    cis_pengurus       cis_pengurus[]
     aks_pemakai_create aks_pemakai        @relation("aks_pemakai_create", fields: [usrid_create], references: [username])
     aks_pemakai_update aks_pemakai?       @relation("aks_pemakai_update", fields: [usrid_update], references: [username])
     cisMaster          cis_master         @relation(fields: [no_nas], references: [no_nas])
@@ -190,34 +190,34 @@ model cis_perusahaan {
 }
 
 model cis_pengurus {
-    id_pengurus            String   @id @default(auto()) @map("_id") @db.ObjectId
-    id_perusahaan_instansi String   @db.ObjectId
-    jns_pengurus           String
-    kewarganegaraan        Int
-    jns_ident              Int
-    no_ident               String
-    nm_nas                 String
-    masa_ident             Int
-    tgl_ident              DateTime
-    tempat_lahir           String
-    tgl_lahir              DateTime
-    agama                  Int
-    no_hp                  String
-    no_telp                String
-    email                  String
-    nm_ibu                 String
-    jabatan                String
-    kepemilikan            Int
-    npwp                   String
+    id_pengurus     String   @id @default(auto()) @map("_id") @db.ObjectId
+    no_nas          String
+    jns_pengurus    Int
+    kewarganegaraan String
+    jns_ident       Int
+    no_ident        String
+    nm_nas          String
+    masa_ident      Int
+    tgl_ident       DateTime
+    tempat_lahir    String
+    tgl_lahir       DateTime
+    agama           Int
+    no_hp           String
+    no_telp         String
+    email           String
+    nm_ibu          String
+    jabatan         String
+    kepemilikan     Int
+    npwp            String
 
     usrid_create String
     usrid_update String?
     created_at   DateTime @default(now())
     updated_at   DateTime @updatedAt
 
-    aks_pemakai_create aks_pemakai     @relation("aks_pemakai_create", fields: [usrid_create], references: [username])
-    aks_pemakai_update aks_pemakai?    @relation("aks_pemakai_update", fields: [usrid_update], references: [username])
-    cisPerusahaan      cis_perusahaan? @relation(fields: [id_perusahaan_instansi], references: [id_perusahaan])
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username])
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username])
+    cis_master         cis_master?  @relation(fields: [no_nas], references: [no_nas])
     cis_alamat         cis_alamat[]
 
     para_jns_ident para_jns_ident @relation(fields: [jns_ident], references: [kode])
@@ -247,6 +247,7 @@ model para_bntk_hkm {
     id_bntk_hkm String @id @default(auto()) @map("_id") @db.ObjectId
     kode        Int    @unique
     keterangan  String
+    jns_nas     Int
 
     cis_master cis_master[]
 }
@@ -269,9 +270,10 @@ model para_dana {
 }
 
 model para_transaksi {
-    id_transaksi String @id @default(auto()) @map("_id") @db.ObjectId
-    kode         Int    @unique
-    keterangan   String
+    id_transaksi   String @id @default(auto()) @map("_id") @db.ObjectId
+    kode           Int    @unique
+    keterangan     String
+    batas_maksimum Int
 
     cis_master cis_master[]
 }
@@ -346,7 +348,7 @@ model para_jns_pekerjaan {
 
 model para_negara {
     id_negara  String @id @default(auto()) @map("_id") @db.ObjectId
-    kd_negara  Int    @unique
+    kd_negara  String @unique
     keterangan String
 
     para_provinsi  para_provinsi[]
@@ -357,7 +359,7 @@ model para_negara {
 
 model para_provinsi {
     id          String @id @default(auto()) @map("_id") @db.ObjectId
-    kd_negara   Int
+    kd_negara   String
     kd_provinsi Int    @unique
     keterangan  String
 

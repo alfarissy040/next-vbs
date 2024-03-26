@@ -1,0 +1,172 @@
+[
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 11,
+    "keterangan": "NANGGROE ACEH DARUSSALAM"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 12,
+    "keterangan": "SUMATERA UTARA"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 13,
+    "keterangan": "SUMATERA BARAT"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 14,
+    "keterangan": "RIAU"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 15,
+    "keterangan": "JAMBI"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 16,
+    "keterangan": "SUMATERA SELATAN"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 17,
+    "keterangan": "BENGKULU"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 18,
+    "keterangan": "LAMPUNG"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 19,
+    "keterangan": "BANGKA BELITUNG"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 21,
+    "keterangan": "KEPULAUAN RIAU"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 31,
+    "keterangan": "DKI JAKARTA"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 32,
+    "keterangan": "JAWA BARAT"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 33,
+    "keterangan": "JAWA TENGAH"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 34,
+    "keterangan": "D.I. YOGYAKARTA"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 35,
+    "keterangan": "JAWA TIMUR"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 36,
+    "keterangan": "BANTEN"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 51,
+    "keterangan": "BALI"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 52,
+    "keterangan": "NUSA TENGGARA BARAT"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 53,
+    "keterangan": "NUSA TENGGARA TIMUR"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 61,
+    "keterangan": "KALIMANTAN BARAT"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 62,
+    "keterangan": "KALIMANTAN TENGAH"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 63,
+    "keterangan": "KALIMANTAN SELATAN"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 64,
+    "keterangan": "KALIMANTAN TIMUR"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 65,
+    "keterangan": "KALIMANTAN UTARA"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 71,
+    "keterangan": "SULAWESI UTARA"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 72,
+    "keterangan": "SULAWESI TENGAH"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 73,
+    "keterangan": "SULAWESI SELATAN"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 74,
+    "keterangan": "SULAWESI TENGGARA"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 75,
+    "keterangan": "GORONTALO"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 76,
+    "keterangan": "SULAWESI BARAT"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 81,
+    "keterangan": "MALUKU"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 82,
+    "keterangan": "MALUKU UTARA"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 91,
+    "keterangan": "PAPUA"
+  },
+  {
+    "kd_negara": "ID",
+    "kd_provinsi": 92,
+    "keterangan": "PAPUA BARAT"
+  }
+]

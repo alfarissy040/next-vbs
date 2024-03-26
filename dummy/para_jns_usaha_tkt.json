@@ -1,0 +1,138 @@
+[
+  {
+    "kode": 1,
+    "keterangan": "USAHA PERKEBUNAN"
+  },
+  {
+    "kode": 2,
+    "keterangan": "PENGELOLA JALAN TOL"
+  },
+  {
+    "kode": 3,
+    "keterangan": "SUPERMARKET"
+  },
+  {
+    "kode": 4,
+    "keterangan": "HYPERMARKET"
+  },
+  {
+    "kode": 5,
+    "keterangan": "DEPARTMENT STORE"
+  },
+  {
+    "kode": 6,
+    "keterangan": "PENGELOLA JASA PERPARKIRAN"
+  },
+  {
+    "kode": 7,
+    "keterangan": "STASIUN PENGISIAN BAHAN BAKAR UMUM"
+  },
+  {
+    "kode": 8,
+    "keterangan": "MASKAPAI PENERBANGAN"
+  },
+  {
+    "kode": 9,
+    "keterangan": "PERUSAHAAN PELAYARAN"
+  },
+  {
+    "kode": 10,
+    "keterangan": "PERUSAHAAN ANGKUTAN SUNGAI"
+  },
+  {
+    "kode": 11,
+    "keterangan": "PERUSAHAAN ANGKUTAN DANAU"
+  },
+  {
+    "kode": 12,
+    "keterangan": "LEMBAGA PENDIDIKAN FORMAL"
+  },
+  {
+    "kode": 13,
+    "keterangan": "OPERATOR TELEKOMUNIKASI"
+  },
+  {
+    "kode": 14,
+    "keterangan": "PENGELOLA RUMAH SAKIT"
+  },
+  {
+    "kode": 15,
+    "keterangan": "PENYEDIA TENAGA LISTRIK"
+  },
+  {
+    "kode": 16,
+    "keterangan": "PERUSAHAAN DAERAH AIR MINUM"
+  },
+  {
+    "kode": 17,
+    "keterangan": "PEMERINTAH PUSAT"
+  },
+  {
+    "kode": 18,
+    "keterangan": "PEMERINTAH DAERAH"
+  },
+  {
+    "kode": 19,
+    "keterangan": "KEMENTRIAN"
+  },
+  {
+    "kode": 20,
+    "keterangan": "LEMBAGA PEMERINTAH NON KEMENTRIAN"
+  },
+  {
+    "kode": 21,
+    "keterangan": "BADAN-BADAN PEMERINTAH LAINNYA"
+  },
+  {
+    "kode": 22,
+    "keterangan": "LEMBAGA LAIN SUMBER APBN/APBD"
+  },
+  {
+    "kode": 23,
+    "keterangan": "TRANSAKSI DENGAN BANK SENTRA (BI)"
+  },
+  {
+    "kode": 24,
+    "keterangan": "TRANSAKSI PEMBAYARAN GAJI / PENSIUN"
+  },
+  {
+    "kode": 25,
+    "keterangan": "TRANSAKSI ANTAR BANK (COVER DANA)"
+  },
+  {
+    "kode": 26,
+    "keterangan": "KOPERASI SIMPAN PINJAM"
+  },
+  {
+    "kode": 27,
+    "keterangan": "ASURANSI"
+  },
+  {
+    "kode": 28,
+    "keterangan": "IATA"
+  },
+  {
+    "kode": 29,
+    "keterangan": "PERWAKILAN NEGARA ASING"
+  },
+  {
+    "kode": 30,
+    "keterangan": "PBB"
+  },
+  {
+    "kode": 31,
+    "keterangan": "IMF"
+  },
+  {
+    "kode": 32,
+    "keterangan": "ADB"
+  },
+  {
+    "kode": 33,
+    "keterangan": "WORLD BANK"
+  },
+  {
+    "kode": 34,
+    "keterangan": "DANA PENSIUN"
+  }
+]

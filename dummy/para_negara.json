@@ -1,0 +1,982 @@
+[
+  {
+    "kd_negara": "AF",
+    "keterangan": "AFGHANISTAN"
+  },
+  {
+    "kd_negara": "AL",
+    "keterangan": "ALBANIA"
+  },
+  {
+    "kd_negara": "DZ",
+    "keterangan": "ALGERIA / ALJAZAIR"
+  },
+  {
+    "kd_negara": "AS",
+    "keterangan": "AMERICAN SAMOA"
+  },
+  {
+    "kd_negara": "AD",
+    "keterangan": "ANDORRA"
+  },
+  {
+    "kd_negara": "AO",
+    "keterangan": "ANGOLA"
+  },
+  {
+    "kd_negara": "AI",
+    "keterangan": "ANGUILLA"
+  },
+  {
+    "kd_negara": "AQ",
+    "keterangan": "ANTARCTICA"
+  },
+  {
+    "kd_negara": "AG",
+    "keterangan": "ANTIGUA & BARBUDA"
+  },
+  {
+    "kd_negara": "AR",
+    "keterangan": "ARGENTINA"
+  },
+  {
+    "kd_negara": "AM",
+    "keterangan": "ARMENIA"
+  },
+  {
+    "kd_negara": "AW",
+    "keterangan": "ARUBA"
+  },
+  {
+    "kd_negara": "AU",
+    "keterangan": "AUSTRALIA"
+  },
+  {
+    "kd_negara": "AT",
+    "keterangan": "AUSTRIAN"
+  },
+  {
+    "kd_negara": "AZ",
+    "keterangan": "AZERBAIJAN"
+  },
+  {
+    "kd_negara": "BS",
+    "keterangan": "BAHAMAS"
+  },
+  {
+    "kd_negara": "BH",
+    "keterangan": "BAHRAIN"
+  },
+  {
+    "kd_negara": "BD",
+    "keterangan": "BANGLADESH"
+  },
+  {
+    "kd_negara": "BB",
+    "keterangan": "BARBADOS"
+  },
+  {
+    "kd_negara": "BY",
+    "keterangan": "BELARUS"
+  },
+  {
+    "kd_negara": "BE",
+    "keterangan": "BELGIUM"
+  },
+  {
+    "kd_negara": "BZ",
+    "keterangan": "BELIZE"
+  },
+  {
+    "kd_negara": "BJ",
+    "keterangan": "BENIN"
+  },
+  {
+    "kd_negara": "BM",
+    "keterangan": "BERMUDA"
+  },
+  {
+    "kd_negara": "BT",
+    "keterangan": "BHUTAN"
+  },
+  {
+    "kd_negara": "BO",
+    "keterangan": "BOLIVIA"
+  },
+  {
+    "kd_negara": "BA",
+    "keterangan": "BOSNIA-HERZEGOWINA"
+  },
+  {
+    "kd_negara": "BW",
+    "keterangan": "BOTSWANA"
+  },
+  {
+    "kd_negara": "BV",
+    "keterangan": "BOUVET ISLAND"
+  },
+  {
+    "kd_negara": "BR",
+    "keterangan": "BRAZIL"
+  },
+  {
+    "kd_negara": "IO",
+    "keterangan": "BRITISH INDIAN OCEAN TERRITORY"
+  },
+  {
+    "kd_negara": "BN",
+    "keterangan": "BRUNEI DARUSSALAM"
+  },
+  {
+    "kd_negara": "BG",
+    "keterangan": "BULGARIA"
+  },
+  {
+    "kd_negara": "BF",
+    "keterangan": "BURKINA FASO"
+  },
+  {
+    "kd_negara": "BI",
+    "keterangan": "BURUNDI"
+  },
+  {
+    "kd_negara": "KH",
+    "keterangan": "CAMBODIA"
+  },
+  {
+    "kd_negara": "CM",
+    "keterangan": "CAMEROON"
+  },
+  {
+    "kd_negara": "CA",
+    "keterangan": "CANADA"
+  },
+  {
+    "kd_negara": "CV",
+    "keterangan": "CAPE VERDE"
+  },
+  {
+    "kd_negara": "KY",
+    "keterangan": "CAYMAN ISLANDS"
+  },
+  {
+    "kd_negara": "CF",
+    "keterangan": "CENTRAL AFRICAN REPUBLIC"
+  },
+  {
+    "kd_negara": "TD",
+    "keterangan": "CHAD"
+  },
+  {
+    "kd_negara": "CL",
+    "keterangan": "CHILE"
+  },
+  {
+    "kd_negara": "CN",
+    "keterangan": "CHINA"
+  },
+  {
+    "kd_negara": "CX",
+    "keterangan": "CHRISTMAS ISLAND"
+  },
+  {
+    "kd_negara": "CC",
+    "keterangan": "COCOS (KEELING) ISLAND"
+  },
+  {
+    "kd_negara": "CO",
+    "keterangan": "COLOMBIA"
+  },
+  {
+    "kd_negara": "KM",
+    "keterangan": "COMOROS"
+  },
+  {
+    "kd_negara": "CD",
+    "keterangan": "CONGO, THE DEMOCRATIC REPUBLIC OF THE"
+  },
+  {
+    "kd_negara": "CK",
+    "keterangan": "COOK ISLANDS"
+  },
+  {
+    "kd_negara": "CR",
+    "keterangan": "COSTA RICA"
+  },
+  {
+    "kd_negara": "HR",
+    "keterangan": "CROATIA"
+  },
+  {
+    "kd_negara": "CU",
+    "keterangan": "CUBA"
+  },
+  {
+    "kd_negara": "CY",
+    "keterangan": "CYPRUS"
+  },
+  {
+    "kd_negara": "CZ",
+    "keterangan": "CZECH REPUBLIC"
+  },
+  {
+    "kd_negara": "DK",
+    "keterangan": "DENMARK"
+  },
+  {
+    "kd_negara": "DJ",
+    "keterangan": "DJIBOUTI"
+  },
+  {
+    "kd_negara": "DM",
+    "keterangan": "DOMINICA"
+  },
+  {
+    "kd_negara": "DO",
+    "keterangan": "DOMINICAN REPUBLIC"
+  },
+  {
+    "kd_negara": "TP",
+    "keterangan": "EAST TIMOR"
+  },
+  {
+    "kd_negara": "EC",
+    "keterangan": "ECUADOR"
+  },
+  {
+    "kd_negara": "EG",
+    "keterangan": "EGYPT"
+  },
+  {
+    "kd_negara": "SV",
+    "keterangan": "EL SALVADOR"
+  },
+  {
+    "kd_negara": "GQ",
+    "keterangan": "EQUATORIAL GUINEA"
+  },
+  {
+    "kd_negara": "ER",
+    "keterangan": "ERITREA"
+  },
+  {
+    "kd_negara": "EE",
+    "keterangan": "ESTONIA"
+  },
+  {
+    "kd_negara": "ET",
+    "keterangan": "ETHIOPIA"
+  },
+  {
+    "kd_negara": "FO",
+    "keterangan": "FAEROE ISLANDS"
+  },
+  {
+    "kd_negara": "FK",
+    "keterangan": "FALKLAND ISLAND (MALVINAS)"
+  },
+  {
+    "kd_negara": "FJ",
+    "keterangan": "FIJI"
+  },
+  {
+    "kd_negara": "FI",
+    "keterangan": "FINLAND"
+  },
+  {
+    "kd_negara": "FR",
+    "keterangan": "FRANCE"
+  },
+  {
+    "kd_negara": "GF",
+    "keterangan": "FRENCH GUIANA"
+  },
+  {
+    "kd_negara": "FX",
+    "keterangan": "FRENCH, METROPOLITAN"
+  },
+  {
+    "kd_negara": "PF",
+    "keterangan": "FRENCH POLYNESIA"
+  },
+  {
+    "kd_negara": "TF",
+    "keterangan": "FRENCH SOUTHERN TERRITORIES"
+  },
+  {
+    "kd_negara": "GA",
+    "keterangan": "GABON"
+  },
+  {
+    "kd_negara": "GM",
+    "keterangan": "GAMBIA"
+  },
+  {
+    "kd_negara": "GE",
+    "keterangan": "GEORGIA"
+  },
+  {
+    "kd_negara": "DE",
+    "keterangan": "GERMANY"
+  },
+  {
+    "kd_negara": "GG",
+    "keterangan": "GHANA"
+  },
+  {
+    "kd_negara": "GI",
+    "keterangan": "GIBRALTAR"
+  },
+  {
+    "kd_negara": "GR",
+    "keterangan": "GREECE"
+  },
+  {
+    "kd_negara": "GL",
+    "keterangan": "GREENLAND"
+  },
+  {
+    "kd_negara": "GD",
+    "keterangan": "GRENADA"
+  },
+  {
+    "kd_negara": "GP",
+    "keterangan": "GUADELOUPE"
+  },
+  {
+    "kd_negara": "GU",
+    "keterangan": "GUAM"
+  },
+  {
+    "kd_negara": "GT",
+    "keterangan": "GUATEMALA"
+  },
+  {
+    "kd_negara": "GH",
+    "keterangan": "GUERNSEY"
+  },
+  {
+    "kd_negara": "GN",
+    "keterangan": "GUINEA"
+  },
+  {
+    "kd_negara": "GW",
+    "keterangan": "GUINEA BISSAU"
+  },
+  {
+    "kd_negara": "GY",
+    "keterangan": "GUYANA"
+  },
+  {
+    "kd_negara": "HT",
+    "keterangan": "HAITI"
+  },
+  {
+    "kd_negara": "HM",
+    "keterangan": "HEARD & MCDONALD ISLAND"
+  },
+  {
+    "kd_negara": "HN",
+    "keterangan": "HONDURAS"
+  },
+  {
+    "kd_negara": "HK",
+    "keterangan": "HONG KONG"
+  },
+  {
+    "kd_negara": "HU",
+    "keterangan": "HUNGARY"
+  },
+  {
+    "kd_negara": "IS",
+    "keterangan": "ICELAND"
+  },
+  {
+    "kd_negara": "IN",
+    "keterangan": "INDIA"
+  },
+  {
+    "kd_negara": "ID",
+    "keterangan": "INDONESIA"
+  },
+  {
+    "kd_negara": "IR",
+    "keterangan": "IRAN"
+  },
+  {
+    "kd_negara": "IQ",
+    "keterangan": "IRAQ"
+  },
+  {
+    "kd_negara": "IE",
+    "keterangan": "IRELAND"
+  },
+  {
+    "kd_negara": "IM",
+    "keterangan": "ISLE OF MAN"
+  },
+  {
+    "kd_negara": "IL",
+    "keterangan": "ISRAEL"
+  },
+  {
+    "kd_negara": "IT",
+    "keterangan": "ITALY"
+  },
+  {
+    "kd_negara": "CI",
+    "keterangan": "IVORY COAST"
+  },
+  {
+    "kd_negara": "JM",
+    "keterangan": "JAMAICA"
+  },
+  {
+    "kd_negara": "JP",
+    "keterangan": "JAPAN"
+  },
+  {
+    "kd_negara": "JE",
+    "keterangan": "JERSEY"
+  },
+  {
+    "kd_negara": "JO",
+    "keterangan": "JORDAN"
+  },
+  {
+    "kd_negara": "KZ",
+    "keterangan": "KAZAKHSTAN"
+  },
+  {
+    "kd_negara": "KE",
+    "keterangan": "KENYA"
+  },
+  {
+    "kd_negara": "KI",
+    "keterangan": "KIRIBATI"
+  },
+  {
+    "kd_negara": "KR",
+    "keterangan": "KOREA SELATAN"
+  },
+  {
+    "kd_negara": "KP",
+    "keterangan": "KOREA UTARA"
+  },
+  {
+    "kd_negara": "KW",
+    "keterangan": "KUWAIT"
+  },
+  {
+    "kd_negara": "KG",
+    "keterangan": "KYRGYZSTAN"
+  },
+  {
+    "kd_negara": "LA",
+    "keterangan": "LAO PEOPLE'S DEMOC. REP."
+  },
+  {
+    "kd_negara": "LV",
+    "keterangan": "LATVIA"
+  },
+  {
+    "kd_negara": "LB",
+    "keterangan": "LEBANON"
+  },
+  {
+    "kd_negara": "LS",
+    "keterangan": "LESOTHO"
+  },
+  {
+    "kd_negara": "LR",
+    "keterangan": "LIBERIA"
+  },
+  {
+    "kd_negara": "LY",
+    "keterangan": "LIBYAN ARAB JAMAHIRIYA"
+  },
+  {
+    "kd_negara": "LI",
+    "keterangan": "LIECHTENSTEIN"
+  },
+  {
+    "kd_negara": "LT",
+    "keterangan": "LITHUANIA"
+  },
+  {
+    "kd_negara": "LU",
+    "keterangan": "LUXEMBOURG"
+  },
+  {
+    "kd_negara": "MO",
+    "keterangan": "MACAU"
+  },
+  {
+    "kd_negara": "MK",
+    "keterangan": "MACEDONIA"
+  },
+  {
+    "kd_negara": "MG",
+    "keterangan": "MADAGASCAR"
+  },
+  {
+    "kd_negara": "MW",
+    "keterangan": "MALAWI"
+  },
+  {
+    "kd_negara": "MY",
+    "keterangan": "MALAYSIA"
+  },
+  {
+    "kd_negara": "MV",
+    "keterangan": "MALDIVES"
+  },
+  {
+    "kd_negara": "ML",
+    "keterangan": "MALI"
+  },
+  {
+    "kd_negara": "MT",
+    "keterangan": "MALTA"
+  },
+  {
+    "kd_negara": "MH",
+    "keterangan": "MARSHALL ISLANDS"
+  },
+  {
+    "kd_negara": "MQ",
+    "keterangan": "MARTINIQUE"
+  },
+  {
+    "kd_negara": "MR",
+    "keterangan": "MAURITANIA"
+  },
+  {
+    "kd_negara": "MU",
+    "keterangan": "MAURITIUS"
+  },
+  {
+    "kd_negara": "YT",
+    "keterangan": "MAYOTTE"
+  },
+  {
+    "kd_negara": "MX",
+    "keterangan": "MEXICO"
+  },
+  {
+    "kd_negara": "FM",
+    "keterangan": "MICRONESIA"
+  },
+  {
+    "kd_negara": "MD",
+    "keterangan": "MOLDOVA"
+  },
+  {
+    "kd_negara": "MC",
+    "keterangan": "MONACO"
+  },
+  {
+    "kd_negara": "MN",
+    "keterangan": "MONGOLIA"
+  },
+  {
+    "kd_negara": "ME",
+    "keterangan": "MONTENEGRO"
+  },
+  {
+    "kd_negara": "MS",
+    "keterangan": "MONTSERRAT"
+  },
+  {
+    "kd_negara": "MA",
+    "keterangan": "MOROCCO"
+  },
+  {
+    "kd_negara": "MZ",
+    "keterangan": "MOZAMBIQUE"
+  },
+  {
+    "kd_negara": "MM",
+    "keterangan": "MYANMAR"
+  },
+  {
+    "kd_negara": "NA",
+    "keterangan": "NAMIBIA"
+  },
+  {
+    "kd_negara": "NR",
+    "keterangan": "NAURU"
+  },
+  {
+    "kd_negara": "NP",
+    "keterangan": "NEPAL"
+  },
+  {
+    "kd_negara": "NL",
+    "keterangan": "NETHERLANDS"
+  },
+  {
+    "kd_negara": "AN",
+    "keterangan": "NETHERLANDS ANTILLES"
+  },
+  {
+    "kd_negara": "NC",
+    "keterangan": "NEW CALEDONIA"
+  },
+  {
+    "kd_negara": "NZ",
+    "keterangan": "NEW ZEALAND"
+  },
+  {
+    "kd_negara": "NI",
+    "keterangan": "NICARAGUA"
+  },
+  {
+    "kd_negara": "NE",
+    "keterangan": "NIGER"
+  },
+  {
+    "kd_negara": "NG",
+    "keterangan": "NIGERIA"
+  },
+  {
+    "kd_negara": "NU",
+    "keterangan": "NIUE"
+  },
+  {
+    "kd_negara": "NF",
+    "keterangan": "NORFOLK ISLAND"
+  },
+  {
+    "kd_negara": "MP",
+    "keterangan": "NORTH MARIANA ISLAND"
+  },
+  {
+    "kd_negara": "NO",
+    "keterangan": "NORWAY"
+  },
+  {
+    "kd_negara": "OM",
+    "keterangan": "OMAN"
+  },
+  {
+    "kd_negara": "PK",
+    "keterangan": "PAKISTAN"
+  },
+  {
+    "kd_negara": "PW",
+    "keterangan": "PALAU"
+  },
+  {
+    "kd_negara": "PA",
+    "keterangan": "PANAMA"
+  },
+  {
+    "kd_negara": "PG",
+    "keterangan": "PAPUA NEW GUINEA"
+  },
+  {
+    "kd_negara": "PY",
+    "keterangan": "PARAGUAY"
+  },
+  {
+    "kd_negara": "PE",
+    "keterangan": "PERU"
+  },
+  {
+    "kd_negara": "PH",
+    "keterangan": "PHILIPPINES"
+  },
+  {
+    "kd_negara": "PN",
+    "keterangan": "PITCAIRN"
+  },
+  {
+    "kd_negara": "PL",
+    "keterangan": "POLAND"
+  },
+  {
+    "kd_negara": "PT",
+    "keterangan": "PORTUGAL"
+  },
+  {
+    "kd_negara": "PR",
+    "keterangan": "PUERTO RICO"
+  },
+  {
+    "kd_negara": "QA",
+    "keterangan": "QATAR"
+  },
+  {
+    "kd_negara": "CG",
+    "keterangan": "REPUBLIC OF THE CONGO"
+  },
+  {
+    "kd_negara": "RE",
+    "keterangan": "REUNION"
+  },
+  {
+    "kd_negara": "RO",
+    "keterangan": "ROMANIA"
+  },
+  {
+    "kd_negara": "RU",
+    "keterangan": "RUSSIAN FEDERATION"
+  },
+  {
+    "kd_negara": "RW",
+    "keterangan": "RWANDA"
+  },
+  {
+    "kd_negara": "SH",
+    "keterangan": "SAINT HELENA"
+  },
+  {
+    "kd_negara": "KN",
+    "keterangan": "SAINT KITTS & NEVIS"
+  },
+  {
+    "kd_negara": "LC",
+    "keterangan": "SAINT LUCIA"
+  },
+  {
+    "kd_negara": "PM",
+    "keterangan": "SAINT PIERRE"
+  },
+  {
+    "kd_negara": "VC",
+    "keterangan": "SAINT VINCENT"
+  },
+  {
+    "kd_negara": "WS",
+    "keterangan": "SAMOA"
+  },
+  {
+    "kd_negara": "SM",
+    "keterangan": "SAN MARINO"
+  },
+  {
+    "kd_negara": "ST",
+    "keterangan": "SAO TOME & PRINCIPE"
+  },
+  {
+    "kd_negara": "SA",
+    "keterangan": "SAUDI ARABIA"
+  },
+  {
+    "kd_negara": "SN",
+    "keterangan": "SENEGAL"
+  },
+  {
+    "kd_negara": "SC",
+    "keterangan": "SEYCHELLES"
+  },
+  {
+    "kd_negara": "SL",
+    "keterangan": "SIERRA LEONE"
+  },
+  {
+    "kd_negara": "SG",
+    "keterangan": "SINGAPORE"
+  },
+  {
+    "kd_negara": "SK",
+    "keterangan": "SLOVAKIA (SLOVAK REPUBLIC)"
+  },
+  {
+    "kd_negara": "SI",
+    "keterangan": "SLOVENIA"
+  },
+  {
+    "kd_negara": "SB",
+    "keterangan": "SOLOMON ISLANDS"
+  },
+  {
+    "kd_negara": "SO",
+    "keterangan": "SOMALIA"
+  },
+  {
+    "kd_negara": "ZA",
+    "keterangan": "SOUTH AFRICA"
+  },
+  {
+    "kd_negara": "GS",
+    "keterangan": "SOUTH GEORGIA AND THE SOUTH SANDWICH I."
+  },
+  {
+    "kd_negara": "SS",
+    "keterangan": "SOUTH SUDAN"
+  },
+  {
+    "kd_negara": "ES",
+    "keterangan": "SPAIN"
+  },
+  {
+    "kd_negara": "LK",
+    "keterangan": "SRI LANKA"
+  },
+  {
+    "kd_negara": "SD",
+    "keterangan": "SUDAN"
+  },
+  {
+    "kd_negara": "SR",
+    "keterangan": "SURINAME"
+  },
+  {
+    "kd_negara": "SJ",
+    "keterangan": "SVALBARD & JAN MAYEN ISLAND"
+  },
+  {
+    "kd_negara": "SZ",
+    "keterangan": "SWAZILAND"
+  },
+  {
+    "kd_negara": "SE",
+    "keterangan": "SWEDEN"
+  },
+  {
+    "kd_negara": "CH",
+    "keterangan": "SWITZERLAND"
+  },
+  {
+    "kd_negara": "SY",
+    "keterangan": "SYRIAN ARAB REPUBLIC"
+  },
+  {
+    "kd_negara": "TW",
+    "keterangan": "TAIWAN"
+  },
+  {
+    "kd_negara": "TJ",
+    "keterangan": "TAJIKISTAN"
+  },
+  {
+    "kd_negara": "TZ",
+    "keterangan": "TANZANIA"
+  },
+  {
+    "kd_negara": "TH",
+    "keterangan": "THAILAND"
+  },
+  {
+    "kd_negara": "TG",
+    "keterangan": "TOGO"
+  },
+  {
+    "kd_negara": "TK",
+    "keterangan": "TOKELAU"
+  },
+  {
+    "kd_negara": "TO",
+    "keterangan": "TONGA"
+  },
+  {
+    "kd_negara": "TT",
+    "keterangan": "TRINIDAD & TOBAGO"
+  },
+  {
+    "kd_negara": "TN",
+    "keterangan": "TUNISIA"
+  },
+  {
+    "kd_negara": "TR",
+    "keterangan": "TURKEY"
+  },
+  {
+    "kd_negara": "TM",
+    "keterangan": "TURKMENISTAN"
+  },
+  {
+    "kd_negara": "TC",
+    "keterangan": "TURKS & CAICOS ISLAN"
+  },
+  {
+    "kd_negara": "TV",
+    "keterangan": "TUVALU"
+  },
+  {
+    "kd_negara": "UG",
+    "keterangan": "UGANDA"
+  },
+  {
+    "kd_negara": "UA",
+    "keterangan": "UKRAINE"
+  },
+  {
+    "kd_negara": "AE",
+    "keterangan": "UNITED ARAB EMIRAT"
+  },
+  {
+    "kd_negara": "GB",
+    "keterangan": "UNITED KINGDOM"
+  },
+  {
+    "kd_negara": "US",
+    "keterangan": "UNITED STATES OF AMERICA"
+  },
+  {
+    "kd_negara": "UY",
+    "keterangan": "URUGUAY"
+  },
+  {
+    "kd_negara": "UM",
+    "keterangan": "US MINOR OUTLAYING ISLANDS"
+  },
+  {
+    "kd_negara": "UZ",
+    "keterangan": "UZBEKISTAN"
+  },
+  {
+    "kd_negara": "VU",
+    "keterangan": "VANUATU"
+  },
+  {
+    "kd_negara": "VA",
+    "keterangan": "VATICAN CITY CAN STATE (HOLY SEE)"
+  },
+  {
+    "kd_negara": "VE",
+    "keterangan": "VENEZUELA"
+  },
+  {
+    "kd_negara": "VN",
+    "keterangan": "VIETNAM"
+  },
+  {
+    "kd_negara": "VG",
+    "keterangan": "VIRGIN ISLANDS (BRITISH)"
+  },
+  {
+    "kd_negara": "VI",
+    "keterangan": "VIRGIN ISLANDS (US)"
+  },
+  {
+    "kd_negara": "WF",
+    "keterangan": "WALLIS & FUTUNA ISLANDS"
+  },
+  {
+    "kd_negara": "XO",
+    "keterangan": "WEST AFRICA"
+  },
+  {
+    "kd_negara": "EH",
+    "keterangan": "WESTERN SAHARA"
+  },
+  {
+    "kd_negara": "YE",
+    "keterangan": "YEMEN"
+  },
+  {
+    "kd_negara": "YU",
+    "keterangan": "YUGOSLAVIA"
+  },
+  {
+    "kd_negara": "ZM",
+    "keterangan": "ZAMBIA"
+  },
+  {
+    "kd_negara": "ZW",
+    "keterangan": "ZIMBABWE"
+  }
+]

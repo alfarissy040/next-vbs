@@ -4,7 +4,8 @@ import { useNasabahType } from "@/app/utilities/Cis";
 import { Chip, Pagination, SortDescriptor, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from "@nextui-org/react";
 import { cis_master } from "@prisma/client";
 import Link from "next/link";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { set } from "react-hook-form";
 import { MdCreate, MdRemoveRedEye } from "react-icons/md";
 
 interface sortStateType {
@@ -23,12 +24,13 @@ interface TableContentProps {
     isLoading: boolean;
     isError: boolean;
     handleSort: (orderBy: TMasterSort, direction: TSortDirection) => void;
+    handleChangePage: (page: number) => void;
 }
 
 // TODOS
 // * sesuaikan data dengan api hasil api
 
-const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError, handleSort }) => {
+const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError, handleSort, handleChangePage }) => {
     const [page, setPage] = useState((dataCis && dataCis.page) ?? 1);
     const [sortState, setSortState] = useState<sortStateType>({
         column: "no_nas",
@@ -43,11 +45,16 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
         });
         handleSort(descriptor.column as TMasterSort, descriptor.direction as TSortDirection);
     };
+
+    const handlePaginator = useCallback((page: number) => {
+        setPage(page)
+        handleChangePage(page)
+    }, [handleChangePage])
     return (
         <Table
             aria-label="table for data cis"
             classNames={{
-                wrapper: "dark:bg-slate-800 bg-slate-200 overflow-auto h-[calc(100dvh-140px)] shadow-lg",
+                wrapper: "dark:bg-slate-800 bg-slate-200 overflow-auto h-[calc(100dvh-185px)] shadow-lg",
                 th: ["dark:bg-slate-900 bg-slate-300 text-slate-600 dark:text-slate-400"],
                 tr: ["dark:hover:bg-slate-800 hover:bg-slate-400 transition-colors"],
             }}
@@ -59,12 +66,11 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
                     <div className="flex w-full justify-center">
                         <Pagination
                             isCompact
-                            showControls
                             showShadow
                             color="primary"
                             page={page}
                             total={dataCis?.totalPage}
-                            onChange={(page) => setPage(page)}
+                            onChange={handlePaginator}
                             classNames={{
                                 next: "dark:bg-slate-700 dark:[&[data-hover=true]:not([data-active=true])]:bg-slate-600 bg-slate-200 [&[data-hover=true]:not([data-active=true])]:bg-slate-300",
                                 prev: "dark:bg-slate-700 dark:[&[data-hover=true]:not([data-active=true])]:bg-slate-600 bg-slate-200 [&[data-hover=true]:not([data-active=true])]:bg-slate-300",
