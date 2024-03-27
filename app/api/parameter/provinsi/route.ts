@@ -3,59 +3,45 @@ import { NextResponse } from "next/server";
 
 interface TSearchQuery {
     where?: {
-        OR?: Prisma.para_kelurahanWhereInput[]
+        OR?: Prisma.para_provinsiWhereInput[]
     }
-    orderBy: Prisma.para_kelurahanOrderByWithAggregationInput
+    orderBy: Prisma.para_provinsiOrderByWithAggregationInput
 }
 
 const prisma = new PrismaClient();
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
-    const kd_kecamatan = searchParams.get("kecamatan") ?? "";
-    const kd_kelurahan = searchParams.get("kelurahan") ?? "";
-    const page = searchParams.get("page") as unknown as number ?? 1;
-    const whereArray: Prisma.para_kelurahanWhereInput[] = []
+    const kd_negara = searchParams.get("negara");
+    const kd_provinsi = searchParams.get("provinsi");
+    const whereArray: Prisma.para_provinsiWhereInput[] = []
     const searchQuery: TSearchQuery = {
         orderBy: {
             keterangan: "asc"
         }
     }
 
-    if (kd_kecamatan) {
+    if (kd_negara) {
         whereArray.push({
-            kd_kecamatan: {
-                equals: parseInt(kd_kecamatan)
+            kd_negara: {
+                contains: kd_negara,
+                mode: "insensitive"
             }
         })
     }
-    if (kd_kelurahan) {
+    if (kd_provinsi) {
         whereArray.push({
-            kd_kelurahan: {
-                equals: parseInt(kd_kelurahan)
+            kd_provinsi: {
+                equals: parseInt(kd_provinsi)
             }
         })
     }
     if (whereArray.length > 0) searchQuery.where = { OR: whereArray }
 
-
     try {
-        const dataParameter = await prisma.para_kelurahan.findMany({
-            ...searchQuery,
-            skip: (page - 1) * 25,
-            take: 25,
-        })
-        const dataPaginator = await prisma.para_kelurahan.count({
-            ...searchQuery
-        })
+        const dataParameter = await prisma.para_provinsi.findMany(searchQuery)
 
         if (dataParameter.length === 0) return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
-        return NextResponse.json({
-            page: page,
-            itemPerPage: 25,
-            totalPage: Math.ceil(dataPaginator / 25),
-            total: dataPaginator,
-            data: dataParameter,
-        })
+        return NextResponse.json(dataParameter)
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             return NextResponse.json(

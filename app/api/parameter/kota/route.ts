@@ -3,48 +3,47 @@ import { NextResponse } from "next/server";
 
 interface TSearchQuery {
     where?: {
-        OR?: Prisma.para_kelurahanWhereInput[]
+        OR?: Prisma.para_kotaWhereInput[]
     }
-    orderBy: Prisma.para_kelurahanOrderByWithAggregationInput
+    orderBy: Prisma.para_kotaOrderByWithAggregationInput
 }
 
 const prisma = new PrismaClient();
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
-    const kd_kecamatan = searchParams.get("kecamatan") ?? "";
-    const kd_kelurahan = searchParams.get("kelurahan") ?? "";
+    const kd_provinsi = searchParams.get("provinsi");
+    const kd_kota = searchParams.get("kota");
     const page = searchParams.get("page") as unknown as number ?? 1;
-    const whereArray: Prisma.para_kelurahanWhereInput[] = []
+    const whereArray: Prisma.para_kotaWhereInput[] = []
     const searchQuery: TSearchQuery = {
         orderBy: {
             keterangan: "asc"
         }
     }
 
-    if (kd_kecamatan) {
+    if (kd_provinsi) {
         whereArray.push({
-            kd_kecamatan: {
-                equals: parseInt(kd_kecamatan)
+            kd_provinsi: {
+                equals: parseInt(kd_provinsi)
             }
         })
     }
-    if (kd_kelurahan) {
+    if (kd_kota) {
         whereArray.push({
-            kd_kelurahan: {
-                equals: parseInt(kd_kelurahan)
+            kd_kota: {
+                equals: parseInt(kd_kota)
             }
         })
     }
     if (whereArray.length > 0) searchQuery.where = { OR: whereArray }
 
-
     try {
-        const dataParameter = await prisma.para_kelurahan.findMany({
+        const dataParameter = await prisma.para_kota.findMany({
             ...searchQuery,
             skip: (page - 1) * 25,
             take: 25,
         })
-        const dataPaginator = await prisma.para_kelurahan.count({
+        const dataPaginator = await prisma.para_kota.count({
             ...searchQuery
         })
 

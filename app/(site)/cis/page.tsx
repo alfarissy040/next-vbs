@@ -7,7 +7,7 @@ import { useCallback, useState } from "react"
 
 const InformasiCustomer = () => {
   const [searchParams, setSearchParams] = useState({
-    page: 1, orderBy: "no_nas", direction: "ascending"
+    page: 1, orderBy: "no_nas", direction: "ascending", search: ""
   })
   const { data: dataCis, isLoading, error } = useCisMaster({
     page: searchParams.page,
@@ -40,7 +40,7 @@ const InformasiCustomer = () => {
       {/* search bar */}
       <SearchBar doSearch={handleSearch} />
       {/* content */}
-      <TableContent dataCis={data} isLoading={isLoading} isError={error} handleSort={handleSort} handleChangePage={handleChangePage} />
+      <TableContent dataCis={dataCis} isLoading={isLoading} isError={error} handleSort={handleSort} handleChangePage={handleChangePage} />
     </section>
   )
 }

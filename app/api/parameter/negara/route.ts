@@ -1,51 +1,45 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
-interface TSearchQuery {
-    where?: {
-        OR?: Prisma.para_kelurahanWhereInput[]
-    }
-    orderBy: Prisma.para_kelurahanOrderByWithAggregationInput
-}
-
 const prisma = new PrismaClient();
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
-    const kd_kecamatan = searchParams.get("kecamatan") ?? "";
-    const kd_kelurahan = searchParams.get("kelurahan") ?? "";
+    const kd_negara = searchParams.get("negara") ?? "";
     const page = searchParams.get("page") as unknown as number ?? 1;
-    const whereArray: Prisma.para_kelurahanWhereInput[] = []
-    const searchQuery: TSearchQuery = {
-        orderBy: {
-            keterangan: "asc"
-        }
-    }
-
-    if (kd_kecamatan) {
-        whereArray.push({
-            kd_kecamatan: {
-                equals: parseInt(kd_kecamatan)
-            }
-        })
-    }
-    if (kd_kelurahan) {
-        whereArray.push({
-            kd_kelurahan: {
-                equals: parseInt(kd_kelurahan)
-            }
-        })
-    }
-    if (whereArray.length > 0) searchQuery.where = { OR: whereArray }
-
 
     try {
-        const dataParameter = await prisma.para_kelurahan.findMany({
-            ...searchQuery,
+        const dataParameter = await prisma.para_negara.findMany({
+            where: {
+                OR: [
+                    {
+                        kd_negara: {
+                            contains: kd_negara,
+                            mode: "insensitive"
+                        }
+                    }
+                ]
+            },
+            select: {
+                kd_negara: true,
+                keterangan: true
+            },
+            orderBy: {
+                keterangan: "asc"
+            },
             skip: (page - 1) * 25,
-            take: 25,
+            take: 25
         })
-        const dataPaginator = await prisma.para_kelurahan.count({
-            ...searchQuery
+        const dataPaginator = await prisma.para_negara.count({
+            where: {
+                OR: [
+                    {
+                        kd_negara: {
+                            contains: kd_negara,
+                            mode: "insensitive"
+                        }
+                    }
+                ]
+            },
         })
 
         if (dataParameter.length === 0) return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
@@ -56,6 +50,7 @@ export async function GET(request: Request) {
             total: dataPaginator,
             data: dataParameter,
         })
+
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             return NextResponse.json(
