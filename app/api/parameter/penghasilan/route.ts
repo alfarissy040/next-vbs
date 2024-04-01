@@ -14,7 +14,7 @@ export async function GET(request: Request) {
         const dataParameter = await prisma.para_penghasilan.findMany({
             ...queryWhere,
             orderBy: {
-                keterangan: "asc"
+                kode: "asc"
             }
         })
 

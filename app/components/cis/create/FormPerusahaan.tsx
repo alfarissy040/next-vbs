@@ -6,10 +6,10 @@ import { Dispatch, SetStateAction, useCallback, useState } from "react"
 import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form"
 import { CDialog } from "../../ClassnamesData"
 import CreateAlamat from "./CreateAlamat"
+import CreateAlamatPengurus from "./CreateAlamatPengurus"
 import CreateMaster from "./CreateMaster"
 import CreatePengurus from "./CreatePengurus"
 import CreatePerusahaan from "./CreatePerusahaan"
-import CreateAlamatPengurus from "./CreateAlamatPengurus"
 
 
 const FormPerusahaan = ({ setFormType }: { setFormType: Dispatch<SetStateAction<TAddFormState>> }) => {
@@ -56,11 +56,11 @@ const FormPerusahaan = ({ setFormType }: { setFormType: Dispatch<SetStateAction<
                     }}
                     onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 gap-3 overflow-x-clip" noValidate>
                     <AnimatePresence mode="popLayout">
-                        {step === 1 && <CreateMaster formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} handleReset={handleReset} />}
-                        {step === 2 && <CreatePerusahaan formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} />}
-                        {step === 3 && <CreateAlamat formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} />}
-                        {step === 4 && <CreatePengurus formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} />}
-                        {step === 5 && <CreateAlamatPengurus formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} />}
+                        {step === 1 && <CreateMaster kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} handleReset={handleReset} />}
+                        {step === 2 && <CreatePerusahaan kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} />}
+                        {step === 3 && <CreateAlamat kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} />}
+                        {step === 4 && <CreatePengurus kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} />}
+                        {step === 5 && <CreateAlamatPengurus kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} />}
                     </AnimatePresence>
                     <div className="flex items-center justify-end gap-3">
                         <Button variant="solid" color={step === 1 ? "default" : "primary"} onClick={handlePrevStep} isDisabled={step === 1}>Sebelumnya</Button>

@@ -6,6 +6,8 @@ import FormSelect from "../FormSelect"
 import { useState } from "react"
 import { FieldValues, UseFormReturn } from "react-hook-form"
 import { baseFormVariant } from "@/app/utilities/MotionVariant"
+import { para_agama, para_jns_pekerjaan, para_negara, para_profesi, para_sts_nikah } from "@prisma/client"
+import useFetchParameter from "@/app/hooks/useFetchParameter"
 
 interface CreatePeroranganProps {
     navDirection: TNavDirection
@@ -15,6 +17,12 @@ interface CreatePeroranganProps {
 
 const CreatePerorangan: React.FC<CreatePeroranganProps> = ({ navDirection, formMethod, typeNasabah }) => {
     const [statusPenikahan, setStatusPernikahan] = useState<"Y" | "T" | undefined>()
+
+    const { convertedData: IStsPernikahan, isLoading: isLoadingStsPernikahan, apiUrl: urlStsPernikahan } = useFetchParameter<para_sts_nikah>("status-nikah")
+    const { convertedData: IAgama, isLoading: isLoadingAgama, apiUrl: urlAgama } = useFetchParameter<para_agama>("agama")
+    const { convertedData: INegara, isLoading: isLoadingNegara, apiUrl: urlNegara } = useFetchParameter<para_negara>("negara")
+    const { convertedData: IProfesi, isLoading: isLoadingProfesi, apiUrl: urlProfesi } = useFetchParameter<para_profesi>("profesi")
+    const { convertedData: IJnsPekerjaan, isLoading: isLoadingJnsPekerjaan, apiUrl: urlJnsPekerjaan } = useFetchParameter<para_jns_pekerjaan>("jenis-pekerjaan")
     return (
         <motion.div
             layout
@@ -44,27 +52,22 @@ const CreatePerorangan: React.FC<CreatePeroranganProps> = ({ navDirection, formM
                 {/* jenis kelamin */}
                 <FormSelect
                     items={[
-
                         { label: "Laki-laki", value: "LK" },
                         { label: "Perempuan", value: "PR" },
-                        { label: "Kantong kresek", value: "KK" },
                     ]}
 
                     formMethod={formMethod}
                     id="jns_kel"
                     label="Jenis Kelamin"
                     placeholder="Pilih Jenis Kelamin"
-
                     isRequired
                 />
                 {/* flag karyawan */}
                 <FormSelect
                     items={[
-
                         { label: "Bukan Karyawan Sendiri", value: "T" },
                         { label: "Karyawan Sendiri", value: "Y" },
                     ]}
-
                     formMethod={formMethod}
                     id="flag_karyawan"
                     label="Karyawan Bank"
@@ -74,12 +77,9 @@ const CreatePerorangan: React.FC<CreatePeroranganProps> = ({ navDirection, formM
                 />
                 {/* status pernikahan */}
                 <FormSelect
-                    items={[
-
-                        { label: "Bukan Karyawan Sendiri", value: "T" },
-                        { label: "Karyawan Sendiri", value: "Y" },
-                    ]}
-
+                    fetchUrl={urlStsPernikahan}
+                    isLoading={isLoadingStsPernikahan}
+                    items={IStsPernikahan}
                     formMethod={formMethod}
                     id="sts_nikah"
                     label="Status Pernikahan"
@@ -101,12 +101,9 @@ const CreatePerorangan: React.FC<CreatePeroranganProps> = ({ navDirection, formM
                     id="nm_ahli_waris" placeholder="Masukan Nama Ahli Waris" isRequired={statusPenikahan === "Y"} />
                 {/* agama */}
                 <FormSelect
-                    items={[
-
-                        { label: "Bukan Karyawan Sendiri", value: "T" },
-                        { label: "Karyawan Sendiri", value: "Y" },
-                    ]}
-
+                    fetchUrl={urlAgama}
+                    isLoading={isLoadingAgama}
+                    items={IAgama}
                     formMethod={formMethod}
                     id="agama"
                     label="Agama"
@@ -115,12 +112,9 @@ const CreatePerorangan: React.FC<CreatePeroranganProps> = ({ navDirection, formM
                 />
                 {/* kewarganegaraan */}
                 <FormSelect
-                    items={[
-
-                        { label: "Bukan Karyawan Sendiri", value: "T" },
-                        { label: "Karyawan Sendiri", value: "Y" },
-                    ]}
-
+                    fetchUrl={urlNegara}
+                    isLoading={isLoadingNegara}
+                    items={INegara}
                     formMethod={formMethod}
                     id="kewarganegaraan"
                     label="Kewarganegaraan"
@@ -129,12 +123,9 @@ const CreatePerorangan: React.FC<CreatePeroranganProps> = ({ navDirection, formM
                 />
                 {/* profesi */}
                 <FormSelect
-                    items={[
-
-                        { label: "Bukan Karyawan Sendiri", value: "T" },
-                        { label: "Karyawan Sendiri", value: "Y" },
-                    ]}
-
+                    fetchUrl={urlProfesi}
+                    isLoading={isLoadingProfesi}
+                    items={IProfesi}
                     formMethod={formMethod}
                     id="profesi"
                     label="Profesi"
@@ -143,12 +134,9 @@ const CreatePerorangan: React.FC<CreatePeroranganProps> = ({ navDirection, formM
                 />
                 {/* jenis pekerjaan */}
                 <FormSelect
-                    items={[
-
-                        { label: "Bukan Karyawan Sendiri", value: "T" },
-                        { label: "Karyawan Sendiri", value: "Y" },
-                    ]}
-
+                    fetchUrl={urlJnsPekerjaan}
+                    isLoading={isLoadingJnsPekerjaan}
+                    items={IJnsPekerjaan}
                     formMethod={formMethod}
                     id="jns_pekerjaan"
                     label="Jenis Pekerjaan"

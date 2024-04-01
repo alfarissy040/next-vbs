@@ -10,9 +10,10 @@ interface CreatePengurusProps {
     navDirection: TNavDirection;
     typeNasabah: TNasabahType
     formMethod: UseFormReturn<FieldValues>
+    kdTypeNasabah: number
 }
 
-const CreatePengurus: React.FC<CreatePengurusProps> = ({ navDirection, typeNasabah, formMethod }) => {
+const CreatePengurus: React.FC<CreatePengurusProps> = ({ navDirection, typeNasabah, kdTypeNasabah, formMethod }) => {
     const [isForeverMasaIdent, setIsForeverMasaIdent] = useState("")
     const { unregister } = formMethod
 

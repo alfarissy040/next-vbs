@@ -58,9 +58,9 @@ const FormPerorangan = ({ setFormType }: { setFormType: Dispatch<SetStateAction<
                     }}
                     onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 gap-3 overflow-x-clip" noValidate>
                     <AnimatePresence mode="popLayout">
-                        {step === 1 && <CreateMaster formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} handleReset={handleReset} />}
+                        {step === 1 && <CreateMaster kdTypeNasabah={1} formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} handleReset={handleReset} />}
                         {step === 2 && <CreatePerorangan formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} />}
-                        {step === 3 && <CreateAlamat formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} />}
+                        {step === 3 && <CreateAlamat kdTypeNasabah={1} formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} />}
                     </AnimatePresence>
                     <div className="flex items-center justify-end gap-3">
                         <Button variant="solid" color={step === 1 ? "default" : "primary"} onClick={handlePrevStep} isDisabled={step === 1}>Sebelumnya</Button>

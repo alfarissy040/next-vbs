@@ -12,12 +12,14 @@ export const fetchCisMaster = async (url: string) => {
         .catch(() => new Error("Something went wrong"))
 }
 
-export const fetchParameter = async (url: string) => {
+export const fetcher = async (url: string) => {
+    const csrfToken = await getCsrfToken()
+
     return await fetch(url, {
         headers: {
-            'X-API-Key': 'a14c6770'
+            'Content-Type': 'application/json',
+            'csrf': csrfToken ?? "",
         }
-    })
-        .then((data) => data.json())
+    }).then((res) => res.json())
         .catch(() => new Error("Something went wrong"))
 }

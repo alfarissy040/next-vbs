@@ -3,7 +3,9 @@
 import SearchBar from "@/app/components/cis/SearchBar"
 import TableContent from "@/app/components/cis/TableContent"
 import { useCisMaster } from "@/app/hooks/useCisMaster"
-import { useCallback, useState } from "react"
+import { TMasterSort, TSortDirection } from "@/app/types/parameter"
+import { useRouter } from "next/navigation"
+import { useCallback, useEffect, useState } from "react"
 
 const InformasiCustomer = () => {
   const [searchParams, setSearchParams] = useState({
@@ -14,6 +16,7 @@ const InformasiCustomer = () => {
     orderBy: searchParams.orderBy as "no_nas" | "nm_nas" | "type",
     direction: searchParams.direction as "ascending" | "descending"
   })
+  const route = useRouter()
 
   const handleSearch = useCallback((inputData: string) => {
     setSearchParams({

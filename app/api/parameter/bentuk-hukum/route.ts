@@ -5,11 +5,11 @@ const prisma = new PrismaClient();
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const kode = searchParams.get("kode");
-    const jnsIdent = searchParams.get("jenis-identitas");
+    const jnsNas = searchParams.get("jenis-nasabah");
 
     const queryWhere: { where?: Prisma.para_bntk_hkmWhereInput } = {}
     if (kode) queryWhere.where = { kode: parseInt(kode) }
-    if (jnsIdent) queryWhere.where = { jns_nas: parseInt(jnsIdent) }
+    if (jnsNas) queryWhere.where = { jns_nas: parseInt(jnsNas) }
 
 
     try {

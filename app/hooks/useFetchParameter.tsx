@@ -1,12 +1,14 @@
-import { para_bntk_hkm, para_jns_ident } from "@prisma/client"
 import useSWR from "swr"
-import { fetchParameter } from "../utilities/Fetcher"
+import { fetcher } from "../utilities/Fetcher"
+import { convertToSelectItems } from "../utilities/action"
 
-const useFetchParameter = () => {
-    const fetchJnsIdent = useSWR<para_jns_ident[]>("https://my.api.mockaroo.com/next_vbs__para_jns_ident.json", fetchParameter)
-    const fetchBntkHkm = useSWR<para_bntk_hkm[]>("https://my.api.mockaroo.com/next_vbs__para_bntk_hkm.json", fetchParameter)
-    return { fetchJnsIdent }
+export default function useFetchParameter<T>(parameter: string, QParams?: {}, metaDataConvert?: { keterangan?: string, value?: string }) {
+    const arrayParam = Object.entries(QParams ?? {})
+    const queryParams = arrayParam.map(([key, value]) => `${key}=${value}`).join("&")
+    const apiUrl = `/api/parameter/${parameter}?${queryParams ?? ""}`
 
+    const { data, error, isLoading } = useSWR<T[]>(apiUrl, fetcher);
+    const convertedData = convertToSelectItems(data, (metaDataConvert?.keterangan ?? "keterangan"), (metaDataConvert?.value ?? "kode"))
+
+    return { data, convertedData, error, isLoading, apiUrl };
 }
-
-export default useFetchParameter

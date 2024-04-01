@@ -1,16 +1,20 @@
 "use client"
+import useFetchPaginateParameter from '@/app/hooks/useFetchPaginateParameter'
+import { baseFormVariant } from '@/app/utilities/MotionVariant'
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Tooltip, useDisclosure } from '@nextui-org/react'
+import { para_bidang_usaha, para_bntk_hkm, para_dana, para_gol_pmlk, para_jns_ident, para_penghasilan, para_transaksi } from '@prisma/client'
 import { motion } from 'framer-motion'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FieldValues, UseFormReturn } from 'react-hook-form'
 import { FaTrashAlt } from 'react-icons/fa'
 import { CDialog } from '../../ClassnamesData'
 import FormInput from '../../FormInput'
 import FormSelect from '../FormSelect'
-import { baseFormVariant } from '@/app/utilities/MotionVariant'
+import useFetchParameter from '@/app/hooks/useFetchParameter'
 
 interface CreateMasterProps {
     navDirection: TNavDirection;
+    kdTypeNasabah: number
     handleReset: () => void;
     typeNasabah: TNasabahType;
     formMethod: UseFormReturn<FieldValues>
@@ -19,11 +23,18 @@ interface CreateMasterProps {
 
 
 
-const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, typeNasabah, formMethod }) => {
+const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, typeNasabah, kdTypeNasabah, formMethod }) => {
     const [isForeverMasaIdent, setIsForeverMasaIdent] = useState("")
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { unregister } = formMethod
-
+    // fetch parameter
+    const { convertedData: IJnsIdent, isLoading: isLoadingJnsIdent, apiUrl: urlJnsIdent } = useFetchParameter<para_jns_ident>("jenis-identitas", { "jenis-nasabah": kdTypeNasabah })
+    const { convertedData: IBntkHkm, isLoading: isLoadingBntkHkm, apiUrl: urlBntkHkm } = useFetchParameter<para_bntk_hkm>("bentuk-hukum", { "jenis-nasabah": kdTypeNasabah })
+    const { convertedData: IGolPmlk, isLoading: isLoadingGolPmlk, data: paginateGolPmlk, setPage: setPageGolPmlk, setSearch: setSearchGolPmlk, apiUrl: urlGolPmlk } = useFetchPaginateParameter<para_gol_pmlk>("golongan-pemilik")
+    const { convertedData: IDana, isLoading: isLoadingDana, apiUrl: urlDana } = useFetchParameter<para_dana>("dana")
+    const { convertedData: ITransaksi, isLoading: isLoadingTransaksi, apiUrl: urlTransaksi } = useFetchParameter<para_transaksi>("transaksi")
+    const { convertedData: IPenghasilan, isLoading: isLoadingPenghasilan, apiUrl: urlPenghasilan } = useFetchParameter<para_penghasilan>("penghasilan")
+    const { convertedData: IBidangUsaha, isLoading: isLoadingBidangUsaha, apiUrl: urlBidangUsaha } = useFetchParameter<para_bidang_usaha>("bidang-usaha")
     useEffect(() => {
         if (isForeverMasaIdent !== "1") {
             unregister("tgl_ident")
@@ -57,11 +68,9 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                         id="nm_nas" placeholder="Masukan nama lengkap" isRequired />
                     {/* jenis identitas */}
                     <FormSelect
-                        items={[
-                            { label: "Cat", value: "cat" },
-                            { label: "Dog", value: "dog" },
-                        ]}
-
+                        fetchUrl={urlJnsIdent}
+                        items={IJnsIdent}
+                        isLoading={isLoadingJnsIdent}
                         formMethod={formMethod}
                         id="jns_ident"
                         label="Jenis Identitas"
@@ -74,12 +83,11 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                         id="no_ident" placeholder="Masukan Nomor Identitas" isRequired />
                     {/* masa berlaku identitas */}
                     <FormSelect
+                        fetchUrl='masa_ident'
                         items={[
-
                             { label: "Seumur Hidup", value: "1" },
                             { label: "Berlaku Sampai", value: "0" },
                         ]}
-
                         formMethod={formMethod}
                         id="masa_ident"
                         label="Masa Belaku Identitas"
@@ -93,58 +101,49 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                         id="tgl_ident" placeholder="Masukan Tanggal Masa Identitas" max={new Date().toISOString().split('T')[0] as string} isRequired />}
                     {/* bentuk hukum */}
                     <FormSelect
-                        items={[
-
-                            { label: "Seumur Hidup", value: "1" },
-                            { label: "Berlaku Sampai", value: "0" },
-                        ]}
-
+                        fetchUrl={urlBntkHkm}
+                        items={IBntkHkm}
+                        isLoading={isLoadingBntkHkm}
                         formMethod={formMethod}
                         id="btnk_hkm"
                         label="Bentuk Hukum"
                         placeholder="Pilih Bentuk Hukum"
-
                         isRequired
                     />
                     {/* golongan pemilik */}
                     <FormSelect
-                        items={[
-
-                            { label: "Seumur Hidup", value: "1" },
-                            { label: "Berlaku Sampai", value: "0" },
-                        ]}
-
+                        fetchUrl={urlGolPmlk}
+                        items={IGolPmlk}
+                        filteredItems={IGolPmlk}
+                        isLoading={isLoadingGolPmlk}
                         formMethod={formMethod}
                         id="gol_pmlk"
                         label="Golongan Pemilik"
                         placeholder="Pilih Golongan Pemilik"
-
+                        handleChangePage={(i: number) => setPageGolPmlk(i)}
+                        handleSearch={(i: string) => setSearchGolPmlk(i)}
+                        currentPage={paginateGolPmlk?.page}
+                        maxPage={paginateGolPmlk?.totalPage}
+                        isSearchable
                         isRequired
                     />
                     {/* sumber dana */}
                     <FormSelect
-                        items={[
-
-                            { label: "Seumur Hidup", value: "1" },
-                            { label: "Berlaku Sampai", value: "0" },
-                        ]}
-
+                        fetchUrl={urlDana}
+                        isLoading={isLoadingDana}
+                        items={IDana}
                         formMethod={formMethod}
                         id="sumber_dana"
                         label="Sumber Dana"
                         placeholder="Pilih Sumber Dana"
-
                         isRequired
                     />
 
                     {/* tujuan dana */}
                     <FormSelect
-                        items={[
-
-                            { label: "Seumur Hidup", value: "1" },
-                            { label: "Berlaku Sampai", value: "0" },
-                        ]}
-
+                        fetchUrl={urlDana}
+                        isLoading={isLoadingDana}
+                        items={IDana}
                         formMethod={formMethod}
                         id="tujuan_dana"
                         label="Tujuan Dana"
@@ -155,12 +154,9 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
 
                     {/* maksimal transaksi */}
                     <FormSelect
-                        items={[
-
-                            { label: "Seumur Hidup", value: "1" },
-                            { label: "Berlaku Sampai", value: "0" },
-                        ]}
-
+                        fetchUrl={urlTransaksi}
+                        isLoading={isLoadingTransaksi}
+                        items={ITransaksi}
                         formMethod={formMethod}
                         id="maks_trans"
                         label="Maskimal Transaksi"
@@ -171,12 +167,9 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
 
                     {/* penghasilan bulanan */}
                     <FormSelect
-                        items={[
-
-                            { label: "Seumur Hidup", value: "1" },
-                            { label: "Berlaku Sampai", value: "0" },
-                        ]}
-
+                        fetchUrl={urlPenghasilan}
+                        isLoading={isLoadingPenghasilan}
+                        items={IPenghasilan}
                         formMethod={formMethod}
                         id="penghasilan_bulan"
                         label="Penghasilan Bulanan"
@@ -187,12 +180,9 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
 
                     {/* penghasilan lainnya */}
                     <FormSelect
-                        items={[
-
-                            { label: "Seumur Hidup", value: "1" },
-                            { label: "Berlaku Sampai", value: "0" },
-                        ]}
-
+                        fetchUrl={urlPenghasilan}
+                        isLoading={isLoadingPenghasilan}
+                        items={IPenghasilan}
                         formMethod={formMethod}
                         id="penghasilan_lainnya"
                         label="Penghasilan Lainnya"
@@ -201,12 +191,9 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                     />
                     {/* pengeluaran bulanan */}
                     <FormSelect
-                        items={[
-
-                            { label: "Seumur Hidup", value: "1" },
-                            { label: "Berlaku Sampai", value: "0" },
-                        ]}
-
+                        fetchUrl={urlPenghasilan}
+                        isLoading={isLoadingPenghasilan}
+                        items={IPenghasilan}
                         formMethod={formMethod}
                         id="pengeluaran_bulan"
                         label="Pengeluaran Bulanan"
@@ -216,12 +203,9 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                     />
                     {/* pengeluaran lainnya */}
                     <FormSelect
-                        items={[
-
-                            { label: "Seumur Hidup", value: "1" },
-                            { label: "Berlaku Sampai", value: "0" },
-                        ]}
-
+                        fetchUrl={urlPenghasilan}
+                        isLoading={isLoadingPenghasilan}
+                        items={IPenghasilan}
                         formMethod={formMethod}
                         id="pengeluaran_lainnya"
                         label="Pengeluaran Lainnya"
@@ -242,12 +226,9 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                         id="email" placeholder="Masukan Email" isRequired />
                     {/* bidang usaha */}
                     <FormSelect
-                        items={[
-
-                            { label: "Seumur Hidup", value: "1" },
-                            { label: "Berlaku Sampai", value: "0" },
-                        ]}
-
+                        fetchUrl={urlBidangUsaha}
+                        isLoading={isLoadingBidangUsaha}
+                        items={IBidangUsaha}
                         formMethod={formMethod}
                         id="bidang_usaha"
                         label="Bidang Usaha"
@@ -256,16 +237,13 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                     {/* flag hubungan bank */}
                     <FormSelect
                         items={[
-
                             { label: "Berhubungan dengan Bank", value: 1 },
                             { label: "Tidak ada hubungan", value: 0 },
                         ]}
-
                         formMethod={formMethod}
                         id="flag_hub_bank"
                         label="Hubungan Bank"
                         placeholder="Pilih Hubungan Bank"
-
                         isRequired
                     />
                 </div>

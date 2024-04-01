@@ -5,14 +5,19 @@ import { useState } from "react"
 import FormInput from "../../FormInput"
 import FormSelect from "../FormSelect"
 import { FieldValues, UseFormReturn } from "react-hook-form"
+import useFetchParameter from "@/app/hooks/useFetchParameter"
+import { para_grup_nas, para_jns_usaha_tkt } from "@prisma/client"
 
 interface CreatePerusahaanProps {
     navDirection: TNavDirection;
     typeNasabah: TNasabahType
     formMethod: UseFormReturn<FieldValues>
+    kdTypeNasabah: number
 }
 
-const CreatePerusahaan: React.FC<CreatePerusahaanProps> = ({ navDirection, typeNasabah, formMethod }) => {
+const CreatePerusahaan: React.FC<CreatePerusahaanProps> = ({ navDirection, typeNasabah, kdTypeNasabah, formMethod }) => {
+    const { convertedData: IJnsUsahaTkt, isLoading: isLoadingJnsUsahaTkt, apiUrl: urlJnsUsahaTkt } = useFetchParameter<para_jns_usaha_tkt>("jenis-usaha-tkt")
+    const { convertedData: IGropNasabah, isLoading: isLoadingGropNasabah, apiUrl: urlGropNasabah } = useFetchParameter<para_grup_nas>("group-nasabah")
     return (
         <motion.div
             layout
@@ -28,11 +33,9 @@ const CreatePerusahaan: React.FC<CreatePerusahaanProps> = ({ navDirection, typeN
             <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mt-3">
                 {/* 1. Jenis Usaha Tertentu (jns_usaha_tkt) - String */}
                 <FormSelect
-                    items={[
-                        { label: "Cat", value: "cat" },
-                        { label: "Dog", value: "dog" },
-                    ]}
-
+                    fetchUrl={urlJnsUsahaTkt}
+                    isLoading={isLoadingJnsUsahaTkt}
+                    items={IJnsUsahaTkt}
                     formMethod={formMethod}
                     id="jns_usaha_tkt"
                     label="Jenis Usaha Tertentu"
@@ -46,11 +49,9 @@ const CreatePerusahaan: React.FC<CreatePerusahaanProps> = ({ navDirection, typeN
                     id="kontak_person" label="Nama Kontak" placeholder="Masukan Nama Kontak" isRequired />
                 {/* 4. Group Nasabah (group_nas) - String */}
                 <FormSelect
-                    items={[
-                        { label: "Cat", value: "cat" },
-                        { label: "Dog", value: "dog" },
-                    ]}
-
+                    fetchUrl={urlGropNasabah}
+                    isLoading={isLoadingGropNasabah}
+                    items={IGropNasabah}
                     formMethod={formMethod}
                     id="group_nas"
                     label="Group Nasabah"
@@ -69,10 +70,9 @@ const CreatePerusahaan: React.FC<CreatePerusahaanProps> = ({ navDirection, typeN
                 {/* 7. Termasuk Bank (flag_bank) - Boolean */}
                 <FormSelect
                     items={[
-                        { label: "Ya", value: "Y" },
-                        { label: "Tidak", value: "T" },
+                        { label: "Bank", value: "Y" },
+                        { label: "Bukan Bank", value: "T" },
                     ]}
-
                     formMethod={formMethod}
                     id="flag_bank"
                     label="Kategori Perusahaan"

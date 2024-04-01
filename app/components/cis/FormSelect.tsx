@@ -1,8 +1,11 @@
 "use client"
 
+import { ISelectItem } from "@/app/types/parameter"
 import { Autocomplete, AutocompleteItem, Select, SelectItem } from "@nextui-org/react"
+import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll"
+import { useCallback, useEffect, useState } from "react"
+import { Controller, FieldValues, RegisterOptions, UseFormReturn } from "react-hook-form"
 import { CSelectPopover, CSelectWarpA } from "../ClassnamesData"
-import { Controller, FieldValues, RegisterOptions, UseFormReturn, useFormContext } from "react-hook-form"
 
 interface FormSelectProps {
     label: string
@@ -12,15 +15,65 @@ interface FormSelectProps {
     isDisabled?: boolean
     isSearchable?: boolean
     isLoading?: boolean
-    items: { label: string, value: string | number | undefined }[]
+    items: ISelectItem[]
+    filteredItems?: ISelectItem[]
     defaultValue?: string
     onChange?: (e: any) => void
     rules?: RegisterOptions<FieldValues, string>
     formMethod: UseFormReturn<FieldValues>
+    currentPage?: number
+    maxPage?: number
+    handleChangePage?: (page: number) => void
+    handleSearch?: (page: string) => void
+    fetchUrl?: string;
 }
 
-const FormSelect: React.FC<FormSelectProps> = ({ id, label, placeholder, items, defaultValue, isRequired = false, isDisabled = false, isSearchable = false, isLoading = false, onChange, rules, formMethod }) => {
+const FormSelect: React.FC<FormSelectProps> = ({ id, label, placeholder, items, defaultValue, isRequired = false, isDisabled = false, isSearchable = false, isLoading = false, onChange, rules, formMethod, currentPage = 1, maxPage = 1, handleChangePage, handleSearch, fetchUrl = "" }) => {
     const { control, getValues, formState: { errors } } = formMethod
+    const [isOpen, setIsOpen] = useState(false)
+    const [searchInput, setSearchInput] = useState("")
+    const [filteredItems, setFilteredItems] = useState<ISelectItem[]>([])
+    const [data, setData] = useState<ISelectItem[]>(items)
+    const [lastFetchUrl, setLastFetchUrl] = useState("");
+    const [lastPage, setLastPage] = useState(0);
+    const hasMore = (currentPage) < (maxPage)
+    const [, scrollerRef] = useInfiniteScroll({
+        hasMore,
+        isEnabled: isOpen,
+        shouldUseLoader: false,
+        onLoadMore: () => {
+            if (handleChangePage) {
+                const newPage = currentPage + 1
+                handleChangePage(newPage)
+            }
+        },
+    });
+
+    const onSearch = (input: string) => {
+        setSearchInput(input)
+
+        if (handleSearch) {
+            handleSearch(input)
+        }
+    }
+
+    // todos perbaiki sistem infinity scroll
+
+    useEffect(() => {
+        const shouldUpdateData = lastFetchUrl.trim() !== fetchUrl.trim() || data.length === 0 || lastPage !== currentPage;
+        const shouldFilterItems = searchInput.trim() == "";
+        if (shouldFilterItems) {
+            if (shouldUpdateData) {
+                const combinedData = [...data, ...items];
+                setData(combinedData);
+                setLastPage(currentPage)
+                setLastFetchUrl(fetchUrl);
+            }
+        } else {
+            setFilteredItems(data);
+        }
+    }, [fetchUrl, items, searchInput]);
+
     return (
         <Controller
             control={control}
@@ -31,7 +84,7 @@ const FormSelect: React.FC<FormSelectProps> = ({ id, label, placeholder, items, 
                     value: isRequired,
                     message: `${label} harus diisi!`
                 },
-                onChange: onChange,
+                onChange: (e: any) => onChange && onChange(e.target.value),
                 ...rules
             }}
             render={({ field: { name, onChange, ref, value } }) => {
@@ -41,7 +94,10 @@ const FormSelect: React.FC<FormSelectProps> = ({ id, label, placeholder, items, 
                         ref={ref}
                         value={value}
                         label={label}
-                        defaultItems={items ?? []}
+                        filterOptions={{
+                            sensitivity: "base"
+                        }}
+                        defaultItems={searchInput.trim() !== "" ? filteredItems : data}
                         errorMessage={errors[id]?.message as string ?? ""}
                         placeholder={placeholder}
                         defaultSelectedKey={value ?? ""}
@@ -49,6 +105,9 @@ const FormSelect: React.FC<FormSelectProps> = ({ id, label, placeholder, items, 
                         isRequired={isRequired}
                         onChange={onChange}
                         isLoading={isLoading}
+                        scrollRef={scrollerRef}
+                        onOpenChange={setIsOpen}
+                        onInputChange={onSearch}
                         inputProps={{
                             classNames: {
                                 inputWrapper: ["dark:bg-slate-700 dark:group-data-[focus=true]:bg-slate-700 dark:group-data-[hover=true]:bg-slate-600",
@@ -57,7 +116,9 @@ const FormSelect: React.FC<FormSelectProps> = ({ id, label, placeholder, items, 
                             }
                         }}
                     >
-                        {(item) => <AutocompleteItem key={item.value ?? item.label} classNames={CSelectPopover}>{item.label}</AutocompleteItem>}
+                        {(item) => (
+                            <AutocompleteItem key={item.value ?? item.label} classNames={CSelectPopover} className="capitalize" >{item.label.toLowerCase()}</AutocompleteItem>
+                        )}
                     </Autocomplete> : <Select
                         name={name}
                         ref={ref}
@@ -72,10 +133,12 @@ const FormSelect: React.FC<FormSelectProps> = ({ id, label, placeholder, items, 
                         isRequired={isRequired}
                         isLoading={isLoading}
                         onChange={onChange}
+
                     >
                         {(item) => <SelectItem key={item.value ?? item.label}
                             classNames={CSelectPopover}
-                        >{item.label}</SelectItem>}
+                            className="capitalize"
+                        >{item.label.toLowerCase()}</SelectItem>}
                     </Select>
             }}
         />

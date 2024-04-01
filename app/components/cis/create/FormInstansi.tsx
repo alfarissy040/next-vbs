@@ -55,10 +55,10 @@ const FormInstansi = ({ setFormType }: { setFormType: Dispatch<SetStateAction<TA
                     }}
                     onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 gap-3 overflow-x-clip" noValidate>
                     <AnimatePresence mode="popLayout">
-                        {step === 1 && <CreateMaster formMethod={formMethod} typeNasabah="pemerintah" navDirection={navDirection} handleReset={handleReset} />}
-                        {step === 2 && <CreateAlamat formMethod={formMethod} typeNasabah="pemerintah" navDirection={navDirection} />}
-                        {step === 3 && <CreatePengurus formMethod={formMethod} typeNasabah="pemerintah" navDirection={navDirection} />}
-                        {step === 4 && <CreateAlamatPengurus formMethod={formMethod} typeNasabah="pemerintah" navDirection={navDirection} />}
+                        {step === 1 && <CreateMaster kdTypeNasabah={3} formMethod={formMethod} typeNasabah="pemerintah" navDirection={navDirection} handleReset={handleReset} />}
+                        {step === 2 && <CreateAlamat kdTypeNasabah={3} formMethod={formMethod} typeNasabah="pemerintah" navDirection={navDirection} />}
+                        {step === 3 && <CreatePengurus kdTypeNasabah={3} formMethod={formMethod} typeNasabah="pemerintah" navDirection={navDirection} />}
+                        {step === 4 && <CreateAlamatPengurus kdTypeNasabah={3} formMethod={formMethod} typeNasabah="pemerintah" navDirection={navDirection} />}
                     </AnimatePresence>
                     <div className="flex items-center justify-end gap-3">
                         <Button variant="solid" color={step === 1 ? "default" : "primary"} onClick={handlePrevStep} isDisabled={step === 1}>Sebelumnya</Button>

@@ -509,8 +509,8 @@ async function main() {
             },
             {
                 "kode": 5,
-                "keterangan": "Rp. 20.000.000 per hari",
-                "batas_maksimum": 20000000
+                "keterangan": "Rp. 200.000.000 per hari",
+                "batas_maksimum": 200000000
             },
             {
                 "kode": 6,
