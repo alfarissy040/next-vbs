@@ -15,11 +15,11 @@ interface sortStateType {
 
 interface TableContentProps {
     dataCis: {
-        page: number
-        itemPerPage: number
-        totalPage: number
-        total: number
-        data?: cis_master[]
+        page: number;
+        itemPerPage: number;
+        totalPage: number;
+        total: number;
+        data?: cis_master[];
     };
     isLoading: boolean;
     isError: boolean;
@@ -27,8 +27,7 @@ interface TableContentProps {
     handleChangePage: (page: number) => void;
 }
 
-// TODOS
-// * sesuaikan data dengan api hasil api
+// TODOS sesuaikan data dengan api hasil api
 
 const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError, handleSort, handleChangePage }) => {
     const [page, setPage] = useState((dataCis && dataCis.page) ?? 1);
@@ -46,10 +45,13 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
         handleSort(descriptor.column as TMasterSort, descriptor.direction as TSortDirection);
     };
 
-    const handlePaginator = useCallback((page: number) => {
-        setPage(page)
-        handleChangePage(page)
-    }, [handleChangePage])
+    const handlePaginator = useCallback(
+        (page: number) => {
+            setPage(page);
+            handleChangePage(page);
+        },
+        [handleChangePage]
+    );
     return (
         <Table
             aria-label="table for data cis"
@@ -94,10 +96,7 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
                 </TableColumn>
                 <TableColumn className="flex justify-center items-center">MENU</TableColumn>
             </TableHeader>
-            <TableBody
-                items={dataCis?.data ?? []}
-                emptyContent={isError ? "Something went wrong!" : "Data tidak ditemukan!"} isLoading={isLoading}
-                loadingContent={<Spinner size="md" />}>
+            <TableBody items={dataCis?.data ?? []} emptyContent={isError ? "Something went wrong!" : "Data tidak ditemukan!"} isLoading={isLoading} loadingContent={<Spinner size="md" />}>
                 {(item) => (
                     <TableRow key={item?.no_nas}>
                         <TableCell>{item?.no_nas}</TableCell>

@@ -6,21 +6,19 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const kode = searchParams.get("kode");
 
-    const queryWhere: { where?: Prisma.para_penghasilanWhereInput } = {}
-    if (kode) queryWhere.where = { kode: parseInt(kode) }
-
+    const queryWhere: { where?: Prisma.para_penghasilanWhereInput } = {};
+    if (kode) queryWhere.where = { kode: parseInt(kode) };
 
     try {
         const dataParameter = await prisma.para_penghasilan.findMany({
             ...queryWhere,
             orderBy: {
-                kode: "asc"
-            }
-        })
+                kode: "asc",
+            },
+        });
 
         if (dataParameter.length === 0) return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
-        return NextResponse.json(dataParameter)
-
+        return NextResponse.json(dataParameter);
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             return NextResponse.json(
@@ -40,5 +38,4 @@ export async function GET(request: Request) {
             }
         );
     }
-
 }
