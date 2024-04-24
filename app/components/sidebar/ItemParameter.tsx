@@ -8,9 +8,10 @@ import Link from "next/link"
 
 interface ItemParameterProps {
     setNavState: Dispatch<SetStateAction<navProps>>
+    handleToggle?: (val: boolean) => void
 }
 
-const ItemParameter: React.FC<ItemParameterProps> = ({ setNavState }) => {
+const ItemParameter: React.FC<ItemParameterProps> = ({ setNavState, handleToggle = () => { } }) => {
     return (
         <motion.ul
             initial={{ translateX: '100%' }}
@@ -27,37 +28,37 @@ const ItemParameter: React.FC<ItemParameterProps> = ({ setNavState }) => {
                 <span>Kembali</span>
             </li>
             <li>
-                <Link href={"/parameter/agama"} className="sidebar__item" >
+                <Link href={"/parameter/agama"} className="sidebar__item" onClick={() => handleToggle(false)}>
                     <span>Parameter Agama</span>
                 </Link>
             </li>
             <li>
-                <Link href={"/parameter/agama"} className="sidebar__item" >
+                <Link href={"/parameter/agama"} className="sidebar__item" onClick={() => handleToggle(false)}>
                     <span>Parameter Gelar</span>
                 </Link>
             </li>
             <li>
-                <Link href={"/parameter/agama"} className="sidebar__item" >
+                <Link href={"/parameter/agama"} className="sidebar__item" onClick={() => handleToggle(false)}>
                     <span>Parameter Negara</span>
                 </Link>
             </li>
             <li>
-                <Link href={"/parameter/agama"} className="sidebar__item" >
+                <Link href={"/parameter/agama"} className="sidebar__item" onClick={() => handleToggle(false)}>
                     <span>Parameter Provinsi</span>
                 </Link>
             </li>
             <li>
-                <Link href={"/parameter/agama"} className="sidebar__item" >
+                <Link href={"/parameter/agama"} className="sidebar__item" onClick={() => handleToggle(false)}>
                     <span>Parameter Kota</span>
                 </Link>
             </li>
             <li>
-                <Link href={"/parameter/agama"} className="sidebar__item" >
+                <Link href={"/parameter/agama"} className="sidebar__item" onClick={() => handleToggle(false)}>
                     <span>Parameter Kecamatan</span>
                 </Link>
             </li>
             <li>
-                <Link href={"/parameter/agama"} className="sidebar__item" >
+                <Link href={"/parameter/agama"} className="sidebar__item" onClick={() => handleToggle(false)}>
                     <span>Parameter Kelurahan</span>
                 </Link>
             </li>

@@ -8,9 +8,10 @@ import Link from "next/link"
 
 interface ItemCisProps {
     setNavState: Dispatch<SetStateAction<navProps>>
+    handleToggle?: (val: boolean) => void
 }
 
-const ItemCis: React.FC<ItemCisProps> = ({ setNavState }) => {
+const ItemCis: React.FC<ItemCisProps> = ({ setNavState, handleToggle = () => { } }) => {
     return (
         <motion.ul
             initial={{ translateX: '100%' }}
@@ -27,17 +28,17 @@ const ItemCis: React.FC<ItemCisProps> = ({ setNavState }) => {
                 <span>Kembali</span>
             </li>
             <li>
-                <Link href={"/cis/"} className="sidebar__item">
+                <Link href={"/cis/"} className="sidebar__item" onClick={() => handleToggle(false)}>
                     <span>Informasi Customer</span>
                 </Link>
             </li>
             <li>
-                <Link href={"/cis/persetujuan-perubahan"} className="sidebar__item">
+                <Link href={"/cis/persetujuan-perubahan"} className="sidebar__item" onClick={() => handleToggle(false)}>
                     <span>Persetujuan Perubahan Informasi</span>
                 </Link>
             </li>
             <li>
-                <Link href={"/cis/aktivasi"} className="sidebar__item">
+                <Link href={"/cis/aktivasi"} className="sidebar__item" onClick={() => handleToggle(false)}>
                     <span>Aktivasi Customer</span>
                 </Link>
             </li>

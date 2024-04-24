@@ -1,7 +1,7 @@
 'use client'
 
 import type { navProps } from '@/app/types/sidebar';
-import { Navbar as Nav, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle, User } from '@nextui-org/react';
+import { Button, Link, Navbar as Nav, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle, Popover, PopoverContent, PopoverTrigger, User } from '@nextui-org/react';
 import { useCallback, useState } from 'react';
 import { HiMenuAlt2, HiOutlineX } from 'react-icons/hi';
 import { SiNginx } from 'react-icons/si';
@@ -10,6 +10,7 @@ import ItemHome from './ItemHome';
 import ItemParameter from './ItemParameter';
 import ItemTheme from './ItemTheme';
 import { useSession } from 'next-auth/react';
+import { MdNotifications, MdArrowRight } from 'react-icons/md';
 
 const Navbar = () => {
     const [navState, setNavState] = useState<navProps>("home")
@@ -40,27 +41,53 @@ const Navbar = () => {
                 </NavbarBrand>
             </NavbarContent>
             <NavbarContent justify="end">
-                <NavbarItem >
+                <NavbarItem className='flex items-center gap-1'>
                     <User
                         name={dataSession?.user?.name}
                         description="Administrator"
+                        avatarProps={{
+                            classNames: {
+                                base: "hidden sm:block"
+                            }
+                        }}
                         classNames={{
                             name: "text-white",
-                            description: "text-slate-300 dark:text-slate-400"
+                            description: "text-slate-200 dark:text-slate-300"
                         }}
                     />
+                    {/* notifikasi button */}
+                    <Popover placement="bottom-end" showArrow>
+                        <PopoverTrigger>
+                            <Button variant="light" radius="full" size="sm" className="relative" isIconOnly>
+                                {/* jika ada notif */}
+                                <span className="w-2 h-2 absolute rounded-full bg-red-600 inset-1 ml-auto" />
+                                <MdNotifications className="w-5 h-5 text-slate-50" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="bg-slate-100 dark:bg-slate-800 border border-slate-900 w-80 rounded-lg p-1">
+                            <div className="flex flex-col gap-1 w-full h-full">
+                                <Link href={"#"} className="group w-full px-3 py-2 rounded-md dark:bg-slate-700 bg-slate-200 flex items-center hover:bg-slate-300 dark:hover:bg-slate-600 transition">
+                                    <div className="flex-1">
+                                        <h4 className="font-medium dark:text-white text-black">Aktivasi Customer</h4>
+                                        <p className="dark:text-slate-300 text-slate-700">Foo meminta aktivasi customer</p>
+                                    </div>
+                                    <MdArrowRight className="w-5 h-5 dark:text-white text-slate-900 opacity-0 group-hover:opacity-100 transition" />
+                                </Link>
+                            </div>
+                        </PopoverContent>
+                    </Popover>
                 </NavbarItem>
             </NavbarContent>
-            <NavbarMenu>
+            <NavbarMenu className='navbar'>
                 <NavbarMenuItem>
                     {navState == "home" && (
                         <ItemHome setNavState={setNavState} />
                     )}
                     {navState == "cis" && (
-                        <ItemCis setNavState={setNavState} />
+                        <ItemCis setNavState={setNavState} handleToggle={handleToggle} />
                     )}
                     {navState == "parameter" && (
-                        <ItemParameter setNavState={setNavState} />
+                        <ItemParameter setNavState={setNavState} handleToggle={handleToggle} />
                     )}
                     {navState == "tema" && (
                         <ItemTheme setNavState={setNavState} />
@@ -68,52 +95,6 @@ const Navbar = () => {
                 </NavbarMenuItem>
             </NavbarMenu>
         </Nav>
-        // <nav className='fixed top-0 h-auto w-full z-50'>
-        //     <div className="flex lg:hidden items-center w-full px-4 py-2 bg-blue-500 shadow border-r border-slate-200 dark:bg-blue-700 dark:border-slate-600 sm:gap-x-5 gap-x-3">
-        //         <Button isIconOnly variant='light' size='sm' onClick={handleToggle} >
-        //             <HiMenuAlt2 className='w-6 h-6 text-white' />
-        //         </Button>
-        //         <div className="flex items-center gap-x-3">
-        //             <SiNginx className="text-secondary w-6 h-6 sm:block hidden" />
-        //             <h1 className="font-bold text-white ">Neural Bank</h1>
-        //         </div>
-        //         <div className="ml-auto text-right flex flex-col gap-y-0">
-        //             <User
-        //                 name="Faza"
-        //                 description="Administrator"
-        //                 classNames={{
-        //                     name: "text-white",
-        //                     description: "text-slate-300 dark:text-slate-400"
-        //                 }}
-        //             />
-        //         </div>
-        //     </div>
-        //     <Modal isOpen={isOpen} onOpenChange={onOpenChange} backdrop='opaque' placement='top-center'>
-        //         <ModalContent>
-        //             {() => (
-        //                 <>
-        //                     <ModalBody >
-        //                         <div className="w-full h-full shadow-md bg-slate-50 dark:bg-slate-800 px-2 py-3 lg:hidden block overflow-y-auto">
-        //                             {navState == "home" && (
-        //                                 <ItemHome setNavState={setNavState} />
-        //                             )}
-        //                             {navState == "cis" && (
-        //                                 <ItemCis setNavState={setNavState} />
-        //                             )}
-        //                             {navState == "parameter" && (
-        //                                 <ItemParameter setNavState={setNavState} />
-        //                             )}
-        //                             {navState == "tema" && (
-        //                                 <ItemTheme setNavState={setNavState} />
-        //                             )}
-        //                         </div>
-        //                     </ModalBody>
-        //                 </>
-        //             )}
-        //         </ModalContent>
-        //     </Modal>
-
-        // </nav>
     )
 }
 

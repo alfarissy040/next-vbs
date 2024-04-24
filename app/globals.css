@@ -6,4 +6,7 @@
     .sidebar__item {
         @apply flex px-2 py-1 rounded hover:bg-slate-300 hover:bg-opacity-80 dark:hover:bg-slate-700 items-center cursor-pointer transition-all dark:text-white text-slate-900;
     }
+    .navbar .sidebar__item {
+        @apply text-white
+    }
 }
