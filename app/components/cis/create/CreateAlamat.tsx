@@ -17,6 +17,8 @@ interface CreateAlamatProps {
     kdTypeNasabah: number;
 }
 
+// FIXME fix fetch parameter negara, provinsi, kota, kecamatan, kelurahan
+
 const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, kdTypeNasabah, formMethod }) => {
     const [kdProvinsi, setKdProvinsi] = useState<number | null>(null);
     const [kdKota, setKdKota] = useState<number | null>(null);
@@ -86,7 +88,7 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                     items={IProvinsi}
                     handleChangePage={setPageProvinsi}
                     handleSearch={setSearchProvinsi}
-                    onChange={(value) => setKdProvinsi(value)}
+                    onChange={setKdProvinsi}
                     formMethod={formMethod}
                     id="provinsi"
                     label="Provinsi"

@@ -20,10 +20,13 @@ interface CreateMasterProps {
     formMethod: UseFormReturn<FieldValues>;
 }
 
+// FIXME perbaiki kemuncullan tanggal masa identitas ketika masa berlaku seumur hidup
+
 const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, typeNasabah, kdTypeNasabah, formMethod }) => {
-    const [isForeverMasaIdent, setIsForeverMasaIdent] = useState("");
+    const [isForeverMasaIdent, setIsForeverMasaIdent] = useState();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { unregister } = formMethod;
+
     // fetch parameter
     const { convertedData: IJnsIdent, isLoading: isLoadingJnsIdent, apiUrl: urlJnsIdent } = useFetchParameter<para_jns_ident>("jenis-identitas", { "jenis-nasabah": kdTypeNasabah });
     const { convertedData: IBntkHkm, isLoading: isLoadingBntkHkm, apiUrl: urlBntkHkm } = useFetchParameter<para_bntk_hkm>("bentuk-hukum", { "jenis-nasabah": kdTypeNasabah });
@@ -33,7 +36,6 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
     const { convertedData: IPenghasilan, isLoading: isLoadingPenghasilan, apiUrl: urlPenghasilan } = useFetchParameter<para_penghasilan>("penghasilan");
     const { convertedData: IBidangUsaha, isLoading: isLoadingBidangUsaha, apiUrl: urlBidangUsaha } = useFetchParameter<para_bidang_usaha>("bidang-usaha");
 
-    console.log(IGolPmlk);
     useEffect(() => {
         if (isForeverMasaIdent !== "1") {
             unregister("tgl_ident");
@@ -81,7 +83,7 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                         id="masa_ident"
                         label="Masa Belaku Identitas"
                         placeholder="Pilih Masa Belaku Identitas"
-                        onChange={(e) => setIsForeverMasaIdent(e.target.value)}
+                        onChange={setIsForeverMasaIdent}
                         isRequired
                     />
                     {/* tanggal identitas */}
@@ -98,8 +100,8 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                         id="gol_pmlk"
                         label="Golongan Pemilik"
                         placeholder="Pilih Golongan Pemilik"
-                        handleChangePage={(i: number) => setPageGolPmlk(i)}
-                        handleSearch={(i: string) => setSearchGolPmlk(i)}
+                        handleChangePage={setPageGolPmlk}
+                        handleSearch={setSearchGolPmlk}
                         currentPage={sizeGolPmlk}
                         maxPage={IGolPmlk ? IGolPmlk[0].totalPage : 0}
                         isSearchable
@@ -130,7 +132,7 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                     {/* email */}
                     <FormInput type="email" label="Email" formMethod={formMethod} id="email" placeholder="Masukan Email" isRequired />
                     {/* bidang usaha */}
-                    <FormSelect fetchUrl={urlBidangUsaha} isLoading={isLoadingBidangUsaha} items={IBidangUsaha} formMethod={formMethod} id="bidang_usaha" label="Bidang Usaha" placeholder="Pilih Bidang Usaha" />
+                    {kdTypeNasabah === 1 && <FormSelect fetchUrl={urlBidangUsaha} isLoading={isLoadingBidangUsaha} items={IBidangUsaha} formMethod={formMethod} id="bidang_usaha" label="Bidang Usaha" placeholder="Pilih Bidang Usaha" />}
                     {/* flag hubungan bank */}
                     <FormSelect
                         items={[

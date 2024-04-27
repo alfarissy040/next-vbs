@@ -4,14 +4,9 @@ import { useNasabahType } from "@/app/utilities/Cis";
 import { Chip, Pagination, SortDescriptor, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from "@nextui-org/react";
 import { cis_master } from "@prisma/client";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
-import { set } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { MdCreate, MdRemoveRedEye } from "react-icons/md";
-
-interface sortStateType {
-    column: "no_nas" | "nm_nas" | "type";
-    direction: "ascending" | "descending";
-}
 
 interface TableContentProps {
     dataCis: {
@@ -23,34 +18,42 @@ interface TableContentProps {
     };
     isLoading: boolean;
     isError: boolean;
-    handleSort: (orderBy: TMasterSort, direction: TSortDirection) => void;
-    handleChangePage: (page: number) => void;
+    qParams: { search: string; page: string | number; orderby: string; direction: string };
+    setQParams: Dispatch<SetStateAction<{ search: string; page: string | number; orderby: string; direction: string }>>;
 }
 
 // TODOS sesuaikan data dengan api hasil api
 
-const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError, handleSort, handleChangePage }) => {
-    const [page, setPage] = useState((dataCis && dataCis.page) ?? 1);
-    const [sortState, setSortState] = useState<sortStateType>({
-        column: "no_nas",
-        direction: "ascending",
+const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError, qParams, setQParams }) => {
+    const queryParams = useSearchParams();
+    const [sortState, setSortState] = useState<SortDescriptor>({
+        column: queryParams.get("orderby") ?? "no_nas",
+        direction: queryParams.get("direction") === "asc" ? "ascending" : "descending",
     });
+    const [page, setPage] = useState((dataCis && dataCis.page) ?? queryParams.get("page"));
     const { getBadgeColor, getTypeName } = useNasabahType();
 
-    const handleSortChange = (descriptor: SortDescriptor) => {
-        setSortState({
-            column: descriptor.column as TMasterSort,
-            direction: descriptor.direction as TSortDirection,
+    const handleSortChange = (sortDescriptor: SortDescriptor) => {
+        const orderByParam = sortDescriptor.column?.toString() ?? "";
+        const directionParam = sortDescriptor.direction === "ascending" ? "asc" : "desc";
+
+        setQParams({
+            ...qParams,
+            orderby: orderByParam,
+            direction: directionParam,
         });
-        handleSort(descriptor.column as TMasterSort, descriptor.direction as TSortDirection);
+        setSortState(sortDescriptor);
     };
 
     const handlePaginator = useCallback(
         (page: number) => {
             setPage(page);
-            handleChangePage(page);
+            setQParams({
+                ...qParams,
+                page: page,
+            });
         },
-        [handleChangePage]
+        [qParams, setQParams]
     );
     return (
         <Table

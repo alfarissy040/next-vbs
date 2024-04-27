@@ -5,7 +5,7 @@ import { convertToSelectItems } from "@/app/utilities/action";
 import { Autocomplete, AutocompleteItem, Select, SelectItem } from "@nextui-org/react";
 import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll";
 import { debounce } from "lodash";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Controller, FieldValues, RegisterOptions, UseFormReturn } from "react-hook-form";
 import { CSelectPopover, CSelectWarpA } from "../ClassnamesData";
 
@@ -53,6 +53,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
     const {
         control,
         getValues,
+        setValue,
         formState: { errors },
     } = formMethod;
     const [isOpen, setIsOpen] = useState(false);
@@ -62,50 +63,34 @@ const FormSelect: React.FC<FormSelectProps> = ({
         hasMore,
         isEnabled: isOpen,
         shouldUseLoader: false,
-        onLoadMore: () => {
-            if (handleChangePage) {
-                const newPage = currentPage + 1;
-                handleChangePage(newPage);
-            }
-        },
+        onLoadMore: useCallback(() => {
+            handleChangePage?.(currentPage + 1);
+        }, [currentPage, handleChangePage]),
     });
 
     const sanitizedData = useMemo<ISelectItem[]>(() => {
         if (paginateItems) {
             return paginateItems.flatMap((item) => convertToSelectItems(item.data));
         }
-
         return [];
     }, [paginateItems]);
 
-    const debounceSearch = debounce((input: string) => {
-        if (handleSearch) {
-            console.log(`doSearch : ${input}`);
-            handleSearch(input);
-        }
-    }, 510);
+    const searchDebounce = useRef(
+        debounce((input: string) => {
+            if (handleSearch) {
+                handleSearch(input);
+            }
+        }, 510)
+    ).current;
 
     const onSearch = (input: string) => {
-        debounceSearch.cancel();
-        console.log(`setSearch : ${input}`);
-        setSearchInput(input);
-        debounceSearch(input);
-    }; // FIXME fix debounce untuk search item
-
-    // useEffect(() => {
-    //     const shouldUpdateData = lastFetchUrl.trim() !== fetchUrl.trim() || data.length === 0 || lastPage !== currentPage;
-    //     const shouldFilterItems = searchInput.trim() == "";
-    //     if (shouldFilterItems) {
-    //         if (shouldUpdateData) {
-    //             const combinedData = [...data, ...items];
-    //             setData(combinedData);
-    //             setLastPage(currentPage);
-    //             setLastFetchUrl(fetchUrl);
-    //         }
-    //     } else {
-    //         setFilteredItems(data);
-    //     }
-    // }, [fetchUrl, items, searchInput]);
+        const lowerInput = input.toLowerCase().trim();
+        const isExist = sanitizedData.some((val) => val.label.toLowerCase().trim() === lowerInput);
+        if (!isExist) {
+            searchDebounce.cancel();
+            searchDebounce(input);
+        }
+    };
 
     return (
         <Controller
@@ -117,12 +102,19 @@ const FormSelect: React.FC<FormSelectProps> = ({
                     value: isRequired,
                     message: `${label} harus diisi!`,
                 },
-                onChange: (e: any) => onChange && onChange(e.target.value),
+                onChange: (e: any) => {
+                    setValue(id, e.target.value);
+                    if (onChange) {
+                        onChange(e.target.value);
+                    }
+                    return e.target.value;
+                },
                 ...rules,
             }}
             render={({ field: { name, onChange, ref, value } }) => {
                 return isSearchable ? (
                     <Autocomplete
+                        id={id}
                         name={name}
                         ref={ref}
                         value={value}
@@ -136,7 +128,8 @@ const FormSelect: React.FC<FormSelectProps> = ({
                         defaultSelectedKey={value ?? ""}
                         isDisabled={isDisabled}
                         isRequired={isRequired}
-                        onChange={onChange}
+                        // onChange={onChange}
+                        onSelectionChange={onChange}
                         isLoading={isLoading}
                         scrollRef={scrollerRef}
                         onOpenChange={setIsOpen}
@@ -174,8 +167,8 @@ const FormSelect: React.FC<FormSelectProps> = ({
                         onChange={onChange}
                     >
                         {(item) => (
-                            <SelectItem key={item.value ?? item.label} classNames={CSelectPopover} className="capitalize">
-                                {item.label.toLowerCase()}
+                            <SelectItem key={item.value ?? item.label} classNames={CSelectPopover}>
+                                {item.label}
                             </SelectItem>
                         )}
                     </Select>

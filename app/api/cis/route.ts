@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 type QueryParams = {
     page: number;
     orderBy: string;
-    direction: "ascending" | "descending";
+    direction: "asc" | "desc";
     search?: string | null;
 };
 
@@ -25,15 +25,15 @@ type TQueryTotal = {
 const getQueryParams = (url: URL): QueryParams => {
     const page = parseInt(url.searchParams.get("page") ?? "1");
     const orderBy = url.searchParams.get("orderby") ?? "no_nas";
-    const direction = (url.searchParams.get("direction") as "ascending" | "descending") ?? "ascending";
+    const direction = (url.searchParams.get("direction") as "asc" | "desc") ?? "asc";
     const search = url.searchParams.get("search") ?? "";
 
     return { page, orderBy, direction, search };
 };
 
 // Fungsi untuk mengatur urutan berdasarkan parameter
-const getOrderBy = (orderBy: string, direction: "ascending" | "descending"): any => {
-    const sortDir = direction === "ascending" ? "asc" : "desc";
+const getOrderBy = (orderBy: string, direction: "asc" | "desc"): any => {
+    const sortDir = direction;
     switch (orderBy) {
         case "nm_nas":
             return { nm_nas: sortDir };
@@ -70,19 +70,19 @@ export async function GET(request: Request) {
                 {
                     no_nas: {
                         startsWith: search as string,
-                        mode: "insensitive"
+                        mode: "insensitive",
                     },
                 },
                 {
                     nm_nas: {
                         contains: search as string,
-                        mode: "insensitive"
+                        mode: "insensitive",
                     },
                 },
                 {
                     no_ident: {
                         contains: search as string,
-                        mode: "insensitive"
+                        mode: "insensitive",
                     },
                 },
             ],
@@ -92,19 +92,19 @@ export async function GET(request: Request) {
                 {
                     no_nas: {
                         startsWith: search as string,
-                        mode: "insensitive"
+                        mode: "insensitive",
                     },
                 },
                 {
                     nm_nas: {
                         contains: search as string,
-                        mode: "insensitive"
+                        mode: "insensitive",
                     },
                 },
                 {
                     no_ident: {
                         contains: search as string,
-                        mode: "insensitive"
+                        mode: "insensitive",
                     },
                 },
             ],
@@ -119,8 +119,8 @@ export async function GET(request: Request) {
 
         console.log({
             query,
-            data: users
-        })
+            data: users,
+        });
 
         return NextResponse.json({
             page: page,
@@ -129,85 +129,6 @@ export async function GET(request: Request) {
             total: totalItems,
             data: users,
         });
-    } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            return NextResponse.json(
-                {
-                    error: error.name,
-                    message: error.message,
-                },
-                { status: 500 }
-            );
-        }
-        return NextResponse.json(
-            {
-                message: "Something went wrong!",
-            },
-            {
-                status: 500,
-            }
-        );
-    }
-}
-
-export async function POST(request: NextRequest) {
-    const body = await request.json();
-    const dataMaster: cis_master = body;
-    const dataAlamat: cis_alamat = body;
-    const dataPerorangan: cis_perorangan = body;
-    const dataPerusahaan: cis_perusahaan = body;
-    const dataPengurus: cis_pengurus = body;
-    const dataAlamatPengurus: cis_alamat = body;
-
-    const { no_nas, tipe_nas } = dataMaster;
-
-    // const currentUser = await getCurrentUser(); @todo
-
-    // if (!currentUser) return NextResponse.json(); @todo
-
-    try {
-        const resultMaster = await prisma.cis_master.create({
-            data: dataMaster,
-        });
-
-        await prisma.cis_alamat.create({
-            data: dataAlamat,
-        });
-
-        if (tipe_nas === 1) {
-            await prisma.cis_perorangan.create({
-                data: {
-                    ...dataPerorangan,
-                    no_nas: no_nas,
-                },
-            });
-        } else if (tipe_nas === 2 || tipe_nas === 4) {
-            const fetchPerusahaan = await prisma.cis_perusahaan.create({
-                data: {
-                    ...dataPerusahaan,
-                    no_nas: no_nas,
-                },
-                select: {
-                    id_perusahaan: true,
-                },
-            });
-
-            const fetchPengurus = await prisma.cis_pengurus.create({
-                data: {
-                    ...dataPengurus,
-                    no_nas: resultMaster.no_nas,
-                },
-            });
-
-            await prisma.cis_alamat.create({
-                data: {
-                    ...dataAlamatPengurus,
-                    id_pengurus: fetchPengurus.id_pengurus,
-                },
-            });
-        }
-
-        return NextResponse.json({ message: "data berhasil ditambahkan, silahkan lakukan aktivasi" }, { status: 202 });
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             return NextResponse.json(

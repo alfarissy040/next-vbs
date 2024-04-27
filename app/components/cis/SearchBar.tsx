@@ -2,36 +2,53 @@
 
 import { usePrefetchNavigate } from "@/app/utilities";
 import { Button, Input } from "@nextui-org/react";
-import { useCallback, useRef } from "react";
+import { debounce } from "lodash";
+import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { MdSearch } from "react-icons/md";
 
 interface SearchBarProps {
-    doSearch: (input: string) => void;
+    qParams: { search: string; page: string | number; orderby: string; direction: string };
+    setQParams: Dispatch<SetStateAction<{ search: string; page: string | number; orderby: string; direction: string }>>;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ doSearch }) => {
-    const RefInputSearch = useRef<HTMLInputElement>(null);
+const SearchBar: React.FC<SearchBarProps> = ({ qParams, setQParams }) => {
+    const [searchInput, setSearchInput] = useState(qParams.search);
     const navigateTo = usePrefetchNavigate();
 
-    const handleSearch = (searchValue: string) => {
-        doSearch(searchValue);
-    };
-    const handleClearValue = useCallback(() => {
-        if (RefInputSearch.current) {
-            RefInputSearch.current.value = "";
-        }
+    const searchDebounce = useRef(
+        debounce((searchValue: string) => {
+            setQParams((prevQParams) => ({
+                ...prevQParams,
+                search: searchValue,
+            }));
+        }, 500)
+    );
+
+    useEffect(() => {
+        return () => {
+            searchDebounce.current.cancel();
+        };
     }, []);
+
+    const handleSearch = useCallback(
+        (value: string) => {
+            searchDebounce.current.cancel();
+            setSearchInput(value);
+            searchDebounce.current(value);
+        },
+        [searchDebounce]
+    );
     return (
         <div className="flex items-center sm:gap-2 gap-1">
             <Input
-                ref={RefInputSearch}
                 size="sm"
                 placeholder="Cari Nomor nasabah, Nama atau Nomor Identitas"
                 isClearable
                 fullWidth
                 onValueChange={handleSearch}
-                onClear={handleClearValue}
+                onClear={() => handleSearch("")}
+                value={searchInput}
                 startContent={<MdSearch className="w-5 h-5 dark:text-slate-400 text-slate-500" />}
                 classNames={{
                     inputWrapper: [

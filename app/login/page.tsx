@@ -1,41 +1,64 @@
-"use client"
+"use client";
 
-import loginBackground from "@/assets/image/bg-login.jpeg"
-import { Button, Spinner } from "@nextui-org/react"
-import { signIn } from "next-auth/react"
-import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
-import { SiNginx } from "react-icons/si"
-import FormInput from "../components/FormInput"
-
+import loginBackground from "@/assets/image/bg-login.jpeg";
+import { Button, Spinner } from "@nextui-org/react";
+import { signIn, useSession } from "next-auth/react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { SiNginx } from "react-icons/si";
+import FormInput from "../components/FormInput";
+import { usePrefetchNavigate } from "../utilities";
+import { GiToaster } from "react-icons/gi";
+import toast from "react-hot-toast";
+import { TCommonApiError } from "../types";
 
 const LoginPage = () => {
-    const form = useForm()
-    const { handleSubmit } = form
-    const route = useRouter()
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
+
+    const navigateTo = usePrefetchNavigate();
+    const session = useSession();
+    const form = useForm();
+
+    const { handleSubmit } = form;
 
     const onSubmit: SubmitHandler<FieldValues> = async (credentials) => {
-        setIsLoading(true)
-        const { username, password } = credentials
+        setIsLoading(true);
+        const toastLoading = toast.loading("Sedang memproses");
+        const { username, password } = credentials;
 
         try {
             const login = await signIn("credentials", {
                 username,
                 password,
-                redirect: false
-            })
-            console.log(login)
-            if (login?.status === 200) {
-                // route.push("/")
+                redirect: false,
+            });
+            // const result = await login?.json()
+
+            if (!login?.ok) {
+                throw {
+                    status: login?.status,
+                    message: login?.error,
+                };
             }
+
+            toast.success("Berhasil login");
+            navigateTo("/");
         } catch (error) {
-            console.log(error)
+            const errorMessage = error as TCommonApiError;
+            toast.error(errorMessage.message);
+        } finally {
+            setIsLoading(false);
+            toast.dismiss(toastLoading);
         }
-        setIsLoading(false)
-    }
+    };
+
+    useEffect(() => {
+        if (session) {
+            return navigateTo("/");
+        }
+    }, [navigateTo, session]);
+
     return (
         <div className="w-full h-screen flex items-center justify-center lg:p-8 md:p-5 p-0 bg-slate-200 dark:bg-slate-900">
             <div className="w-full max-w-5xl h-full rounded-md shadow-md bg-white dark:bg-slate-800 flex overflow-clip">
@@ -62,7 +85,7 @@ const LoginPage = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default LoginPage
+export default LoginPage;

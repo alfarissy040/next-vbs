@@ -14,6 +14,8 @@ export default function useFetchPaginateParameter<T>(parameter: string, QParams?
     const { data, error, isLoading, setSize, size } = useSWRInfinite<IPaginateData<T>>(getKey, fetcher, {
         parallel: true,
         refreshInterval: 10000,
+        revalidateOnFocus: false,
+        keepPreviousData: true,
     });
 
     return { data, error, isLoading, setSize, size, setSearch };
