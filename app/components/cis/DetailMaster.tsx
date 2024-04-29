@@ -1,6 +1,6 @@
 "use client"
 
-import { useFetchParameter } from "@/app/hooks/useFetchParameter"
+import useFetchParameter from "@/app/hooks/useFetchParameter"
 import { getFormatedDate } from "@/app/utilities/action"
 import { cis_master, para_bntk_hkm, para_jns_ident } from "@prisma/client"
 import CardField from "../CardField"

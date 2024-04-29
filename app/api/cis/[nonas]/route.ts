@@ -13,19 +13,14 @@ export async function GET(request: Request, { params }: { params: IParams }) {
 
     try {
         const userMaster = await prisma.cis_master.findUnique({
-            where: {
-                no_nas: noNas,
-            },
+            where: { no_nas: noNas },
             include: {
                 cis_perorangan: true,
-                cis_perusahaan: {
+                cis_perusahaan: true,
+                cis_pengurus: {
                     include: {
-                        cis_pengurus: {
-                            orderBy: {
-                                nm_nas: "asc",
-                            },
-                        },
-                    },
+                        cis_alamat: true,
+                    }
                 },
                 alamat: {
                     orderBy: {
