@@ -26,7 +26,7 @@ const FormNonProfit = ({ setFormType }: { setFormType: Dispatch<SetStateAction<T
     }, [step])
     const handleNextStep = useCallback(() => {
         trigger().then((res) => {
-            if (!res) {
+            if (res) {
                 const nextStep = step < 6 ? step + 1 : step
                 setNavDirection("in")
                 setStep(nextStep)

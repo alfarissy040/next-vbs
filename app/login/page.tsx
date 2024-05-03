@@ -4,20 +4,18 @@ import loginBackground from "@/assets/image/bg-login.jpeg";
 import { Button, Spinner } from "@nextui-org/react";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { SiNginx } from "react-icons/si";
 import FormInput from "../components/FormInput";
-import { usePrefetchNavigate } from "../utilities";
-import { GiToaster } from "react-icons/gi";
-import toast from "react-hot-toast";
 import { TCommonApiError } from "../types";
+import { usePrefetchNavigate } from "../utilities";
 
 const LoginPage = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const navigateTo = usePrefetchNavigate();
-    const session = useSession();
     const form = useForm();
 
     const { handleSubmit } = form;
@@ -52,12 +50,6 @@ const LoginPage = () => {
             toast.dismiss(toastLoading);
         }
     };
-
-    useEffect(() => {
-        if (session) {
-            return navigateTo("/");
-        }
-    }, [navigateTo, session]);
 
     return (
         <div className="w-full h-screen flex items-center justify-center lg:p-8 md:p-5 p-0 bg-slate-200 dark:bg-slate-900">

@@ -17,27 +17,77 @@ interface CreateAlamatProps {
     kdTypeNasabah: number;
 }
 
-// FIXME fix fetch parameter negara, provinsi, kota, kecamatan, kelurahan
-
 const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, kdTypeNasabah, formMethod }) => {
-    const [kdProvinsi, setKdProvinsi] = useState<number | null>(null);
-    const [kdKota, setKdKota] = useState<number | null>(null);
-    const [kdKecamatan, setKdKecamatan] = useState<number | null>(null);
-    console.log({
-        kdProvinsi: kdProvinsi,
-        kdKota: kdKota,
-        kdKecamatan: kdKecamatan,
-    });
-    const { convertedData: INegara, isLoading: isLoadingNegara, apiUrl: urlNegara, setPage: setPageNegara, setSearch: setSearchNegara } = useFetchPaginateParameter<para_negara>("negara", {}, { value: "kd_negara" });
-    const { convertedData: IProvinsi, isLoading: isLoadingProvinsi, apiUrl: urlProvinsi, setPage: setPageProvinsi, setSearch: setSearchProvinsi } = useFetchPaginateParameter<para_provinsi>("provinsi", {}, { value: "kd_provinsi" });
-    const { convertedData: IKota, isLoading: isLoadingKota, apiUrl: urlKota, setPage: setPageKota } = useFetchPaginateParameter<para_kota>("kota", { provinsi: kdProvinsi ?? undefined }, { value: "kd_kota" });
-    const { convertedData: IKecamatan, isLoading: isLoadingKecamatan, apiUrl: urlKecamatan, setPage: setPageKecamatan } = useFetchPaginateParameter<para_kecamatan>("kecamatan", { kota: kdKota ?? undefined }, { value: "kd_kecamatan" });
+    const { getValues } = formMethod
+    const [kdProvinsi, setKdProvinsi] = useState<number | null>(getValues("provinsi") ?? null);
+    const [kdKota, setKdKota] = useState<number | null>(getValues("kota") ?? null);
+    const [kdKecamatan, setKdKecamatan] = useState<number | null>(getValues("kecamatan") ?? null);
+
     const {
-        convertedData: IKelurahan,
+        data: INegara,
+        sanitizedData: INegaraSanitized,
+        isLoading: isLoadingNegara,
+        setSize: setPageNegara,
+        size: sizeNegara,
+        setSearch: setSearchNegara
+    } = useFetchPaginateParameter<para_negara>({
+        parameter: "negara"
+    });
+    const {
+        data: IProvinsi,
+        sanitizedData: IProvinsiSanitized,
+        isLoading: isLoadingProvinsi,
+        setSize: setPageProvinsi,
+        size: sizeProvinsi,
+        setSearch: setSearchProvinsi
+    } = useFetchPaginateParameter<para_provinsi>({
+        parameter: "provinsi",
+        option: {
+            value: "kd_provinsi"
+        }
+    });
+    const {
+        data: IKota,
+        sanitizedData: IKotaSanitized,
+        isLoading: isLoadingKota,
+        setSize: setPageKota,
+        size: sizeKota,
+        setSearch: setSearchKota
+    } = useFetchPaginateParameter<para_kota>({
+        parameter: "kota",
+        option: { value: "kd_kota", keepPreviousData: false },
+        queryParams: {
+            provinsi: kdProvinsi ?? undefined
+        }
+    });
+    const {
+        data: IKecamatan,
+        sanitizedData: IKecamatanSanitized,
+        isLoading: isLoadingKecamatan,
+        setSize: setPageKecamatan,
+        size: sizeKecamatan,
+        setSearch: setSearchKecamatan
+    } = useFetchPaginateParameter<para_kecamatan>({
+        parameter: "kecamatan",
+        option: { value: "kd_kecamatan", keepPreviousData: false },
+        queryParams: {
+            kota: kdKota ?? undefined
+        }
+    });
+    const {
+        data: IKelurahan,
+        sanitizedData: IkelurahanSanitized,
         isLoading: isLoadingKelurahan,
-        apiUrl: urlKelurahan,
-        setPage: setPageKelurahan,
-    } = useFetchPaginateParameter<para_kelurahan>("kelurahan", { kecamatan: kdKecamatan ?? undefined }, { value: "kd_kelurahan" });
+        setSize: setPageKelurahan,
+        size: sizeKelurahan,
+        setSearch: setSearchKelurahan,
+    } = useFetchPaginateParameter<para_kelurahan>({
+        parameter: "kelurahan",
+        option: { value: "kd_kelurahan", keepPreviousData: false },
+        queryParams: {
+            kecamatan: kdKecamatan ?? undefined
+        }
+    });
     return (
         <motion.div
             layout
@@ -58,8 +108,9 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                 {/* jenis alamat */}
                 <FormSelect
                     items={[
-                        { label: "Cat", value: "cat" },
-                        { label: "Dog", value: "dog" },
+                        { label: "Sesuai Identitas", value: 1 },
+                        { label: "Sesuai Domisili", value: 2 },
+                        { label: "Sesuai Alamat", value: 3 },
                     ]}
                     formMethod={formMethod}
                     id="jns_alamat"
@@ -69,9 +120,10 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                 />
                 {/* negara */}
                 <FormSelect
-                    fetchUrl={urlNegara}
                     isLoading={isLoadingNegara}
-                    items={INegara}
+                    items={INegaraSanitized}
+                    currentPage={sizeNegara}
+                    maxPage={INegara ? INegara[0]?.totalPage : 0}
                     handleChangePage={setPageNegara}
                     handleSearch={setSearchNegara}
                     formMethod={formMethod}
@@ -83,9 +135,10 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                 />
                 {/* provinsi */}
                 <FormSelect
-                    fetchUrl={urlProvinsi}
                     isLoading={isLoadingProvinsi}
-                    items={IProvinsi}
+                    items={IProvinsiSanitized}
+                    currentPage={sizeProvinsi}
+                    maxPage={IProvinsi ? IProvinsi[0]?.totalPage : 0}
                     handleChangePage={setPageProvinsi}
                     handleSearch={setSearchProvinsi}
                     onChange={setKdProvinsi}
@@ -97,13 +150,28 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                     isRequired
                 />
                 {/* kota */}
-                <FormSelect fetchUrl={urlKota} isLoading={isLoadingKota} items={IKota} handleChangePage={setPageKota} onChange={setKdKota} formMethod={formMethod} id="kota" label="Kota" placeholder="Pilih Kota" isSearchable isRequired />
+                <FormSelect
+                    isLoading={isLoadingKota}
+                    items={IKotaSanitized}
+                    currentPage={sizeKota}
+                    maxPage={IKota ? IKota[0]?.totalPage : 0}
+                    handleChangePage={setPageKota}
+                    onChange={setKdKota}
+                    handleSearch={setSearchKota}
+                    formMethod={formMethod}
+                    id="kota"
+                    label="Kota"
+                    placeholder="Pilih Kota"
+                    isSearchable
+                    isRequired />
                 {/* kecamatan */}
                 <FormSelect
-                    fetchUrl={urlKecamatan}
+                    currentPage={sizeKecamatan}
+                    maxPage={IKecamatan ? IKecamatan[0]?.totalPage : 0}
                     isLoading={isLoadingKecamatan}
-                    items={IKecamatan}
+                    items={IKecamatanSanitized}
                     handleChangePage={setPageKecamatan}
+                    handleSearch={setSearchKecamatan}
                     onChange={setKdKecamatan}
                     formMethod={formMethod}
                     id="kecamatan"
@@ -114,10 +182,12 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                 />
                 {/* kelurahan */}
                 <FormSelect
-                    fetchUrl={urlKelurahan}
+                    currentPage={sizeKelurahan}
+                    maxPage={IKelurahan ? IKelurahan[0]?.totalPage : 0}
                     isLoading={isLoadingKelurahan}
-                    items={IKelurahan}
+                    items={IkelurahanSanitized}
                     handleChangePage={setPageKelurahan}
+                    handleSearch={setSearchKelurahan}
                     formMethod={formMethod}
                     id="kelurahan"
                     label="Kelurahan"

@@ -1,7 +1,7 @@
 'use client'
 
 import type { navProps } from '@/app/types/sidebar';
-import { Button, Link, Navbar as Nav, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle, Popover, PopoverContent, PopoverTrigger, User } from '@nextui-org/react';
+import { Button, Link, Navbar as Nav, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle, Popover, PopoverContent, PopoverTrigger, ScrollShadow, User } from '@nextui-org/react';
 import { useCallback, useState } from 'react';
 import { HiMenuAlt2, HiOutlineX } from 'react-icons/hi';
 import { SiNginx } from 'react-icons/si';
@@ -65,15 +65,16 @@ const Navbar = () => {
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent className="bg-slate-100 dark:bg-slate-800 border border-slate-900 w-80 rounded-lg p-1">
-                            <div className="flex flex-col gap-1 w-full h-full">
-                                <Link href={"#"} className="group w-full px-3 py-2 rounded-md dark:bg-slate-700 bg-slate-200 flex items-center hover:bg-slate-300 dark:hover:bg-slate-600 transition">
+                            <h3 className="font-medium text-lg px-3 py-2 w-full text-start">Notifikasi</h3>
+                            <ScrollShadow className="flex flex-col gap-1 w-full h-auto max-h-[80dvh] overflow-y-auto scrollbar-hide">
+                                {[...Array(25)].map((_, i) => <Link key={i} href={"#"} className="group w-full px-3 py-2 rounded-md dark:bg-slate-700 bg-slate-200 flex items-center hover:bg-slate-300 dark:hover:bg-slate-600 transition">
                                     <div className="flex-1">
-                                        <h4 className="font-medium dark:text-white text-black">Aktivasi Customer</h4>
-                                        <p className="dark:text-slate-300 text-slate-700">Foo meminta aktivasi customer</p>
+                                        <h4 className="font-medium sm:text-base text-sm dark:text-white text-blue-600">Aktivasi Customer {i + 1}</h4>
+                                        <p className="dark:text-slate-300 text-slate-700 sm:text-base text-sm">Foo meminta aktivasi customer</p>
                                     </div>
                                     <MdArrowRight className="w-5 h-5 dark:text-white text-slate-900 opacity-0 group-hover:opacity-100 transition" />
-                                </Link>
-                            </div>
+                                </Link>)}
+                            </ScrollShadow >
                         </PopoverContent>
                     </Popover>
                 </NavbarItem>

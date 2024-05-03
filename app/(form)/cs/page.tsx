@@ -11,6 +11,7 @@ import { useSearchParams } from "next/navigation"
 import { useState } from "react"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { FaMoon, FaSun } from "react-icons/fa6"
+import { MdOutlineDone } from "react-icons/md"
 import { SiNginx } from "react-icons/si"
 
 const CSPage = () => {
@@ -49,13 +50,15 @@ const CSPage = () => {
         }
     }
     return (
-        <div className="w-full min-h-screen h-full bg-slate-50 dark:bg-slate-950 p-5">
-            <div className="w-full max-w-4xl rounded-lg shadow-lg border border-slate-300 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 mx-auto overflow-clip">
+        <div className="w-full min-h-screen h-full bg-slate-50 dark:bg-slate-950 md:p-5">
+            <div className="w-full md:max-w-4xl md:rounded-lg md:shadow-lg border border-slate-300 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 mx-auto overflow-clip">
                 <div className="w-full h-36 flex items-center justify-center relative">
-                    <div className="absolute m-auto rounded-xl flex flex-col items-center justify-center bg-slate-950 bg-opacity-75 px-5 py-3 gap-y-3">
+                    {/* title */}
+                    <div className="absolute m-auto md:rounded-xl flex flex-col items-center justify-center bg-slate-950 bg-opacity-75 px-5 py-3 gap-y-3  md:w-auto md:h-auto w-full h-full">
                         <SiNginx className="text-blue-500 w-14 h-14" />
                         <h1 className="text-xl font-bold text-white">Form Permintaan Nasabah</h1>
                     </div>
+                    {/* toggle theme */}
                     <Tooltip content="Tema">
                         <Button size="sm" radius="full" onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="absolute right-3 top-3 bg-slate-900 dark:bg-slate-50 text-white dark:text-slate-950" isIconOnly>
                             {theme === "dark" ? <FaMoon className="w-5 h-5" /> : <FaSun className="w-5 h-5" />}
@@ -63,7 +66,7 @@ const CSPage = () => {
                     </Tooltip>
                     <Image src={background} alt="background image" className="object-cover w-full h-full" />
                 </div>
-                <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-3 p-5" noValidate>
+                <form onSubmit={handleSubmit(onSubmit)} className="md:grid flex flex-col md:grid-cols-2 md:gap-3 gap-2 p-5" noValidate>
                     {/* tujuan */}
                     <FormSelect
                         items={[
@@ -261,6 +264,10 @@ const CSPage = () => {
                         </Button>
                     </div>
                 </form>
+                <div className="flex flex-col items-center justify-center">
+                    <MdOutlineDone className="w-44 h-44 text-blue-600" />
+                    <p className="text-sm font-medium">Permintaan berhasil dikirim</p>
+                </div>
             </div>
         </div>
     )

@@ -30,7 +30,7 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
         column: queryParams.get("orderby") ?? "no_nas",
         direction: queryParams.get("direction") === "asc" ? "ascending" : "descending",
     });
-    const [page, setPage] = useState((dataCis && dataCis.page) ?? queryParams.get("page"));
+    const [page, setPage] = useState((dataCis && dataCis.page) ?? parseInt(queryParams.get("page") ?? "1"));
     const { getBadgeColor, getTypeName } = useNasabahType();
 
     const handleSortChange = (sortDescriptor: SortDescriptor) => {

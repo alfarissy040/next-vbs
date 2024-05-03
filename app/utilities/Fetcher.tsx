@@ -40,15 +40,22 @@ export const fetcher = async (url: string) => {
         headers: {
             "Content-Type": "application/json",
         },
+        cache: "force-cache",
+        next: {
+            revalidate: 5,
+            tags: [url]
+        }
     })
         .then((res) => res.json())
         .catch(() => new Error("Something went wrong"));
 };
+
 export const parameterFetcher = async (url: string) => {
     return await fetch(url, {
         headers: {
             "Content-Type": "application/json",
         },
+        cache: "force-cache"
     })
         .then((res) => res.json())
         .then((res) => convertToSelectItems(res))

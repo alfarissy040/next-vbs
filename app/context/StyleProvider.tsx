@@ -1,11 +1,13 @@
 "use client"
 
-import { NextUIProvider } from "@nextui-org/react"
+import { NextUIProvider } from "@nextui-org/react";
 import { AppProgressBar } from "next-nprogress-bar";
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
+import useAuth from "./useAuth";
 
 const StyleProvider = ({ children }: { children: React.ReactNode }) => {
     const { systemTheme, theme } = useTheme();
+    // useAuth()
     return (
         <NextUIProvider >
             <AppProgressBar

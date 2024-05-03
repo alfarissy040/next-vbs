@@ -26,7 +26,7 @@ const FormPerusahaan = ({ setFormType }: { setFormType: Dispatch<SetStateAction<
     }, [step])
     const handleNextStep = useCallback(() => {
         trigger().then((res) => {
-            if (!res) {
+            if (res) {
                 const nextStep = step < 6 ? step + 1 : step
                 setNavDirection("in")
                 setStep(nextStep)

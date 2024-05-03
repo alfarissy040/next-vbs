@@ -17,34 +17,17 @@ export async function GET(request: Request) {
     const page = parseInt(searchParams.get("page") as unknown as string) ?? 1;
     const itemPerPage = 25;
 
-    const queryWhere: { where?: Prisma.para_provinsiWhereInput } = {}
-    if (search) queryWhere.where?.OR?.push({
-        keterangan: {
-            contains: search,
-            mode: "insensitive"
-        }
-    })
-    if (kd_provinsi) queryWhere.where = { kd_provinsi: parseInt(kd_provinsi) }
+    const queryWhere: Prisma.para_provinsiWhereInput = {
+        AND: [
+            { keterangan: { contains: search, mode: "insensitive" } },
+            { kd_negara: { contains: search, mode: "insensitive" } },
+            ...(kd_provinsi ? [{ kd_provinsi: { equals: parseInt(kd_provinsi) } }] : []),
+        ],
+    };
 
     try {
         const dataParameter = await prisma.para_provinsi.findMany({
-            where: {
-                OR: [
-                    {
-                        keterangan: {
-                            contains: search,
-                            mode: "insensitive"
-                        }
-                    },
-                    {
-                        kd_negara: {
-                            contains: kd_negara,
-                            mode: "insensitive"
-                        }
-                    },
-                    ...(queryWhere.where?.OR || [])
-                ]
-            },
+            where: queryWhere,
             skip: (page - 1) * itemPerPage,
             take: itemPerPage,
             orderBy: {
@@ -52,7 +35,7 @@ export async function GET(request: Request) {
             }
         })
         const totalItems = await prisma.para_provinsi.count({
-            ...queryWhere,
+            where: queryWhere,
             orderBy: {
                 keterangan: "asc"
             }

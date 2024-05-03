@@ -1,34 +1,70 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
-interface TSearchQuery {
-    where?: {
-        OR?: Prisma.para_kotaWhereInput[];
-    };
-    orderBy: Prisma.para_kotaOrderByWithAggregationInput;
-}
-
 const prisma = new PrismaClient();
+/**
+ * This is the GET API endpoint for retrieving parameter kota data.
+ * It supports filtering, pagination, and search functionality.
+ *
+ * @param {Request} request - The request object containing the query parameters.
+ * @return {Promise<Response>} - The response containing the parameter kota data.
+ */
 export async function GET(request: Request) {
+    // Extract the query parameters from the request URL
     const { searchParams } = new URL(request.url);
-    const kd_provinsi = searchParams.get("provinsi");
-    const kd_kota = searchParams.get("kota");
 
-    const queryWhere: { where?: Prisma.para_kotaWhereInput } = {};
-    if (kd_provinsi) queryWhere.where = { kd_provinsi: parseInt(kd_provinsi) };
-    if (kd_kota) queryWhere.where = { kd_kota: parseInt(kd_kota) };
+    // Extract the filter parameters
+    const kd_provinsi = searchParams.get("provinsi") ?? "";
+    const kd_kota = searchParams.get("kota") ?? "";
+    const search = searchParams.get("search") ?? "";
+
+    // Extract the pagination parameters
+    const page = parseInt(searchParams.get("page") ?? "1");
+    const itemPerPage = 25;
+
+    // Build the queryWhere object for filtering the data
+    const queryWhere: Prisma.para_kotaWhereInput = {
+        AND: [
+            { keterangan: { contains: search, mode: "insensitive" } },
+            ...(kd_provinsi ? [{ kd_provinsi: { equals: parseInt(kd_provinsi) } }] : []),
+            ...(kd_kota ? [{ kd_kota: { equals: parseInt(kd_kota) } }] : []),
+        ],
+    };
 
     try {
+        // Fetch the parameter kota data using the query parameters
         const dataParameter = await prisma.para_kota.findMany({
-            ...queryWhere,
+            where: queryWhere,
+            skip: (page - 1) * itemPerPage,
+            take: itemPerPage,
             orderBy: {
-                keterangan: "asc",
-            },
-        });
+                keterangan: "asc"
+            }
+        })
 
-        if (dataParameter.length === 0) return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
-        return NextResponse.json(dataParameter);
+        // Fetch the total count of parameter kota data
+        const totalItems = await prisma.para_kota.count({
+            where: queryWhere,
+            orderBy: {
+                keterangan: "asc"
+            }
+        })
+
+        // Return the response if data is found
+        if (dataParameter.length === 0) {
+            return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
+        }
+
+        // Return the paginated data with meta information
+        return NextResponse.json({
+            page: page,
+            itemPerPage: itemPerPage,
+            totalPage: Math.ceil(totalItems / itemPerPage),
+            total: totalItems,
+            data: dataParameter,
+        });
     } catch (error) {
+        // Handle Prisma known request errors and return the appropriate response
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             return NextResponse.json(
                 {
@@ -38,6 +74,8 @@ export async function GET(request: Request) {
                 { status: 500 }
             );
         }
+
+        // Handle other errors and return a generic error response
         return NextResponse.json(
             {
                 message: "Something went wrong!",

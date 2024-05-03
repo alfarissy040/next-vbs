@@ -1,8 +1,6 @@
 import { z } from "zod";
 
 const schemaAlamatPengurus = z.object({
-    no_nas: z.string(),
-    id_pengurus: z.string(),
     no_urut: z.number(),
     jns_alamat: z.string(),
     negara: z.string(),
@@ -14,11 +12,9 @@ const schemaAlamatPengurus = z.object({
     rw: z.string(),
     kd_pos: z.string(),
     alamat_detail: z.string(),
-    usrid_create: z.string(),
 });
 
 schemaAlamatPengurus.required({
-    id_pengurus: true,
     jns_alamat: true,
     negara: true,
     provinsi: true,
@@ -29,7 +25,6 @@ schemaAlamatPengurus.required({
     rw: true,
     kd_pos: true,
     alamat_detail: true,
-    usrid_create: true,
 });
 
 export default schemaAlamatPengurus;

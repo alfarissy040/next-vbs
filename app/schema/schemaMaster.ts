@@ -7,7 +7,7 @@ export const schemaMaster = z.object({
     jns_ident: z.number(),
     no_ident: z.string(),
     masa_ident: z.number(),
-    tgl_ident: z.string().datetime(),
+    tgl_ident: z.string().datetime().optional(),
     acc_off: z.string(),
     bntk_hkm: z.number(),
     gol_pemilik: z.number(),
@@ -16,17 +16,15 @@ export const schemaMaster = z.object({
     tujuan_dana: z.number(),
     maks_trans: z.number(),
     penghasilan_bulan: z.number(),
-    penghasilan_lainnya: z.number(),
+    penghasilan_lainnya: z.number().optional(),
     pengeluaran_bulan: z.number(),
-    pengeluaran_lainnya: z.number(),
+    pengeluaran_lainnya: z.number().optional(),
     npwp: z.string(),
     no_telp: z.string(),
     email: z.string(),
-    bidang_usaha: z.number(),
+    bidang_usaha: z.number().optional(),
     usrid_create: z.string(),
-});
-
-schemaMaster.required({
+}).required({
     created_at_kantor: true,
     nm_nas: true,
     tipe_nas: true,

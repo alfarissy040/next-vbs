@@ -57,15 +57,16 @@ const FormSelect: React.FC<FormSelectProps> = ({
         formState: { errors },
     } = formMethod;
     const [isOpen, setIsOpen] = useState(false);
-    const [searchInput, setSearchInput] = useState("");
     const hasMore = currentPage < maxPage;
     const [, scrollerRef] = useInfiniteScroll({
         hasMore,
         isEnabled: isOpen,
         shouldUseLoader: false,
-        onLoadMore: useCallback(() => {
-            handleChangePage?.(currentPage + 1);
-        }, [currentPage, handleChangePage]),
+        onLoadMore: () => {
+            if (handleChangePage) {
+                handleChangePage(currentPage + 1);
+            }
+        },
     });
 
     const sanitizedData = useMemo<ISelectItem[]>(() => {
@@ -85,7 +86,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
 
     const onSearch = (input: string) => {
         const lowerInput = input.toLowerCase().trim();
-        const isExist = sanitizedData.some((val) => val.label.toLowerCase().trim() === lowerInput);
+        const isExist = [...items ?? []].some((val) => val.label.toLowerCase().trim() === lowerInput);
         if (!isExist) {
             searchDebounce.cancel();
             searchDebounce(input);
@@ -122,7 +123,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
                         filterOptions={{
                             sensitivity: "base",
                         }}
-                        defaultItems={sanitizedData}
+                        defaultItems={[...items ?? []]}
                         errorMessage={(errors[id]?.message as string) ?? ""}
                         placeholder={placeholder}
                         defaultSelectedKey={value ?? ""}

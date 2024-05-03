@@ -1,12 +1,11 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useState } from "react"
-import FormInput from "../../FormInput"
-import FormSelect from "../FormSelect"
-import { FieldValues, UseFormReturn } from "react-hook-form"
 import useFetchParameter from "@/app/hooks/useFetchParameter"
 import { para_grup_nas, para_jns_usaha_tkt } from "@prisma/client"
+import { motion } from "framer-motion"
+import { FieldValues, UseFormReturn } from "react-hook-form"
+import FormInput from "../../FormInput"
+import FormSelect from "../FormSelect"
 
 interface CreatePerusahaanProps {
     navDirection: TNavDirection;
@@ -16,8 +15,8 @@ interface CreatePerusahaanProps {
 }
 
 const CreatePerusahaan: React.FC<CreatePerusahaanProps> = ({ navDirection, typeNasabah, kdTypeNasabah, formMethod }) => {
-    const { convertedData: IJnsUsahaTkt, isLoading: isLoadingJnsUsahaTkt, apiUrl: urlJnsUsahaTkt } = useFetchParameter<para_jns_usaha_tkt>("jenis-usaha-tkt")
-    const { convertedData: IGropNasabah, isLoading: isLoadingGropNasabah, apiUrl: urlGropNasabah } = useFetchParameter<para_grup_nas>("group-nasabah")
+    const { convertedData: IJnsUsahaTkt, isLoading: isLoadingJnsUsahaTkt, apiUrl: urlJnsUsahaTkt } = useFetchParameter<para_jns_usaha_tkt>({ parameter: "jenis-usaha-tkt" })
+    const { convertedData: IGropNasabah, isLoading: isLoadingGropNasabah, apiUrl: urlGropNasabah } = useFetchParameter<para_grup_nas>({ parameter: "group-nasabah" })
     return (
         <motion.div
             layout
@@ -94,7 +93,7 @@ const CreatePerusahaan: React.FC<CreatePerusahaanProps> = ({ navDirection, typeN
                 {/* 11. Tanggal Akte Akhir (tgl_akte_akhir) - DateTime */}
                 <FormInput type="date"
                     formMethod={formMethod}
-                    id="tgl_akte_awal" label="Tanggal Akte Awal" placeholder="Masukan Tanggal Akte Awal" isRequired />
+                    id="tgl_akte_awal" label="Tanggal Akte Akhir" placeholder="Masukan Tanggal Akte Awal" isRequired />
                 {/* 12. Nama Notaris (nm_notaris) - String */}
                 <FormInput type="text"
                     formMethod={formMethod}

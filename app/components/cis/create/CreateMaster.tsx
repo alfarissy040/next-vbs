@@ -1,4 +1,5 @@
-"use client";
+"use client"
+
 import useFetchPaginateParameter from "@/app/hooks/useFetchPaginateParameter";
 import useFetchParameter from "@/app/hooks/useFetchParameter";
 import { baseFormVariant } from "@/app/utilities/MotionVariant";
@@ -22,24 +23,43 @@ interface CreateMasterProps {
 
 // FIXME perbaiki kemuncullan tanggal masa identitas ketika masa berlaku seumur hidup
 
-const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, typeNasabah, kdTypeNasabah, formMethod }) => {
+const CreateMaster: React.FC<CreateMasterProps> = ({
+    navDirection,
+    handleReset,
+    typeNasabah,
+    kdTypeNasabah,
+    formMethod,
+}) => {
     const [isForeverMasaIdent, setIsForeverMasaIdent] = useState();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { unregister } = formMethod;
 
     // fetch parameter
-    const { convertedData: IJnsIdent, isLoading: isLoadingJnsIdent, apiUrl: urlJnsIdent } = useFetchParameter<para_jns_ident>("jenis-identitas", { "jenis-nasabah": kdTypeNasabah });
-    const { convertedData: IBntkHkm, isLoading: isLoadingBntkHkm, apiUrl: urlBntkHkm } = useFetchParameter<para_bntk_hkm>("bentuk-hukum", { "jenis-nasabah": kdTypeNasabah });
-    const { isLoading: isLoadingGolPmlk, data: IGolPmlk, setSize: setPageGolPmlk, setSearch: setSearchGolPmlk, size: sizeGolPmlk } = useFetchPaginateParameter<para_gol_pmlk>("golongan-pemilik");
-    const { convertedData: IDana, isLoading: isLoadingDana, apiUrl: urlDana } = useFetchParameter<para_dana>("dana");
-    const { convertedData: ITransaksi, isLoading: isLoadingTransaksi, apiUrl: urlTransaksi } = useFetchParameter<para_transaksi>("transaksi");
-    const { convertedData: IPenghasilan, isLoading: isLoadingPenghasilan, apiUrl: urlPenghasilan } = useFetchParameter<para_penghasilan>("penghasilan");
-    const { convertedData: IBidangUsaha, isLoading: isLoadingBidangUsaha, apiUrl: urlBidangUsaha } = useFetchParameter<para_bidang_usaha>("bidang-usaha");
+    const { convertedData: IJnsIdent, isLoading: isLoadingJnsIdent } = useFetchParameter<para_jns_ident>({
+        parameter: "jenis-identitas",
+        queryParams: { "jenis-nasabah": kdTypeNasabah },
 
+    });
+    const { convertedData: IBntkHkm, isLoading: isLoadingBntkHkm } = useFetchParameter<para_bntk_hkm>({
+        parameter: "bentuk-hukum",
+        queryParams: { "jenis-nasabah": kdTypeNasabah },
+
+    });
+    const { isLoading: isLoadingGolPmlk, data: IGolPmlk, setSize: setPageGolPmlk, setSearch: setSearchGolPmlk, size: sizeGolPmlk } = useFetchPaginateParameter<para_gol_pmlk>({ parameter: "golongan-pemilik", });
+    const { convertedData: IDana, isLoading: isLoadingDana } = useFetchParameter<para_dana>({ parameter: "dana" });
+    const { convertedData: ITransaksi, isLoading: isLoadingTransaksi } = useFetchParameter<para_transaksi>({ parameter: "transaksi" });
+    const { convertedData: IPenghasilan, isLoading: isLoadingPenghasilan } = useFetchParameter<para_penghasilan>({ parameter: "penghasilan" });
+    const { convertedData: IBidangUsaha, isLoading: isLoadingBidangUsaha } = useFetchParameter<para_bidang_usaha>({ parameter: "bidang-usaha" });
+
+    // Refactored to use a custom hook for better readability and reusability
     useEffect(() => {
-        if (isForeverMasaIdent !== "1") {
-            unregister("tgl_ident");
-        }
+        const unregisterIfNotForeverMasaIdent = (): void => {
+            if (isForeverMasaIdent !== "1") {
+                unregister("tgl_ident");
+            }
+        };
+
+        unregisterIfNotForeverMasaIdent();
     }, [isForeverMasaIdent, unregister]);
     return (
         <>
@@ -69,12 +89,11 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                     {/* nama nasabah */}
                     <FormInput type="text" label="Nama Lengkap" formMethod={formMethod} id="nm_nas" placeholder="Masukan nama lengkap" isRequired />
                     {/* jenis identitas */}
-                    <FormSelect fetchUrl={urlJnsIdent} items={IJnsIdent} isLoading={isLoadingJnsIdent} formMethod={formMethod} id="jns_ident" label="Jenis Identitas" placeholder="Pilih jenis identitas" isRequired />
+                    <FormSelect items={IJnsIdent} isLoading={isLoadingJnsIdent} formMethod={formMethod} id="jns_ident" label="Jenis Identitas" placeholder="Pilih jenis identitas" isRequired />
                     {/* nomor identitas */}
                     <FormInput type="text" label="Nomor Identitas" formMethod={formMethod} id="no_ident" placeholder="Masukan Nomor Identitas" isRequired />
                     {/* masa berlaku identitas */}
                     <FormSelect
-                        fetchUrl="masa_ident"
                         items={[
                             { label: "Seumur Hidup", value: "1" },
                             { label: "Berlaku Sampai", value: "0" },
@@ -91,7 +110,7 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                         <FormInput type="date" label="Tanggal Masa Identitas" formMethod={formMethod} id="tgl_ident" placeholder="Masukan Tanggal Masa Identitas" max={new Date().toISOString().split("T")[0] as string} isRequired />
                     )}
                     {/* bentuk hukum */}
-                    <FormSelect fetchUrl={urlBntkHkm} items={IBntkHkm} isLoading={isLoadingBntkHkm} formMethod={formMethod} id="btnk_hkm" label="Bentuk Hukum" placeholder="Pilih Bentuk Hukum" isRequired />
+                    <FormSelect items={IBntkHkm} isLoading={isLoadingBntkHkm} formMethod={formMethod} id="btnk_hkm" label="Bentuk Hukum" placeholder="Pilih Bentuk Hukum" isRequired />
                     {/* golongan pemilik */}
                     <FormSelect
                         paginateItems={IGolPmlk}
@@ -103,28 +122,28 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                         handleChangePage={setPageGolPmlk}
                         handleSearch={setSearchGolPmlk}
                         currentPage={sizeGolPmlk}
-                        maxPage={IGolPmlk ? IGolPmlk[0].totalPage : 0}
+                        maxPage={IGolPmlk ? IGolPmlk[0]?.totalPage : 0}
                         isSearchable
                         isRequired
                     />
                     {/* sumber dana */}
-                    <FormSelect fetchUrl={urlDana} isLoading={isLoadingDana} items={IDana} formMethod={formMethod} id="sumber_dana" label="Sumber Dana" placeholder="Pilih Sumber Dana" isRequired />
+                    <FormSelect isLoading={isLoadingDana} items={IDana} formMethod={formMethod} id="sumber_dana" label="Sumber Dana" placeholder="Pilih Sumber Dana" isRequired />
 
                     {/* tujuan dana */}
-                    <FormSelect fetchUrl={urlDana} isLoading={isLoadingDana} items={IDana} formMethod={formMethod} id="tujuan_dana" label="Tujuan Dana" placeholder="Pilih Tujuan Dana" isRequired />
+                    <FormSelect isLoading={isLoadingDana} items={IDana} formMethod={formMethod} id="tujuan_dana" label="Tujuan Dana" placeholder="Pilih Tujuan Dana" isRequired />
 
                     {/* maksimal transaksi */}
-                    <FormSelect fetchUrl={urlTransaksi} isLoading={isLoadingTransaksi} items={ITransaksi} formMethod={formMethod} id="maks_trans" label="Maskimal Transaksi" placeholder="Pilih Maskimal Transaksi" isRequired />
+                    <FormSelect isLoading={isLoadingTransaksi} items={ITransaksi} formMethod={formMethod} id="maks_trans" label="Maskimal Transaksi" placeholder="Pilih Maskimal Transaksi" isRequired />
 
                     {/* penghasilan bulanan */}
-                    <FormSelect fetchUrl={urlPenghasilan} isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="penghasilan_bulan" label="Penghasilan Bulanan" placeholder="Pilih Penghasilan Bulanan" isRequired />
+                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="penghasilan_bulan" label="Penghasilan Bulanan" placeholder="Pilih Penghasilan Bulanan" isRequired />
 
                     {/* penghasilan lainnya */}
-                    <FormSelect fetchUrl={urlPenghasilan} isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="penghasilan_lainnya" label="Penghasilan Lainnya" placeholder="Pilih Penghasilan Lainnya" />
+                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="penghasilan_lainnya" label="Penghasilan Lainnya" placeholder="Pilih Penghasilan Lainnya" />
                     {/* pengeluaran bulanan */}
-                    <FormSelect fetchUrl={urlPenghasilan} isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="pengeluaran_bulan" label="Pengeluaran Bulanan" placeholder="Pilih Pengeluaran Bulanan" isRequired />
+                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="pengeluaran_bulan" label="Pengeluaran Bulanan" placeholder="Pilih Pengeluaran Bulanan" isRequired />
                     {/* pengeluaran lainnya */}
-                    <FormSelect fetchUrl={urlPenghasilan} isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="pengeluaran_lainnya" label="Pengeluaran Lainnya" placeholder="Pilih Pengeluaran Lainnya" />
+                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="pengeluaran_lainnya" label="Pengeluaran Lainnya" placeholder="Pilih Pengeluaran Lainnya" />
                     {/* npwp */}
                     <FormInput type="text" label="NPWP" formMethod={formMethod} id="npwp" placeholder="Masukan NPWP" />
                     {/* no telp */}
@@ -132,7 +151,7 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                     {/* email */}
                     <FormInput type="email" label="Email" formMethod={formMethod} id="email" placeholder="Masukan Email" isRequired />
                     {/* bidang usaha */}
-                    {kdTypeNasabah === 1 && <FormSelect fetchUrl={urlBidangUsaha} isLoading={isLoadingBidangUsaha} items={IBidangUsaha} formMethod={formMethod} id="bidang_usaha" label="Bidang Usaha" placeholder="Pilih Bidang Usaha" />}
+                    {kdTypeNasabah === 1 && <FormSelect isLoading={isLoadingBidangUsaha} items={IBidangUsaha} formMethod={formMethod} id="bidang_usaha" label="Bidang Usaha" placeholder="Pilih Bidang Usaha" />}
                     {/* flag hubungan bank */}
                     <FormSelect
                         items={[

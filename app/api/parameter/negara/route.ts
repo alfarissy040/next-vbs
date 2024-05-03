@@ -13,73 +13,49 @@ export async function GET(request: Request) {
         const dataParameter = await prisma.para_negara.findMany({
             where: {
                 OR: [
-                    {
-                        keterangan: {
-                            contains: search,
-                            mode: "insensitive"
-                        },
-                    },
-                    {
-                        kd_negara: {
-                            contains: kd_negara,
-                            mode: "insensitive"
-                        }
-                    }
+                    { keterangan: { contains: search, mode: "insensitive" } },
+                    { kd_negara: { equals: kd_negara, mode: "insensitive" } },
                 ]
             },
             skip: (page - 1) * itemPerPage,
             take: itemPerPage,
-            orderBy: {
-                keterangan: "asc"
-            }
-        })
+            orderBy: { keterangan: "asc" },
+        });
         const totalItems = await prisma.para_negara.count({
             where: {
                 OR: [
-                    {
-                        keterangan: {
-                            contains: search,
-                            mode: "insensitive"
-                        },
-                    },
-                    {
-                        kd_negara: {
-                            contains: kd_negara,
-                            mode: "insensitive"
-                        }
-                    }
+                    { keterangan: { contains: search, mode: "insensitive" } },
+                    { kd_negara: { equals: kd_negara, mode: "insensitive" } },
                 ]
             },
-            orderBy: {
-                keterangan: "asc"
-            }
+            orderBy: { keterangan: "asc" },
+        });
+
+        if (dataParameter.length === 0) {
+            return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
+        }
+
+        const totalPage = Math.ceil(totalItems / itemPerPage);
+        console.log({
+            page,
+            itemPerPage,
+            totalPage,
+            total: totalItems,
+            data: dataParameter,
         })
-        if (dataParameter.length === 0) return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
         return NextResponse.json({
-            page: page,
-            itemPerPage: itemPerPage,
-            totalPage: Math.ceil(totalItems / itemPerPage),
+            page,
+            itemPerPage,
+            totalPage,
             total: totalItems,
             data: dataParameter,
         });
-
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            return NextResponse.json(
-                {
-                    error: error.name,
-                    message: error.message,
-                },
-                { status: 500 }
-            );
+            const errorMessage = { error: error.name, message: error.message };
+            return NextResponse.json(errorMessage, { status: 500 });
         }
-        return NextResponse.json(
-            {
-                message: "Something went wrong!",
-            },
-            {
-                status: 500,
-            }
-        );
+        const defaultErrorMessage = { message: "Something went wrong!" };
+        return NextResponse.json(defaultErrorMessage, { status: 500 });
     }
 }

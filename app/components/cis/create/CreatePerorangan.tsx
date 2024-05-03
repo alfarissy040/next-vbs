@@ -1,5 +1,3 @@
-"use client";
-
 import { motion } from "framer-motion";
 import FormInput from "../../FormInput";
 import FormSelect from "../FormSelect";
@@ -9,6 +7,7 @@ import { baseFormVariant } from "@/app/utilities/MotionVariant";
 import { para_agama, para_jns_pekerjaan, para_negara, para_profesi, para_sts_nikah } from "@prisma/client";
 import useFetchParameter from "@/app/hooks/useFetchParameter";
 import moment from "moment";
+import getPerorangan from "@/app/hooks/cis/getPerorangan";
 
 interface CreatePeroranganProps {
     navDirection: TNavDirection;
@@ -16,14 +15,24 @@ interface CreatePeroranganProps {
     typeNasabah: TNasabahType;
 }
 
-const CreatePerorangan: React.FC<CreatePeroranganProps> = ({ navDirection, formMethod, typeNasabah }) => {
+const CreatePerorangan: React.FC<CreatePeroranganProps> = async ({ navDirection, formMethod, typeNasabah }) => {
     const [statusPenikahan, setStatusPernikahan] = useState<"Y" | "T" | undefined>();
 
-    const { convertedData: IStsPernikahan, isLoading: isLoadingStsPernikahan, apiUrl: urlStsPernikahan } = useFetchParameter<para_sts_nikah>("status-nikah");
-    const { convertedData: IAgama, isLoading: isLoadingAgama, apiUrl: urlAgama } = useFetchParameter<para_agama>("agama");
-    const { convertedData: INegara, isLoading: isLoadingNegara, apiUrl: urlNegara } = useFetchParameter<para_negara>("negara");
-    const { convertedData: IProfesi, isLoading: isLoadingProfesi, apiUrl: urlProfesi } = useFetchParameter<para_profesi>("profesi");
-    const { convertedData: IJnsPekerjaan, isLoading: isLoadingJnsPekerjaan, apiUrl: urlJnsPekerjaan } = useFetchParameter<para_jns_pekerjaan>("jenis-pekerjaan");
+    const { convertedData: IStsPernikahan, isLoading: isLoadingStsPernikahan, apiUrl: urlStsPernikahan } = useFetchParameter<para_sts_nikah>({
+        parameter: "status-nikah"
+    });
+    const { convertedData: IAgama, isLoading: isLoadingAgama, apiUrl: urlAgama } = useFetchParameter<para_agama>({
+        parameter: "agama"
+    });
+    const { convertedData: INegara, isLoading: isLoadingNegara, apiUrl: urlNegara } = useFetchParameter<para_negara>({
+        parameter: "negara"
+    });
+    const { convertedData: IProfesi, isLoading: isLoadingProfesi, apiUrl: urlProfesi } = useFetchParameter<para_profesi>({
+        parameter: "profesi"
+    });
+    const { convertedData: IJnsPekerjaan, isLoading: isLoadingJnsPekerjaan, apiUrl: urlJnsPekerjaan } = useFetchParameter<para_jns_pekerjaan>({
+        parameter: "jenis-pekerjaan"
+    });
     return (
         <motion.div
             layout

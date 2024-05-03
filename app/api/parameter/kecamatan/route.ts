@@ -9,40 +9,55 @@ interface TSearchQuery {
 }
 
 const prisma = new PrismaClient();
+/**
+ * Handles the GET request to retrieve data based on search parameters.
+ *
+ * @param {Request} request - The request object containing URL parameters.
+ * @return {Promise} A JSON response with fetched data or error message.
+ */
 export async function GET(request: Request) {
+    // Extract search parameters from the request URL
     const { searchParams } = new URL(request.url);
     const kd_kota = searchParams.get("kota");
     const kd_kecamatan = searchParams.get("kecamatan");
-    const search = searchParams.get("search") ?? "";
-    const page = parseInt(searchParams.get("page") as unknown as string) ?? 1;
+    const search = searchParams.get("search") || "";
+    const page = parseInt(searchParams.get("page") || "1");
     const itemPerPage = 25;
 
-    const queryWhere: { where?: Prisma.para_kecamatanWhereInput } = {}
-    if (kd_kota) queryWhere.where = { kd_kota: parseInt(kd_kota) }
-    if (kd_kecamatan) queryWhere.where = { kd_kecamatan: parseInt(kd_kecamatan) }
+    // Define the Prisma query conditions
+    const queryWhere: Prisma.para_kecamatanWhereInput = {
+        AND: [
+            { keterangan: { contains: search, mode: "insensitive" } },
+            ...(kd_kota ? [{ kd_kota: { equals: parseInt(kd_kota) } }] : []),
+            ...(kd_kecamatan ? [{ kd_kecamatan: { equals: parseInt(kd_kecamatan) } }] : []),
+        ],
+    };
 
     try {
+        // Fetch data based on the query conditions
         const dataParameter = await prisma.para_kecamatan.findMany({
-            where: {
-                keterangan: {
-                    contains: search,
-                    mode: "insensitive"
-                },
-                ...queryWhere
-            },
+            where: queryWhere,
             skip: (page - 1) * itemPerPage,
             take: itemPerPage,
             orderBy: {
                 keterangan: "asc"
             }
-        })
+        });
+
+        // Count the total number of items matching the query conditions
         const totalItems = await prisma.para_kecamatan.count({
-            ...queryWhere,
+            where: queryWhere,
             orderBy: {
                 keterangan: "asc"
             }
-        })
-        if (dataParameter.length === 0) return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
+        });
+
+        // If no data is found, return a 404 error
+        if (dataParameter.length === 0) {
+            return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
+        }
+
+        // Return the fetched data with pagination information
         return NextResponse.json({
             page: page,
             itemPerPage: itemPerPage,
@@ -51,6 +66,7 @@ export async function GET(request: Request) {
             data: dataParameter,
         });
     } catch (error) {
+        // If there's a Prisma error, return a 500 error with the error details
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             return NextResponse.json(
                 {
@@ -60,6 +76,8 @@ export async function GET(request: Request) {
                 { status: 500 }
             );
         }
+
+        // If there's any other error, return a generic 500 error
         return NextResponse.json(
             {
                 message: "Something went wrong!",

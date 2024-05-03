@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import dynamic from "next/dynamic";
 import { Poppins } from "next/font/google";
-import AuthProvider from "./context/AuthProvider";
+import SessionProvider from "./context/SessionProvider";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -18,12 +18,15 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
     const ClientStyleProvider = dynamic(() => import("./context/StyleProvider"), { ssr: false });
     const session = await getServerSession(authOption);
+
     return (
         <html lang="en">
             <body className={poppins.className}>
-                <AuthProvider session={session}>
-                    <ClientStyleProvider>{children}</ClientStyleProvider>
-                </AuthProvider>
+                <SessionProvider session={session}>
+                    <ClientStyleProvider>
+                        {children}
+                    </ClientStyleProvider>
+                </SessionProvider>
             </body>
         </html>
     );
