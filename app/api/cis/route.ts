@@ -68,6 +68,9 @@ export async function GET(request: Request) {
         query.where = {
             OR: [
                 {
+                    status_nas: "01",
+                },
+                {
                     no_nas: {
                         startsWith: search as string,
                         mode: "insensitive",

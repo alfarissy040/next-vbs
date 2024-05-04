@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import useFetchPaginateParameter from "@/app/hooks/useFetchPaginateParameter";
 import useFetchParameter from "@/app/hooks/useFetchParameter";
@@ -21,15 +21,7 @@ interface CreateMasterProps {
     formMethod: UseFormReturn<FieldValues>;
 }
 
-// FIXME perbaiki kemuncullan tanggal masa identitas ketika masa berlaku seumur hidup
-
-const CreateMaster: React.FC<CreateMasterProps> = ({
-    navDirection,
-    handleReset,
-    typeNasabah,
-    kdTypeNasabah,
-    formMethod,
-}) => {
+const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, typeNasabah, kdTypeNasabah, formMethod }) => {
     const [isForeverMasaIdent, setIsForeverMasaIdent] = useState();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { unregister } = formMethod;
@@ -38,14 +30,12 @@ const CreateMaster: React.FC<CreateMasterProps> = ({
     const { convertedData: IJnsIdent, isLoading: isLoadingJnsIdent } = useFetchParameter<para_jns_ident>({
         parameter: "jenis-identitas",
         queryParams: { "jenis-nasabah": kdTypeNasabah },
-
     });
     const { convertedData: IBntkHkm, isLoading: isLoadingBntkHkm } = useFetchParameter<para_bntk_hkm>({
         parameter: "bentuk-hukum",
         queryParams: { "jenis-nasabah": kdTypeNasabah },
-
     });
-    const { isLoading: isLoadingGolPmlk, data: IGolPmlk, setSize: setPageGolPmlk, setSearch: setSearchGolPmlk, size: sizeGolPmlk } = useFetchPaginateParameter<para_gol_pmlk>({ parameter: "golongan-pemilik", });
+    const { isLoading: isLoadingGolPmlk, data: IGolPmlk, setSize: setPageGolPmlk, setSearch: setSearchGolPmlk, size: sizeGolPmlk } = useFetchPaginateParameter<para_gol_pmlk>({ parameter: "golongan-pemilik" });
     const { convertedData: IDana, isLoading: isLoadingDana } = useFetchParameter<para_dana>({ parameter: "dana" });
     const { convertedData: ITransaksi, isLoading: isLoadingTransaksi } = useFetchParameter<para_transaksi>({ parameter: "transaksi" });
     const { convertedData: IPenghasilan, isLoading: isLoadingPenghasilan } = useFetchParameter<para_penghasilan>({ parameter: "penghasilan" });

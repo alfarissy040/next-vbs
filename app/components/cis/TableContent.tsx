@@ -22,8 +22,6 @@ interface TableContentProps {
     setQParams: Dispatch<SetStateAction<{ search: string; page: string | number; orderby: string; direction: string }>>;
 }
 
-// TODOS sesuaikan data dengan api hasil api
-
 const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError, qParams, setQParams }) => {
     const queryParams = useSearchParams();
     const [sortState, setSortState] = useState<SortDescriptor>({

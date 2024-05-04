@@ -157,12 +157,8 @@ model cis_perusahaan {
     jns_usaha_tkt      Int
     flag_bank          Boolean
     group_nas          Int
-    // * sementara di nonaktifkan
-    // kontak_person      String
     modal_sendiri      Int
     modal_setor        Int
-    // * sementara di nonaktifkan
-    //status_perusahaan  String
     no_akte_awal       String
     tgl_akte_awal      DateTime
     no_akte_akhir      String

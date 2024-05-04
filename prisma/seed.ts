@@ -92,7 +92,7 @@ async function main() {
                 no_ident_pasangan: seedCISPerorangan[i].no_ident_pasangan,
                 nm_ahli_waris: seedCISPerorangan[i].nm_ahli_waris,
                 agama: seedCISPerorangan[i].agama,
-                kewarganegaraan: 'ID',
+                kewarganegaraan: "ID",
                 profesi: seedCISPerorangan[i].profesi,
                 jns_pekerjaan: seedCISPerorangan[i].jns_pekerjaan,
                 jabatan: "karyawan",
@@ -105,7 +105,7 @@ async function main() {
             data: {
                 no_nas: data.no_nas.toString(),
                 jns_alamat: seedCISAlamat[i].jns_alamat.toString(),
-                negara: 'ID',
+                negara: "ID",
                 provinsi: seedCISAlamat[i].provinsi ?? "jakarta",
                 kota: seedCISAlamat[i].kota,
                 kecamatan: seedCISAlamat[i].kecamatan,
@@ -149,7 +149,7 @@ async function main() {
                 bidang_usaha: data.bidang_usaha,
                 usrid_create: "faza",
             },
-        })
+        });
         const perusahaan = await prisma.cis_perusahaan.create({
             data: {
                 no_nas: data.no_nas.toString(),
@@ -171,14 +171,14 @@ async function main() {
                 tgl_izin_dep: date,
                 no_pub: seedCISPerusahaan[i].no_pub,
                 tgl_pub: date,
-                usrid_create: "faza"
-            }
-        })
+                usrid_create: "faza",
+            },
+        });
         await prisma.cis_alamat.create({
             data: {
                 no_nas: data.no_nas.toString(),
                 jns_alamat: seedCISAlamat[i].jns_alamat.toString(),
-                negara: 'ID',
+                negara: "ID",
                 provinsi: seedCISAlamat[i].provinsi ?? "jakarta",
                 kota: seedCISAlamat[i].kota,
                 kecamatan: seedCISAlamat[i].kecamatan,
@@ -210,14 +210,14 @@ async function main() {
                 jabatan: seedCISPengurus[i].jabatan,
                 kepemilikan: seedCISPengurus[i].kepemilikan,
                 npwp: seedCISPengurus[i].npwp,
-                usrid_create: "faza"
-            }
-        })
+                usrid_create: "faza",
+            },
+        });
         await prisma.cis_alamat.create({
             data: {
                 id_pengurus: pengurus.id_pengurus,
                 jns_alamat: seedCISAlamat[i].jns_alamat.toString(),
-                negara: 'ID',
+                negara: "ID",
                 provinsi: seedCISAlamat[i].provinsi ?? "jakarta",
                 kota: seedCISAlamat[i].kota,
                 kecamatan: seedCISAlamat[i].kecamatan,
@@ -229,7 +229,7 @@ async function main() {
                 usrid_create: "faza",
             },
         });
-    })
+    });
     // ? generate data tipe C instansi pemerintah
     seedCISMasterC.map(async (data, i) => {
         if (i > 250) return;
@@ -261,12 +261,12 @@ async function main() {
                 bidang_usaha: data.bidang_usaha,
                 usrid_create: "faza",
             },
-        })
+        });
         await prisma.cis_alamat.create({
             data: {
                 no_nas: data.no_nas.toString(),
                 jns_alamat: seedCISAlamat[i].jns_alamat.toString(),
-                negara: 'ID',
+                negara: "ID",
                 provinsi: seedCISAlamat[i].provinsi ?? "jakarta",
                 kota: seedCISAlamat[i].kota,
                 kecamatan: seedCISAlamat[i].kecamatan,
@@ -298,14 +298,14 @@ async function main() {
                 jabatan: seedCISPengurus[i].jabatan,
                 kepemilikan: seedCISPengurus[i].kepemilikan,
                 npwp: seedCISPengurus[i].npwp,
-                usrid_create: "faza"
-            }
-        })
+                usrid_create: "faza",
+            },
+        });
         await prisma.cis_alamat.create({
             data: {
                 id_pengurus: pengurus.id_pengurus,
                 jns_alamat: seedCISAlamat[i].jns_alamat.toString(),
-                negara: 'ID',
+                negara: "ID",
                 provinsi: seedCISAlamat[i].provinsi ?? "jakarta",
                 kota: seedCISAlamat[i].kota,
                 kecamatan: seedCISAlamat[i].kecamatan,
@@ -317,7 +317,7 @@ async function main() {
                 usrid_create: "faza",
             },
         });
-    })
+    });
     // ? generate data tipe D instansi non-profit
     seedCISMasterD.map(async (data, i) => {
         if (i > 250) return;
@@ -349,7 +349,7 @@ async function main() {
                 bidang_usaha: data.bidang_usaha,
                 usrid_create: "faza",
             },
-        })
+        });
         const perusahaan = await prisma.cis_perusahaan.create({
             data: {
                 no_nas: data.no_nas.toString(),
@@ -371,14 +371,14 @@ async function main() {
                 tgl_izin_dep: date,
                 no_pub: seedCISPerusahaan[i].no_pub,
                 tgl_pub: date,
-                usrid_create: "faza"
-            }
-        })
+                usrid_create: "faza",
+            },
+        });
         await prisma.cis_alamat.create({
             data: {
                 no_nas: data.no_nas.toString(),
                 jns_alamat: seedCISAlamat[i].jns_alamat.toString(),
-                negara: 'ID',
+                negara: "ID",
                 provinsi: seedCISAlamat[i].provinsi ?? "jakarta",
                 kota: seedCISAlamat[i].kota,
                 kecamatan: seedCISAlamat[i].kecamatan,
@@ -410,14 +410,14 @@ async function main() {
                 jabatan: seedCISPengurus[i].jabatan,
                 kepemilikan: seedCISPengurus[i].kepemilikan,
                 npwp: seedCISPengurus[i].npwp,
-                usrid_create: "faza"
-            }
-        })
+                usrid_create: "faza",
+            },
+        });
         await prisma.cis_alamat.create({
             data: {
                 id_pengurus: pengurus.id_pengurus,
                 jns_alamat: seedCISAlamat[i].jns_alamat.toString(),
-                negara: 'ID',
+                negara: "ID",
                 provinsi: seedCISAlamat[i].provinsi ?? "jakarta",
                 kota: seedCISAlamat[i].kota,
                 kecamatan: seedCISAlamat[i].kecamatan,
@@ -429,7 +429,7 @@ async function main() {
                 usrid_create: "faza",
             },
         });
-    })
+    });
 
     // ? generate data parameter
     await prisma.para_jns_ident.createMany({
@@ -448,125 +448,125 @@ async function main() {
         data: para_jns_pekerjaan,
     });
     await prisma.para_bntk_hkm.createMany({
-        data: para_bntk_hkm
-    })
+        data: para_bntk_hkm,
+    });
     await prisma.para_gol_pmlk.createMany({
-        data: para_gol_pmlk
-    })
+        data: para_gol_pmlk,
+    });
     await prisma.para_dana.createMany({
         data: [
             {
                 kode: 1,
-                keterangan: "gaji"
+                keterangan: "gaji",
             },
             {
                 kode: 2,
-                keterangan: "bisnis"
+                keterangan: "bisnis",
             },
             {
                 kode: 3,
-                keterangan: "simpanan pribadi"
+                keterangan: "simpanan pribadi",
             },
             {
                 kode: 4,
-                keterangan: "investasi"
+                keterangan: "investasi",
             },
             {
                 kode: 5,
-                keterangan: "bonus"
+                keterangan: "bonus",
             },
             {
                 kode: 6,
-                keterangan: "komisi"
+                keterangan: "komisi",
             },
             {
                 kode: 99,
-                keterangan: "lainnya"
+                keterangan: "lainnya",
             },
-        ]
-    })
+        ],
+    });
     await prisma.para_transaksi.createMany({
         data: [
             {
-                "kode": 1,
-                "keterangan": "Rp. 1.000.000 per hari",
-                "batas_maksimum": 1000000
+                kode: 1,
+                keterangan: "Rp. 1.000.000 per hari",
+                batas_maksimum: 1000000,
             },
             {
-                "kode": 2,
-                "keterangan": "Rp. 5.000.000 per hari",
-                "batas_maksimum": 5000000
+                kode: 2,
+                keterangan: "Rp. 5.000.000 per hari",
+                batas_maksimum: 5000000,
             },
             {
-                "kode": 3,
-                "keterangan": "Rp. 20.000.000 per hari",
-                "batas_maksimum": 20000000
+                kode: 3,
+                keterangan: "Rp. 20.000.000 per hari",
+                batas_maksimum: 20000000,
             },
             {
-                "kode": 4,
-                "keterangan": "Rp. 50.000.000 per hari",
-                "batas_maksimum": 50000000
+                kode: 4,
+                keterangan: "Rp. 50.000.000 per hari",
+                batas_maksimum: 50000000,
             },
             {
-                "kode": 5,
-                "keterangan": "Rp. 200.000.000 per hari",
-                "batas_maksimum": 200000000
+                kode: 5,
+                keterangan: "Rp. 200.000.000 per hari",
+                batas_maksimum: 200000000,
             },
             {
-                "kode": 6,
-                "keterangan": "Rp. 500.000.000 per hari",
-                "batas_maksimum": 500000000
-            }
-        ]
-    })
+                kode: 6,
+                keterangan: "Rp. 500.000.000 per hari",
+                batas_maksimum: 500000000,
+            },
+        ],
+    });
     await prisma.para_penghasilan.createMany({
         data: [
             {
                 kode: 1,
-                keterangan: "tidak ada penghasilan"
+                keterangan: "tidak ada penghasilan",
             },
             {
                 kode: 2,
-                keterangan: "dibawah Rp.5 jt"
+                keterangan: "dibawah Rp.5 jt",
             },
             {
                 kode: 3,
-                keterangan: "Rp.5 jt S/D Rp.15 jt"
+                keterangan: "Rp.5 jt S/D Rp.15 jt",
             },
             {
                 kode: 4,
-                keterangan: "Rp.15 jt S/D Rp.25 jt"
+                keterangan: "Rp.15 jt S/D Rp.25 jt",
             },
             {
                 kode: 5,
-                keterangan: "diatas Rp.25 jt"
-            }
-        ]
-    })
+                keterangan: "diatas Rp.25 jt",
+            },
+        ],
+    });
     await prisma.para_bidang_usaha.createMany({
-        data: para_bidang_usaha
-    })
+        data: para_bidang_usaha,
+    });
     await prisma.para_jns_usaha_tkt.createMany({
-        data: para_jns_usaha_tkt
-    })
+        data: para_jns_usaha_tkt,
+    });
     await prisma.para_grup_nas.createMany({
-        data: para_grup_nas
-    })
+        data: para_grup_nas,
+    });
     await prisma.para_negara.createMany({
-        data: para_negara
-    })
+        data: para_negara,
+    });
     await prisma.para_provinsi.createMany({
-        data: para_provinsi
-    })
+        data: para_provinsi,
+    });
     await prisma.para_kota.createMany({
-        data: para_kota
-    })
+        data: para_kota,
+    });
     await prisma.para_kecamatan.createMany({
-        data: para_kecamatan
-    })
+        data: para_kecamatan,
+    });
     await prisma.para_kelurahan.createMany({
-        data: para_kelurahan
-    })
+        data: para_kelurahan,
+    });
 }
 
 main()
