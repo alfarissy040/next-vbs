@@ -17,11 +17,12 @@ model aks_pemakai {
     password   String
     email      String @unique
     id_lvl     String @db.ObjectId
+    kd_kntr    String  
 
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
 
-    para_level_user        para_level_user  @relation(fields: [id_lvl], references: [id_level])
+    para_level_user        para_level_user  @relation(fields: [id_lvl], references: [id_level], onDelete: NoAction, onUpdate: Cascade)
     cis_master_created     cis_master[]     @relation("aks_pemakai_create")
     cis_master_updated     cis_master[]     @relation("aks_pemakai_update")
     cis_perorangan_created cis_perorangan[] @relation("aks_pemakai_create")
@@ -32,6 +33,48 @@ model aks_pemakai {
     cis_alamat_updated     cis_alamat[]     @relation("aks_pemakai_update")
     cis_pengurus_created   cis_pengurus[]   @relation("aks_pemakai_create")
     cis_pengurus_updated   cis_pengurus[]   @relation("aks_pemakai_update")
+    cis_update_created   cis_update[]   @relation("aks_pemakai_create")
+    cis_update_updated   cis_update[]   @relation("aks_pemakai_update")
+    para_cs_tujuan_created   para_cs_tujuan[]   @relation("aks_pemakai_create")
+    para_cs_tujuan_updated   para_cs_tujuan[]   @relation("aks_pemakai_update")
+    para_jns_ident_created   para_jns_ident[]   @relation("aks_pemakai_create")
+    para_jns_ident_updated   para_jns_ident[]   @relation("aks_pemakai_update")
+    para_bntk_hkm_created   para_bntk_hkm[]   @relation("aks_pemakai_create")
+    para_bntk_hkm_updated   para_bntk_hkm[]   @relation("aks_pemakai_update")
+    para_gol_pmlk_created   para_gol_pmlk[]   @relation("aks_pemakai_create")
+    para_gol_pmlk_updated   para_gol_pmlk[]   @relation("aks_pemakai_update")
+    para_dana_created   para_dana[]   @relation("aks_pemakai_create")
+    para_dana_updated   para_dana[]   @relation("aks_pemakai_update")
+    para_transaksi_created   para_transaksi[]   @relation("aks_pemakai_create")
+    para_transaksi_updated   para_transaksi[]   @relation("aks_pemakai_update")
+    para_penghasilan_created   para_penghasilan[]   @relation("aks_pemakai_create")
+    para_penghasilan_updated   para_penghasilan[]   @relation("aks_pemakai_update")     
+    para_bidang_usaha_created   para_bidang_usaha[]   @relation("aks_pemakai_create")
+    para_bidang_usaha_updated   para_bidang_usaha[]   @relation("aks_pemakai_update")
+    para_jns_usaha_tkt_created   para_jns_usaha_tkt[]   @relation("aks_pemakai_create")
+    para_jns_usaha_tkt_updated   para_jns_usaha_tkt[]   @relation("aks_pemakai_update")
+    para_grup_nas_created   para_grup_nas[]   @relation("aks_pemakai_create")
+    para_grup_nas_updated   para_grup_nas[]   @relation("aks_pemakai_update")
+    para_sts_nikah_created   para_sts_nikah[]   @relation("aks_pemakai_create")
+    para_sts_nikah_updated   para_sts_nikah[]   @relation("aks_pemakai_update")
+    para_agama_created   para_agama[]   @relation("aks_pemakai_create")
+    para_agama_updated   para_agama[]   @relation("aks_pemakai_update")
+    para_profesi_created   para_profesi[]   @relation("aks_pemakai_create")
+    para_profesi_updated   para_profesi[]   @relation("aks_pemakai_update")
+    para_jns_pekerjaan_created   para_jns_pekerjaan[]   @relation("aks_pemakai_create")
+    para_jns_pekerjaan_updated   para_jns_pekerjaan[]   @relation("aks_pemakai_update")
+    para_negara_created   para_negara[]   @relation("aks_pemakai_create")
+    para_negara_updated   para_negara[]   @relation("aks_pemakai_update")
+    para_provinsi_created   para_provinsi[]   @relation("aks_pemakai_create")
+    para_provinsi_updated   para_provinsi[]   @relation("aks_pemakai_update")
+    para_kota_created   para_kota[]   @relation("aks_pemakai_create")
+    para_kota_updated   para_kota[]   @relation("aks_pemakai_update")
+    para_kecamatan_created   para_kecamatan[]   @relation("aks_pemakai_create")
+    para_kecamatan_updated   para_kecamatan[]   @relation("aks_pemakai_update")
+    para_kelurahan_created   para_kelurahan[]   @relation("aks_pemakai_create")
+    para_kelurahan_updated   para_kelurahan[]   @relation("aks_pemakai_update")
+    notification_sender notification[] @relation("notification_sender")
+    notification_reciver notification[] @relation("notification_reciver")
 }
 
 model cis_master {
@@ -66,23 +109,23 @@ model cis_master {
     created_at   DateTime @default(now())
     updated_at   DateTime @updatedAt
 
-    aks_pemakai_create       aks_pemakai        @relation("aks_pemakai_create", fields: [usrid_create], references: [username])
-    aks_pemakai_update       aks_pemakai?       @relation("aks_pemakai_update", fields: [usrid_update], references: [username])
+    aks_pemakai_create       aks_pemakai        @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update       aks_pemakai?       @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
     alamat                   cis_alamat[]
     cis_perusahaan           cis_perusahaan?
     cis_perorangan           cis_perorangan?
     cis_pengurus             cis_pengurus[]
-    para_jns_ident           para_jns_ident     @relation(fields: [jns_ident], references: [kode])
-    para_bntk_hkm            para_bntk_hkm      @relation(fields: [bntk_hkm], references: [kode])
-    para_gol_pmlk            para_gol_pmlk      @relation(fields: [gol_pemilik], references: [kode])
-    para_sumber_dana         para_dana          @relation("sumber_dana", fields: [sumber_dana], references: [kode])
-    para_tujuan_dana         para_dana          @relation("tujuan_dana", fields: [tujuan_dana], references: [kode])
-    para_transaksi           para_transaksi     @relation(fields: [maks_trans], references: [kode])
-    para_penghasilan         para_penghasilan   @relation("penghasilan", fields: [penghasilan_bulan], references: [kode])
-    para_penghasilan_lainnya para_penghasilan?  @relation("penghasilan_lainnya", fields: [penghasilan_lainnya], references: [kode])
-    para_pengeluaran         para_penghasilan   @relation("pengeluaran", fields: [pengeluaran_bulan], references: [kode])
-    para_pengeluaran_lainnya para_penghasilan?  @relation("pengeluaran_lainnya", fields: [pengeluaran_lainnya], references: [kode])
-    para_bidang_usaha        para_bidang_usaha? @relation(fields: [bidang_usaha], references: [kode])
+    para_jns_ident           para_jns_ident     @relation(fields: [jns_ident], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_bntk_hkm            para_bntk_hkm      @relation(fields: [bntk_hkm], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_gol_pmlk            para_gol_pmlk      @relation(fields: [gol_pemilik], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_sumber_dana         para_dana          @relation("sumber_dana", fields: [sumber_dana], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_tujuan_dana         para_dana          @relation("tujuan_dana", fields: [tujuan_dana], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_transaksi           para_transaksi     @relation(fields: [maks_trans], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_penghasilan         para_penghasilan   @relation("penghasilan", fields: [penghasilan_bulan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_penghasilan_lainnya para_penghasilan?  @relation("penghasilan_lainnya", fields: [penghasilan_lainnya], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_pengeluaran         para_penghasilan   @relation("pengeluaran", fields: [pengeluaran_bulan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_pengeluaran_lainnya para_penghasilan?  @relation("pengeluaran_lainnya", fields: [pengeluaran_lainnya], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_bidang_usaha        para_bidang_usaha? @relation(fields: [bidang_usaha], references: [kode], onDelete: NoAction, onUpdate: Cascade)
 }
 
 model cis_alamat {
@@ -106,15 +149,15 @@ model cis_alamat {
     created_at   DateTime @default(now())
     updated_at   DateTime @updatedAt
 
-    aks_pemakai_create aks_pemakai    @relation("aks_pemakai_create", fields: [usrid_create], references: [username])
-    aks_pemakai_update aks_pemakai?   @relation("aks_pemakai_update", fields: [usrid_update], references: [username])
-    cis_master         cis_master?    @relation(fields: [no_nas], references: [no_nas])
-    cis_pengurus       cis_pengurus?  @relation(fields: [id_pengurus], references: [id_pengurus])
-    para_negara        para_negara    @relation(fields: [negara], references: [kd_negara])
-    para_provinsi      para_provinsi  @relation(fields: [provinsi], references: [kd_provinsi])
-    para_kota          para_kota      @relation(fields: [kota], references: [kd_kota])
-    para_kecamatan     para_kecamatan @relation(fields: [kecamatan], references: [kd_kecamatan])
-    para_kelurahan     para_kelurahan @relation(fields: [kelurahan], references: [kd_kelurahan])
+    aks_pemakai_create aks_pemakai    @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai?   @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    cis_master         cis_master?    @relation(fields: [no_nas], references: [no_nas], onDelete: NoAction, onUpdate: Cascade)
+    cis_pengurus       cis_pengurus?  @relation(fields: [id_pengurus], references: [id_pengurus], onDelete: NoAction, onUpdate: Cascade)
+    para_negara        para_negara    @relation(fields: [negara], references: [kd_negara], onDelete: NoAction, onUpdate: Cascade)
+    para_provinsi      para_provinsi  @relation(fields: [provinsi], references: [kd_provinsi], onDelete: NoAction, onUpdate: Cascade)
+    para_kota          para_kota      @relation(fields: [kota], references: [kd_kota], onDelete: NoAction, onUpdate: Cascade)
+    para_kecamatan     para_kecamatan @relation(fields: [kecamatan], references: [kd_kecamatan], onDelete: NoAction, onUpdate: Cascade)
+    para_kelurahan     para_kelurahan @relation(fields: [kelurahan], references: [kd_kelurahan], onDelete: NoAction, onUpdate: Cascade)
 }
 
 model cis_perorangan {
@@ -141,14 +184,14 @@ model cis_perorangan {
     created_at   DateTime @default(now())
     updated_at   DateTime @updatedAt
 
-    aks_pemakai_create aks_pemakai        @relation("aks_pemakai_create", fields: [usrid_create], references: [username])
-    aks_pemakai_update aks_pemakai?       @relation("aks_pemakai_update", fields: [usrid_update], references: [username])
-    cisMaster          cis_master         @relation(fields: [no_nas], references: [no_nas])
-    para_sts_nikah     para_sts_nikah     @relation(fields: [status_pernikahan], references: [kode])
-    para_agama         para_agama         @relation(fields: [agama], references: [kode])
-    para_negara        para_negara        @relation(fields: [kewarganegaraan], references: [kd_negara])
-    para_profesi       para_profesi       @relation(fields: [profesi], references: [kode])
-    para_jns_pekerjaan para_jns_pekerjaan @relation(fields: [jns_pekerjaan], references: [kode])
+    aks_pemakai_create aks_pemakai        @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai?       @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    cisMaster          cis_master         @relation(fields: [no_nas], references: [no_nas], onDelete: NoAction, onUpdate: Cascade)
+    para_sts_nikah     para_sts_nikah     @relation(fields: [status_pernikahan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_agama         para_agama         @relation(fields: [agama], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_negara        para_negara        @relation(fields: [kewarganegaraan], references: [kd_negara], onDelete: NoAction, onUpdate: Cascade)
+    para_profesi       para_profesi       @relation(fields: [profesi], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_jns_pekerjaan para_jns_pekerjaan @relation(fields: [jns_pekerjaan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
 }
 
 model cis_perusahaan {
@@ -178,11 +221,11 @@ model cis_perusahaan {
     created_at   DateTime @default(now())
     updated_at   DateTime @updatedAt
 
-    aks_pemakai_create aks_pemakai        @relation("aks_pemakai_create", fields: [usrid_create], references: [username])
-    aks_pemakai_update aks_pemakai?       @relation("aks_pemakai_update", fields: [usrid_update], references: [username])
-    cisMaster          cis_master         @relation(fields: [no_nas], references: [no_nas])
-    para_jns_usaha_tkt para_jns_usaha_tkt @relation(fields: [jns_usaha_tkt], references: [kode])
-    para_grup_nas      para_grup_nas      @relation(fields: [group_nas], references: [kode])
+    aks_pemakai_create aks_pemakai        @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai?       @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    cisMaster          cis_master         @relation(fields: [no_nas], references: [no_nas], onDelete: NoAction, onUpdate: Cascade)
+    para_jns_usaha_tkt para_jns_usaha_tkt @relation(fields: [jns_usaha_tkt], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_grup_nas      para_grup_nas      @relation(fields: [group_nas], references: [kode], onDelete: NoAction, onUpdate: Cascade)
 }
 
 model cis_pengurus {
@@ -211,14 +254,89 @@ model cis_pengurus {
     created_at   DateTime @default(now())
     updated_at   DateTime @updatedAt
 
-    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username])
-    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username])
-    cis_master         cis_master?  @relation(fields: [no_nas], references: [no_nas])
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    cis_master         cis_master?  @relation(fields: [no_nas], references: [no_nas], onDelete: NoAction, onUpdate: Cascade)
     cis_alamat         cis_alamat[]
 
-    para_jns_ident para_jns_ident @relation(fields: [jns_ident], references: [kode])
-    para_negara    para_negara    @relation(fields: [kewarganegaraan], references: [kd_negara])
-    para_agama     para_agama     @relation(fields: [agama], references: [kode])
+    para_jns_ident para_jns_ident @relation(fields: [jns_ident], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_negara    para_negara    @relation(fields: [kewarganegaraan], references: [kd_negara], onDelete: NoAction, onUpdate: Cascade)
+    para_agama     para_agama     @relation(fields: [agama], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+}
+
+model cis_update {
+    id_update   String @id @default(auto()) @map("_id") @db.ObjectId
+    db_field String
+    nm_field String
+    current_record String
+    new_record String
+
+    sts_update String @default("00")
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+}
+
+model cs_form {
+    id_form   String @id @default(auto()) @map("_id") @db.ObjectId
+    tujuan Int
+    nama String
+    jns_ident Int
+    no_ident String
+    email String
+    no_telp String
+    no_rek String
+    provinsi      Int
+    kota          Int
+    kecamatan     Int
+    kelurahan     Int
+    rt            String
+    rw            String
+    kd_pos        String
+    alamat_detail String
+    
+    created_at DateTime @default(now())
+
+    para_cs_tujuan para_cs_tujuan @relation(fields: [tujuan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_jns_ident           para_jns_ident     @relation(fields: [jns_ident], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    para_provinsi      para_provinsi  @relation(fields: [provinsi], references: [kd_provinsi], onDelete: NoAction, onUpdate: Cascade)
+    para_kota          para_kota      @relation(fields: [kota], references: [kd_kota], onDelete: NoAction, onUpdate: Cascade)
+    para_kecamatan     para_kecamatan @relation(fields: [kecamatan], references: [kd_kecamatan], onDelete: NoAction, onUpdate: Cascade)
+    para_kelurahan     para_kelurahan @relation(fields: [kelurahan], references: [kd_kelurahan], onDelete: NoAction, onUpdate: Cascade)
+}
+
+model notification {
+    id_notifikasi   String @id @default(auto()) @map("_id") @db.ObjectId
+    title String
+    message String
+    // utility
+    send_from String
+    send_to String
+    message_type String
+    created_at DateTime @default(now())
+
+    aks_pemakai_send aks_pemakai @relation("notification_sender",fields: [send_from], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_recive aks_pemakai @relation("notification_reciver",fields: [send_to], references: [username], onDelete: NoAction, onUpdate: Cascade)
+}
+
+model para_cs_tujuan {
+    id_tujuan   String @id @default(auto()) @map("_id") @db.ObjectId
+    kode Int    @unique
+    keterangan String
+
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+
+    cs_form cs_form[]
 }
 
 model para_level_user {
@@ -235,8 +353,17 @@ model para_jns_ident {
     keterangan String
     jns_nas    Int
 
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+
     cis_master   cis_master[]
     cis_pengurus cis_pengurus[]
+    cs_form cs_form[]
 }
 
 model para_bntk_hkm {
@@ -244,6 +371,14 @@ model para_bntk_hkm {
     kode        Int    @unique
     keterangan  String
     jns_nas     Int
+
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
 
     cis_master cis_master[]
 }
@@ -253,6 +388,14 @@ model para_gol_pmlk {
     kode        Int    @unique
     keterangan  String
 
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+
     cis_master cis_master[]
 }
 
@@ -260,6 +403,14 @@ model para_dana {
     id_dana    String @id @default(auto()) @map("_id") @db.ObjectId
     kode       Int    @unique
     keterangan String
+
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
 
     cis_master_sumber cis_master[] @relation("sumber_dana")
     cis_master_tujuan cis_master[] @relation("tujuan_dana")
@@ -271,6 +422,14 @@ model para_transaksi {
     keterangan     String
     batas_maksimum Int
 
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+
     cis_master cis_master[]
 }
 
@@ -279,6 +438,13 @@ model para_penghasilan {
     kode           Int    @unique
     keterangan     String
 
+usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
     cis_master_penghasilan         cis_master[] @relation("penghasilan")
     cis_master_penghasilan_lainnya cis_master[] @relation("penghasilan_lainnya")
     cis_master_pengeluaran         cis_master[] @relation("pengeluaran")
@@ -290,6 +456,14 @@ model para_bidang_usaha {
     kode            Int    @unique
     keterangan      String
 
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+
     cis_master cis_master[]
 }
 
@@ -297,6 +471,14 @@ model para_jns_usaha_tkt {
     id_jns_usaha_tkt String @id @default(auto()) @map("_id") @db.ObjectId
     kode             Int    @unique
     keterangan       String
+
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
 
     cis_perusahaan cis_perusahaan[]
 }
@@ -306,6 +488,14 @@ model para_grup_nas {
     kode         Int    @unique
     keterangan   String
 
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+
     cis_perusahaan cis_perusahaan[]
 }
 
@@ -314,6 +504,14 @@ model para_sts_nikah {
     kode         Int    @unique
     keterangan   String
 
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+
     cis_perorangan cis_perorangan[]
 }
 
@@ -321,6 +519,14 @@ model para_agama {
     id_agama   String @id @default(auto()) @map("_id") @db.ObjectId
     kode       Int    @unique
     keterangan String
+
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
 
     cis_perorangan cis_perorangan[]
     cis_pengurus   cis_pengurus[]
@@ -331,6 +537,14 @@ model para_profesi {
     kode       Int    @unique
     keterangan String
 
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+
     cis_perorangan cis_perorangan[]
 }
 
@@ -339,6 +553,14 @@ model para_jns_pekerjaan {
     kode             Int    @unique
     keterangan       String
 
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+
     cis_perorangan cis_perorangan[]
 }
 
@@ -346,6 +568,14 @@ model para_negara {
     id_negara  String @id @default(auto()) @map("_id") @db.ObjectId
     kd_negara  String @unique
     keterangan String
+
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
 
     para_provinsi  para_provinsi[]
     cis_perorangan cis_perorangan[]
@@ -359,9 +589,18 @@ model para_provinsi {
     kd_provinsi Int    @unique
     keterangan  String
 
-    para_negara para_negara  @relation(fields: [kd_negara], references: [kd_negara], onDelete: Cascade)
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    para_negara para_negara  @relation(fields: [kd_negara], references: [kd_negara], onDelete: NoAction, onUpdate: Cascade)
+
     para_kota   para_kota[]
     cis_alamat  cis_alamat[]
+    cs_form cs_form[]
 }
 
 model para_kota {
@@ -370,9 +609,18 @@ model para_kota {
     kd_kota     Int    @unique
     keterangan  String
 
-    para_provinsi  para_provinsi    @relation(fields: [kd_provinsi], references: [kd_provinsi], onDelete: Cascade)
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+
+    para_provinsi  para_provinsi    @relation(fields: [kd_provinsi], references: [kd_provinsi], onDelete: NoAction, onUpdate: Cascade)
     para_kecamatan para_kecamatan[]
     cis_alamat     cis_alamat[]
+    cs_form cs_form[]
 }
 
 model para_kecamatan {
@@ -381,9 +629,18 @@ model para_kecamatan {
     kd_kecamatan Int    @unique
     keterangan   String
 
-    para_kota      para_kota        @relation(fields: [kd_kota], references: [kd_kota], onDelete: Cascade)
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+
+    para_kota      para_kota        @relation(fields: [kd_kota], references: [kd_kota], onDelete: NoAction, onUpdate: Cascade)
     para_kelurahan para_kelurahan[]
     cis_alamat     cis_alamat[]
+    cs_form cs_form[]
 }
 
 model para_kelurahan {
@@ -392,6 +649,15 @@ model para_kelurahan {
     kd_kelurahan Int    @unique
     keterangan   String
 
-    para_kecamatan para_kecamatan? @relation(fields: [kd_kecamatan], references: [kd_kecamatan], onDelete: Cascade)
+    usrid_create String
+    usrid_update String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    para_kecamatan para_kecamatan? @relation(fields: [kd_kecamatan], references: [kd_kecamatan], onDelete: NoAction, onUpdate: Cascade)
+
     cis_alamat     cis_alamat[]
+    cs_form cs_form[]
 }
