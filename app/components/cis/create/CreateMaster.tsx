@@ -12,6 +12,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import { CDialog } from "../../ClassnamesData";
 import FormInput from "../../FormInput";
 import FormSelect from "../FormSelect";
+import moment from "moment";
 
 interface CreateMasterProps {
     navDirection: TNavDirection;
@@ -79,7 +80,7 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                     {/* nama nasabah */}
                     <FormInput type="text" label="Nama Lengkap" formMethod={formMethod} id="nm_nas" placeholder="Masukan nama lengkap" isRequired />
                     {/* jenis identitas */}
-                    <FormSelect items={IJnsIdent} isLoading={isLoadingJnsIdent} formMethod={formMethod} id="jns_ident" label="Jenis Identitas" placeholder="Pilih jenis identitas" isRequired />
+                    <FormSelect items={IJnsIdent} isLoading={isLoadingJnsIdent} formMethod={formMethod} id="kd_jns_ident" label="Jenis Identitas" placeholder="Pilih jenis identitas" isRequired />
                     {/* nomor identitas */}
                     <FormInput type="text" label="Nomor Identitas" formMethod={formMethod} id="no_ident" placeholder="Masukan Nomor Identitas" isRequired />
                     {/* masa berlaku identitas */}
@@ -96,9 +97,7 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                         isRequired
                     />
                     {/* tanggal identitas */}
-                    {isForeverMasaIdent !== "1" && (
-                        <FormInput type="date" label="Tanggal Masa Identitas" formMethod={formMethod} id="tgl_ident" placeholder="Masukan Tanggal Masa Identitas" max={new Date().toISOString().split("T")[0] as string} isRequired />
-                    )}
+                    {isForeverMasaIdent !== "1" && <FormInput type="date" label="Tanggal Masa Identitas" formMethod={formMethod} id="tgl_ident" placeholder="Masukan Tanggal Masa Identitas" max={moment().format("YYYY-MM-DD")} isRequired />}
                     {/* bentuk hukum */}
                     <FormSelect items={IBntkHkm} isLoading={isLoadingBntkHkm} formMethod={formMethod} id="btnk_hkm" label="Bentuk Hukum" placeholder="Pilih Bentuk Hukum" isRequired />
                     {/* golongan pemilik */}
@@ -106,7 +105,7 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                         paginateItems={IGolPmlk}
                         isLoading={isLoadingGolPmlk}
                         formMethod={formMethod}
-                        id="gol_pmlk"
+                        id="kd_gol_pmlk"
                         label="Golongan Pemilik"
                         placeholder="Pilih Golongan Pemilik"
                         handleChangePage={setPageGolPmlk}
@@ -117,23 +116,23 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                         isRequired
                     />
                     {/* sumber dana */}
-                    <FormSelect isLoading={isLoadingDana} items={IDana} formMethod={formMethod} id="sumber_dana" label="Sumber Dana" placeholder="Pilih Sumber Dana" isRequired />
+                    <FormSelect isLoading={isLoadingDana} items={IDana} formMethod={formMethod} id="skd_umber_dana" label="Sumber Dana" placeholder="Pilih Sumber Dana" isRequired />
 
                     {/* tujuan dana */}
-                    <FormSelect isLoading={isLoadingDana} items={IDana} formMethod={formMethod} id="tujuan_dana" label="Tujuan Dana" placeholder="Pilih Tujuan Dana" isRequired />
+                    <FormSelect isLoading={isLoadingDana} items={IDana} formMethod={formMethod} id="kd_tujuan_dana" label="Tujuan Dana" placeholder="Pilih Tujuan Dana" isRequired />
 
                     {/* maksimal transaksi */}
-                    <FormSelect isLoading={isLoadingTransaksi} items={ITransaksi} formMethod={formMethod} id="maks_trans" label="Maskimal Transaksi" placeholder="Pilih Maskimal Transaksi" isRequired />
+                    <FormSelect isLoading={isLoadingTransaksi} items={ITransaksi} formMethod={formMethod} id="kd_maks_trans" label="Maskimal Transaksi" placeholder="Pilih Maskimal Transaksi" isRequired />
 
                     {/* penghasilan bulanan */}
-                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="penghasilan_bulan" label="Penghasilan Bulanan" placeholder="Pilih Penghasilan Bulanan" isRequired />
+                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="kd_penghasilan_bulan" label="Penghasilan Bulanan" placeholder="Pilih Penghasilan Bulanan" isRequired />
 
                     {/* penghasilan lainnya */}
-                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="penghasilan_lainnya" label="Penghasilan Lainnya" placeholder="Pilih Penghasilan Lainnya" />
+                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="kd_penghasilan_lainnya" label="Penghasilan Lainnya" placeholder="Pilih Penghasilan Lainnya" />
                     {/* pengeluaran bulanan */}
-                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="pengeluaran_bulan" label="Pengeluaran Bulanan" placeholder="Pilih Pengeluaran Bulanan" isRequired />
+                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="kd_pengeluaran_bulan" label="Pengeluaran Bulanan" placeholder="Pilih Pengeluaran Bulanan" isRequired />
                     {/* pengeluaran lainnya */}
-                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="pengeluaran_lainnya" label="Pengeluaran Lainnya" placeholder="Pilih Pengeluaran Lainnya" />
+                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="kd_pengeluaran_lainnya" label="Pengeluaran Lainnya" placeholder="Pilih Pengeluaran Lainnya" />
                     {/* npwp */}
                     <FormInput type="text" label="NPWP" formMethod={formMethod} id="npwp" placeholder="Masukan NPWP" />
                     {/* no telp */}
@@ -141,7 +140,7 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                     {/* email */}
                     <FormInput type="email" label="Email" formMethod={formMethod} id="email" placeholder="Masukan Email" isRequired />
                     {/* bidang usaha */}
-                    {kdTypeNasabah === 1 && <FormSelect isLoading={isLoadingBidangUsaha} items={IBidangUsaha} formMethod={formMethod} id="bidang_usaha" label="Bidang Usaha" placeholder="Pilih Bidang Usaha" />}
+                    {kdTypeNasabah === 1 && <FormSelect isLoading={isLoadingBidangUsaha} items={IBidangUsaha} formMethod={formMethod} id="kd_bidang_usaha" label="Bidang Usaha" placeholder="Pilih Bidang Usaha" />}
                     {/* flag hubungan bank */}
                     <FormSelect
                         items={[

@@ -15,18 +15,63 @@ export async function GET(request: Request, { params }: { params: IParams }) {
         const userMaster = await prisma.cis_master.findUnique({
             where: { no_nas: noNas },
             include: {
-                cis_perorangan: true,
-                cis_perusahaan: true,
+                cis_perorangan: {
+                    include: {
+                        status_nikah: true,
+                        agama: true,
+                        negara: true,
+                        profesi: true,
+                        jenis_pekerjaan: true,
+                    },
+                },
+                cis_perusahaan: {
+                    include: {
+                        grup_nasabah: true,
+                    },
+                },
                 cis_pengurus: {
                     include: {
-                        cis_alamat: true,
-                    }
+                        jenis_identitas: true,
+                        negara: true,
+                        agama: true,
+                        cis_alamat: {
+                            include: {
+                                negara: true,
+                                provinsi: true,
+                                kota: true,
+                                kecamatan: true,
+                                kelurahan: true,
+                            },
+                            orderBy: {
+                                no_urut: "asc",
+                            },
+                        },
+                    },
                 },
                 alamat: {
+                    include: {
+                        negara: true,
+                        provinsi: true,
+                        kota: true,
+                        kecamatan: true,
+                        kelurahan: true,
+                    },
                     orderBy: {
                         no_urut: "asc",
                     },
                 },
+                // parameter cis_master
+                jenis_identitas: true,
+                bentuk_hukum: true,
+                golongan_pemilik: true,
+                sumber_dana: true,
+                tujuan_dana: true,
+                transaksi: true,
+                penghasilan: true,
+                penghasilan_lainnya: true,
+                pengeluaran: true,
+                pengeluaran_lainnya: true,
+                bidang_usaha: true,
             },
         });
 
@@ -34,6 +79,7 @@ export async function GET(request: Request, { params }: { params: IParams }) {
 
         return NextResponse.json(userMaster);
     } catch (error) {
+        console.log(error);
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === "P2025") {
                 return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });

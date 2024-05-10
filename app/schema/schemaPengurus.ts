@@ -2,15 +2,15 @@ import { z } from "zod";
 
 const schemaPengurus = z.object({
     jns_pengurus: z.number(),
-    kewarganegaraan: z.string(),
-    jns_ident: z.number(),
+    kd_kewarganegaraan: z.string(),
+    kd_jns_ident: z.number(),
     no_ident: z.string(),
     nm_nas: z.string(),
     masa_ident: z.number(),
     tgl_ident: z.string().datetime(),
     tempat_lahir: z.string(),
     tgl_lahir: z.string().datetime(),
-    agama: z.number(),
+    kd_agama: z.number(),
     no_hp: z.string(),
     no_telp: z.string(),
     email: z.string().email(),
@@ -21,4 +21,3 @@ const schemaPengurus = z.object({
 });
 
 export default schemaPengurus;
-

@@ -127,7 +127,7 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                     handleChangePage={setPageNegara}
                     handleSearch={setSearchNegara}
                     formMethod={formMethod}
-                    id="negara"
+                    id="kd_negara"
                     label="Negara"
                     placeholder="Pilih Negara"
                     isSearchable
@@ -143,7 +143,7 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                     handleSearch={setSearchProvinsi}
                     onChange={setKdProvinsi}
                     formMethod={formMethod}
-                    id="provinsi"
+                    id="kd_provinsi"
                     label="Provinsi"
                     placeholder="Pilih Provinsi"
                     isSearchable
@@ -159,7 +159,7 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                     onChange={setKdKota}
                     handleSearch={setSearchKota}
                     formMethod={formMethod}
-                    id="kota"
+                    id="kd_kota"
                     label="Kota"
                     placeholder="Pilih Kota"
                     isSearchable
@@ -174,7 +174,7 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                     handleSearch={setSearchKecamatan}
                     onChange={setKdKecamatan}
                     formMethod={formMethod}
-                    id="kecamatan"
+                    id="kd_kecamatan"
                     label="Kecamatan"
                     placeholder="Pilih Kecamatan"
                     isSearchable
@@ -189,7 +189,7 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                     handleChangePage={setPageKelurahan}
                     handleSearch={setSearchKelurahan}
                     formMethod={formMethod}
-                    id="kelurahan"
+                    id="kd_kelurahan"
                     label="Kelurahan"
                     placeholder="Pilih Kelurahan"
                     isSearchable

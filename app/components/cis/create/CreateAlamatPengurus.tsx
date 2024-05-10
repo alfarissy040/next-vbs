@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
-import useFetchPaginateParameter from "@/app/hooks/useFetchPaginateParameter"
-import { baseFormVariant } from "@/app/utilities/MotionVariant"
-import { para_kecamatan, para_kelurahan, para_kota, para_negara, para_provinsi } from "@prisma/client"
-import { motion } from "framer-motion"
-import { useState } from "react"
-import { FieldValues, UseFormReturn } from "react-hook-form"
-import FormInput from "../../FormInput"
-import FormTextarea from "../../FormTextarea"
-import FormSelect from "../FormSelect"
+import useFetchPaginateParameter from "@/app/hooks/useFetchPaginateParameter";
+import { baseFormVariant } from "@/app/utilities/MotionVariant";
+import { para_kecamatan, para_kelurahan, para_kota, para_negara, para_provinsi } from "@prisma/client";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { FieldValues, UseFormReturn } from "react-hook-form";
+import FormInput from "../../FormInput";
+import FormTextarea from "../../FormTextarea";
+import FormSelect from "../FormSelect";
 
 interface CreateAlamatPengurusProps {
     navDirection: TNavDirection;
-    typeNasabah: TNasabahType
-    formMethod: UseFormReturn<FieldValues>
-    kdTypeNasabah: number
+    typeNasabah: TNasabahType;
+    formMethod: UseFormReturn<FieldValues>;
+    kdTypeNasabah: number;
 }
 
-const CreateAlamatPengurus: React.FC<CreateAlamatPengurusProps> = ({ navDirection, typeNasabah, kdTypeNasabah, formMethod }) => {
-    const { getValues } = formMethod
+const CreateAlamatPengurus: React.FC<CreateAlamatPengurusProps> = ({ navDirection, typeNasabah, formMethod }) => {
+    const { getValues } = formMethod;
     const [kdProvinsi, setKdProvinsi] = useState<number | null>(getValues("provinsi") ?? null);
     const [kdKota, setKdKota] = useState<number | null>(getValues("kota") ?? null);
     const [kdKecamatan, setKdKecamatan] = useState<number | null>(getValues("kecamatan") ?? null);
@@ -29,9 +29,9 @@ const CreateAlamatPengurus: React.FC<CreateAlamatPengurusProps> = ({ navDirectio
         isLoading: isLoadingNegara,
         setSize: setPageNegara,
         size: sizeNegara,
-        setSearch: setSearchNegara
+        setSearch: setSearchNegara,
     } = useFetchPaginateParameter<para_negara>({
-        parameter: "negara"
+        parameter: "negara",
     });
     const {
         data: IProvinsi,
@@ -39,12 +39,12 @@ const CreateAlamatPengurus: React.FC<CreateAlamatPengurusProps> = ({ navDirectio
         isLoading: isLoadingProvinsi,
         setSize: setPageProvinsi,
         size: sizeProvinsi,
-        setSearch: setSearchProvinsi
+        setSearch: setSearchProvinsi,
     } = useFetchPaginateParameter<para_provinsi>({
         parameter: "provinsi",
         option: {
-            value: "kd_provinsi"
-        }
+            value: "kd_provinsi",
+        },
     });
     const {
         data: IKota,
@@ -52,13 +52,13 @@ const CreateAlamatPengurus: React.FC<CreateAlamatPengurusProps> = ({ navDirectio
         isLoading: isLoadingKota,
         setSize: setPageKota,
         size: sizeKota,
-        setSearch: setSearchKota
+        setSearch: setSearchKota,
     } = useFetchPaginateParameter<para_kota>({
         parameter: "kota",
         option: { value: "kd_kota", keepPreviousData: false },
         queryParams: {
-            provinsi: kdProvinsi ?? undefined
-        }
+            provinsi: kdProvinsi ?? undefined,
+        },
     });
     const {
         data: IKecamatan,
@@ -66,13 +66,13 @@ const CreateAlamatPengurus: React.FC<CreateAlamatPengurusProps> = ({ navDirectio
         isLoading: isLoadingKecamatan,
         setSize: setPageKecamatan,
         size: sizeKecamatan,
-        setSearch: setSearchKecamatan
+        setSearch: setSearchKecamatan,
     } = useFetchPaginateParameter<para_kecamatan>({
         parameter: "kecamatan",
         option: { value: "kd_kecamatan", keepPreviousData: false },
         queryParams: {
-            kota: kdKota ?? undefined
-        }
+            kota: kdKota ?? undefined,
+        },
     });
     const {
         data: IKelurahan,
@@ -85,8 +85,8 @@ const CreateAlamatPengurus: React.FC<CreateAlamatPengurusProps> = ({ navDirectio
         parameter: "kelurahan",
         option: { value: "kd_kelurahan", keepPreviousData: false },
         queryParams: {
-            kecamatan: kdKecamatan ?? undefined
-        }
+            kecamatan: kdKecamatan ?? undefined,
+        },
     });
     return (
         <motion.div
@@ -99,8 +99,11 @@ const CreateAlamatPengurus: React.FC<CreateAlamatPengurusProps> = ({ navDirectio
                 type: "spring",
                 duration: 0.5,
             }}
-            className="rounded-lg shadow-lg w-full p-3 bg-slate-100 dark:bg-slate-800">
-            <h2 className="font-medium md:text-lg">Nasabah Tipe <b className="capitalize">{typeNasabah.toLowerCase()}</b> - Alamat Pengurus</h2>
+            className="rounded-lg shadow-lg w-full p-3 bg-slate-100 dark:bg-slate-800"
+        >
+            <h2 className="font-medium md:text-lg">
+                Nasabah Tipe <b className="capitalize">{typeNasabah.toLowerCase()}</b> - Alamat Pengurus
+            </h2>
             <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mt-3">
                 {/* jenis alamat */}
                 <FormSelect
@@ -124,7 +127,7 @@ const CreateAlamatPengurus: React.FC<CreateAlamatPengurusProps> = ({ navDirectio
                     handleChangePage={setPageNegara}
                     handleSearch={setSearchNegara}
                     formMethod={formMethod}
-                    id="pengurus.alamat.negara"
+                    id="pengurus.alamat.kd_negara"
                     label="Negara Pengurus"
                     placeholder="Pilih Negara"
                     isSearchable
@@ -140,7 +143,7 @@ const CreateAlamatPengurus: React.FC<CreateAlamatPengurusProps> = ({ navDirectio
                     handleSearch={setSearchProvinsi}
                     onChange={setKdProvinsi}
                     formMethod={formMethod}
-                    id="pengurus.alamat.provinsi"
+                    id="pengurus.alamat.kd_provinsi"
                     label="Provinsi"
                     placeholder="Pilih Provinsi"
                     isSearchable
@@ -156,7 +159,7 @@ const CreateAlamatPengurus: React.FC<CreateAlamatPengurusProps> = ({ navDirectio
                     onChange={setKdKota}
                     handleSearch={setSearchKota}
                     formMethod={formMethod}
-                    id="pengurus.alamat.kota"
+                    id="pengurus.alamat.kd_kota"
                     label="Kota"
                     placeholder="Pilih Kota"
                     isSearchable
@@ -172,7 +175,7 @@ const CreateAlamatPengurus: React.FC<CreateAlamatPengurusProps> = ({ navDirectio
                     handleSearch={setSearchKecamatan}
                     onChange={setKdKecamatan}
                     formMethod={formMethod}
-                    id="pengurus.alamat.kecamatan"
+                    id="pengurus.alamat.kd_kecamatan"
                     label="Kecamatan"
                     placeholder="Pilih Kecamatan"
                     isSearchable
@@ -187,7 +190,7 @@ const CreateAlamatPengurus: React.FC<CreateAlamatPengurusProps> = ({ navDirectio
                     handleChangePage={setPageKelurahan}
                     handleSearch={setSearchKelurahan}
                     formMethod={formMethod}
-                    id="pengurus.alamat.kelurahan"
+                    id="pengurus.alamat.kd_kelurahan"
                     label="Kelurahan"
                     placeholder="Pilih Kelurahan"
                     isSearchable
@@ -195,47 +198,60 @@ const CreateAlamatPengurus: React.FC<CreateAlamatPengurusProps> = ({ navDirectio
                 />
                 {/* rt rw */}
                 <div className="flex flex-col md:flex-row items-center gap-3">
-                    <FormInput type="text" rules={{
-                        pattern: {
-                            value: /^[0-9]*$/,
-                            message: 'Hanya angka yang diperbolehkan'
-                        }
-                    }} inputMode="numeric" label="RT"
+                    <FormInput
+                        type="text"
+                        rules={{
+                            pattern: {
+                                value: /^[0-9]*$/,
+                                message: "Hanya angka yang diperbolehkan",
+                            },
+                        }}
+                        inputMode="numeric"
+                        label="RT"
                         formMethod={formMethod}
-                        id="pengurus.alamat.rt" placeholder="Masukan RT" isRequired />
-                    <FormInput type="text" rules={{
-                        pattern: {
-                            value: /^[0-9]*$/,
-                            message: 'Hanya angka yang diperbolehkan'
-                        }
-                    }} inputMode="numeric" label="RW"
+                        id="pengurus.alamat.rt"
+                        placeholder="Masukan RT"
+                        isRequired
+                    />
+                    <FormInput
+                        type="text"
+                        rules={{
+                            pattern: {
+                                value: /^[0-9]*$/,
+                                message: "Hanya angka yang diperbolehkan",
+                            },
+                        }}
+                        inputMode="numeric"
+                        label="RW"
                         formMethod={formMethod}
-                        id="pengurus.alamat.rw" placeholder="Masukan RW" isRequired />
-                </div>
-                {/* kode pos */}
-                <FormInput type="text"
-                    rules={{
-                        pattern: {
-                            value: /^[0-9]*$/,
-                            message: 'Hanya angka yang diperbolehkan'
-                        }
-                    }}
-                    inputMode="numeric" label="Kode Pos"
-                    formMethod={formMethod}
-                    id="pengurus.alamat.kd_pos" placeholder="Masukan Kode Pos" isRequired />
-                {/* alamat detail */}
-                <div className="md:col-span-2">
-                    <FormTextarea
-                        formMethod={formMethod}
-                        id="pengurus.alamat.alamat"
-                        label="Detail Alamat Pengurus"
-                        placeholder="Masukan Alamat"
+                        id="pengurus.alamat.rw"
+                        placeholder="Masukan RW"
                         isRequired
                     />
                 </div>
+                {/* kode pos */}
+                <FormInput
+                    type="text"
+                    rules={{
+                        pattern: {
+                            value: /^[0-9]*$/,
+                            message: "Hanya angka yang diperbolehkan",
+                        },
+                    }}
+                    inputMode="numeric"
+                    label="Kode Pos"
+                    formMethod={formMethod}
+                    id="pengurus.alamat.kd_pos"
+                    placeholder="Masukan Kode Pos"
+                    isRequired
+                />
+                {/* alamat detail */}
+                <div className="md:col-span-2">
+                    <FormTextarea formMethod={formMethod} id="pengurus.alamat.alamat" label="Detail Alamat Pengurus" placeholder="Masukan Alamat" isRequired />
+                </div>
             </div>
         </motion.div>
-    )
-}
+    );
+};
 
-export default CreateAlamatPengurus
+export default CreateAlamatPengurus;

@@ -51,8 +51,6 @@ model aks_pemakai {
     para_penghasilan_updated   para_penghasilan[]   @relation("aks_pemakai_update")     
     para_bidang_usaha_created   para_bidang_usaha[]   @relation("aks_pemakai_create")
     para_bidang_usaha_updated   para_bidang_usaha[]   @relation("aks_pemakai_update")
-    para_jns_usaha_tkt_created   para_jns_usaha_tkt[]   @relation("aks_pemakai_create")
-    para_jns_usaha_tkt_updated   para_jns_usaha_tkt[]   @relation("aks_pemakai_update")
     para_grup_nas_created   para_grup_nas[]   @relation("aks_pemakai_create")
     para_grup_nas_updated   para_grup_nas[]   @relation("aks_pemakai_update")
     para_sts_nikah_created   para_sts_nikah[]   @relation("aks_pemakai_create")
@@ -83,26 +81,26 @@ model cis_master {
     created_at_kantor   String
     nm_nas              String
     tipe_nas            Int
-    jns_ident           Int
     no_ident            String
     masa_ident          Int
     tgl_ident           DateTime?
-    acc_off             String
-    bntk_hkm            Int
-    gol_pemilik         Int
     status_nas          String    @default("00")
     flag_hub_bank       Boolean   @default(false)
-    sumber_dana         Int
-    tujuan_dana         Int
-    maks_trans          Int
-    penghasilan_bulan   Int
-    penghasilan_lainnya Int?
-    pengeluaran_bulan   Int
-    pengeluaran_lainnya Int?
     npwp                String?
     no_telp             String
     email               String
-    bidang_usaha        Int?
+    kd_jns_ident           Int
+    kd_acc_off             String
+    kd_bntk_hkm            Int
+    kd_gol_pemilik         Int
+    kd_sumber_dana         Int
+    kd_tujuan_dana         Int
+    kd_maks_trans          Int
+    kd_penghasilan_bulan   Int
+    kd_penghasilan_lainnya Int?
+    kd_pengeluaran_bulan   Int
+    kd_pengeluaran_lainnya Int?
+    kd_bidang_usaha        Int?
 
     usrid_create String
     usrid_update String?
@@ -115,17 +113,17 @@ model cis_master {
     cis_perusahaan           cis_perusahaan?
     cis_perorangan           cis_perorangan?
     cis_pengurus             cis_pengurus[]
-    para_jns_ident           para_jns_ident     @relation(fields: [jns_ident], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_bntk_hkm            para_bntk_hkm      @relation(fields: [bntk_hkm], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_gol_pmlk            para_gol_pmlk      @relation(fields: [gol_pemilik], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_sumber_dana         para_dana          @relation("sumber_dana", fields: [sumber_dana], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_tujuan_dana         para_dana          @relation("tujuan_dana", fields: [tujuan_dana], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_transaksi           para_transaksi     @relation(fields: [maks_trans], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_penghasilan         para_penghasilan   @relation("penghasilan", fields: [penghasilan_bulan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_penghasilan_lainnya para_penghasilan?  @relation("penghasilan_lainnya", fields: [penghasilan_lainnya], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_pengeluaran         para_penghasilan   @relation("pengeluaran", fields: [pengeluaran_bulan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_pengeluaran_lainnya para_penghasilan?  @relation("pengeluaran_lainnya", fields: [pengeluaran_lainnya], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_bidang_usaha        para_bidang_usaha? @relation(fields: [bidang_usaha], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    jenis_identitas           para_jns_ident     @relation(fields: [kd_jns_ident], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    bentuk_hukum            para_bntk_hkm      @relation(fields: [kd_bntk_hkm], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    golongan_pemilik            para_gol_pmlk      @relation(fields: [kd_gol_pemilik], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    sumber_dana         para_dana          @relation("sumber_dana", fields: [kd_sumber_dana], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    tujuan_dana         para_dana          @relation("tujuan_dana", fields: [kd_tujuan_dana], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    transaksi           para_transaksi     @relation(fields: [kd_maks_trans], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    penghasilan         para_penghasilan   @relation("penghasilan", fields: [kd_penghasilan_bulan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    penghasilan_lainnya para_penghasilan?  @relation("penghasilan_lainnya", fields: [kd_penghasilan_lainnya], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    pengeluaran         para_penghasilan   @relation("pengeluaran", fields: [kd_pengeluaran_bulan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    pengeluaran_lainnya para_penghasilan?  @relation("pengeluaran_lainnya", fields: [kd_pengeluaran_lainnya], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    bidang_usaha        para_bidang_usaha? @relation(fields: [kd_bidang_usaha], references: [kode], onDelete: NoAction, onUpdate: Cascade)
 }
 
 model cis_alamat {
@@ -134,11 +132,11 @@ model cis_alamat {
     id_pengurus   String? @db.ObjectId
     no_urut       Int     @default(1)
     jns_alamat    String
-    negara        String
-    provinsi      Int
-    kota          Int
-    kecamatan     Int
-    kelurahan     Int
+    kd_negara        String
+    kd_provinsi      Int
+    kd_kota          Int
+    kd_kecamatan     Int
+    kd_kelurahan     Int
     rt            String
     rw            String
     kd_pos        String
@@ -153,11 +151,11 @@ model cis_alamat {
     aks_pemakai_update aks_pemakai?   @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
     cis_master         cis_master?    @relation(fields: [no_nas], references: [no_nas], onDelete: NoAction, onUpdate: Cascade)
     cis_pengurus       cis_pengurus?  @relation(fields: [id_pengurus], references: [id_pengurus], onDelete: NoAction, onUpdate: Cascade)
-    para_negara        para_negara    @relation(fields: [negara], references: [kd_negara], onDelete: NoAction, onUpdate: Cascade)
-    para_provinsi      para_provinsi  @relation(fields: [provinsi], references: [kd_provinsi], onDelete: NoAction, onUpdate: Cascade)
-    para_kota          para_kota      @relation(fields: [kota], references: [kd_kota], onDelete: NoAction, onUpdate: Cascade)
-    para_kecamatan     para_kecamatan @relation(fields: [kecamatan], references: [kd_kecamatan], onDelete: NoAction, onUpdate: Cascade)
-    para_kelurahan     para_kelurahan @relation(fields: [kelurahan], references: [kd_kelurahan], onDelete: NoAction, onUpdate: Cascade)
+    negara        para_negara    @relation(fields: [kd_negara], references: [kd_negara], onDelete: NoAction, onUpdate: Cascade)
+    provinsi      para_provinsi  @relation(fields: [kd_provinsi], references: [kd_provinsi], onDelete: NoAction, onUpdate: Cascade)
+    kota          para_kota      @relation(fields: [kd_kota], references: [kd_kota], onDelete: NoAction, onUpdate: Cascade)
+    kecamatan     para_kecamatan @relation(fields: [kd_kecamatan], references: [kd_kecamatan], onDelete: NoAction, onUpdate: Cascade)
+    kelurahan     para_kelurahan @relation(fields: [kd_kelurahan], references: [kd_kelurahan], onDelete: NoAction, onUpdate: Cascade)
 }
 
 model cis_perorangan {
@@ -168,16 +166,16 @@ model cis_perorangan {
     tgl_lahir         DateTime
     jns_kelamin       String
     flag_karyawan     Boolean  @default(false)
-    status_pernikahan Int
     nm_pasangan       String?
     no_ident_pasangan String?
     nm_ahli_waris     String?
-    agama             Int
-    kewarganegaraan   String
-    profesi           Int
-    jns_pekerjaan     Int
     jabatan           String
     nm_kntr           String
+    kd_status_pernikahan Int
+    kd_agama             Int
+    kd_kewarganegaraan   String
+    kd_profesi           Int
+    kd_jns_pekerjaan     Int
 
     usrid_create String
     usrid_update String?
@@ -187,19 +185,18 @@ model cis_perorangan {
     aks_pemakai_create aks_pemakai        @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
     aks_pemakai_update aks_pemakai?       @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
     cisMaster          cis_master         @relation(fields: [no_nas], references: [no_nas], onDelete: NoAction, onUpdate: Cascade)
-    para_sts_nikah     para_sts_nikah     @relation(fields: [status_pernikahan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_agama         para_agama         @relation(fields: [agama], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_negara        para_negara        @relation(fields: [kewarganegaraan], references: [kd_negara], onDelete: NoAction, onUpdate: Cascade)
-    para_profesi       para_profesi       @relation(fields: [profesi], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_jns_pekerjaan para_jns_pekerjaan @relation(fields: [jns_pekerjaan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    status_nikah     para_sts_nikah     @relation(fields: [kd_status_pernikahan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    agama         para_agama         @relation(fields: [kd_agama], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    negara        para_negara        @relation(fields: [kd_kewarganegaraan], references: [kd_negara], onDelete: NoAction, onUpdate: Cascade)
+    profesi       para_profesi       @relation(fields: [kd_profesi], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    jenis_pekerjaan para_jns_pekerjaan @relation(fields: [kd_jns_pekerjaan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
 }
 
 model cis_perusahaan {
     id_perusahaan      String   @id @default(auto()) @map("_id") @db.ObjectId
     no_nas             String   @unique
-    jns_usaha_tkt      Int
+    kd_group_nas          Int
     flag_bank          Boolean
-    group_nas          Int
     modal_sendiri      Int
     modal_setor        Int
     no_akte_awal       String
@@ -224,23 +221,21 @@ model cis_perusahaan {
     aks_pemakai_create aks_pemakai        @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
     aks_pemakai_update aks_pemakai?       @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
     cisMaster          cis_master         @relation(fields: [no_nas], references: [no_nas], onDelete: NoAction, onUpdate: Cascade)
-    para_jns_usaha_tkt para_jns_usaha_tkt @relation(fields: [jns_usaha_tkt], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_grup_nas      para_grup_nas      @relation(fields: [group_nas], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    grup_nasabah      para_grup_nas      @relation(fields: [kd_group_nas], references: [kode], onDelete: NoAction, onUpdate: Cascade)
 }
 
 model cis_pengurus {
     id_pengurus     String   @id @default(auto()) @map("_id") @db.ObjectId
     no_nas          String
-    jns_pengurus    Int
-    kewarganegaraan String
-    jns_ident       Int
+    kd_agama           Int
+    kd_kewarganegaraan String
+    kd_jns_ident       Int
     no_ident        String
     nm_nas          String
     masa_ident      Int
     tgl_ident       DateTime
     tempat_lahir    String
     tgl_lahir       DateTime
-    agama           Int
     no_hp           String
     no_telp         String
     email           String
@@ -259,9 +254,9 @@ model cis_pengurus {
     cis_master         cis_master?  @relation(fields: [no_nas], references: [no_nas], onDelete: NoAction, onUpdate: Cascade)
     cis_alamat         cis_alamat[]
 
-    para_jns_ident para_jns_ident @relation(fields: [jns_ident], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_negara    para_negara    @relation(fields: [kewarganegaraan], references: [kd_negara], onDelete: NoAction, onUpdate: Cascade)
-    para_agama     para_agama     @relation(fields: [agama], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    jenis_identitas para_jns_ident @relation(fields: [kd_jns_ident], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    negara    para_negara    @relation(fields: [kd_kewarganegaraan], references: [kd_negara], onDelete: NoAction, onUpdate: Cascade)
+    agama     para_agama     @relation(fields: [kd_agama], references: [kode], onDelete: NoAction, onUpdate: Cascade)
 }
 
 model cis_update {
@@ -283,17 +278,17 @@ model cis_update {
 
 model cs_form {
     id_form   String @id @default(auto()) @map("_id") @db.ObjectId
-    tujuan Int
+    kd_tujuan Int
     nama String
     jns_ident Int
     no_ident String
     email String
     no_telp String
     no_rek String
-    provinsi      Int
-    kota          Int
-    kecamatan     Int
-    kelurahan     Int
+    kd_provinsi      Int
+    kd_kota          Int
+    kd_kecamatan     Int
+    kd_kelurahan     Int
     rt            String
     rw            String
     kd_pos        String
@@ -301,12 +296,12 @@ model cs_form {
     
     created_at DateTime @default(now())
 
-    para_cs_tujuan para_cs_tujuan @relation(fields: [tujuan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_jns_ident           para_jns_ident     @relation(fields: [jns_ident], references: [kode], onDelete: NoAction, onUpdate: Cascade)
-    para_provinsi      para_provinsi  @relation(fields: [provinsi], references: [kd_provinsi], onDelete: NoAction, onUpdate: Cascade)
-    para_kota          para_kota      @relation(fields: [kota], references: [kd_kota], onDelete: NoAction, onUpdate: Cascade)
-    para_kecamatan     para_kecamatan @relation(fields: [kecamatan], references: [kd_kecamatan], onDelete: NoAction, onUpdate: Cascade)
-    para_kelurahan     para_kelurahan @relation(fields: [kelurahan], references: [kd_kelurahan], onDelete: NoAction, onUpdate: Cascade)
+    tujuan para_cs_tujuan @relation(fields: [kd_tujuan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    jenis_identitas           para_jns_ident     @relation(fields: [jns_ident], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    provinsi      para_provinsi  @relation(fields: [kd_provinsi], references: [kd_provinsi], onDelete: NoAction, onUpdate: Cascade)
+    kota          para_kota      @relation(fields: [kd_kota], references: [kd_kota], onDelete: NoAction, onUpdate: Cascade)
+    kecamatan     para_kecamatan @relation(fields: [kd_kecamatan], references: [kd_kecamatan], onDelete: NoAction, onUpdate: Cascade)
+    kelurahan     para_kelurahan @relation(fields: [kd_kelurahan], references: [kd_kelurahan], onDelete: NoAction, onUpdate: Cascade)
 }
 
 model notification {
@@ -465,22 +460,6 @@ model para_bidang_usaha {
     aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
 
     cis_master cis_master[]
-}
-
-model para_jns_usaha_tkt {
-    id_jns_usaha_tkt String @id @default(auto()) @map("_id") @db.ObjectId
-    kode             Int    @unique
-    keterangan       String
-
-    usrid_create String
-    usrid_update String?
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
-
-    aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
-    aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
-
-    cis_perusahaan cis_perusahaan[]
 }
 
 model para_grup_nas {

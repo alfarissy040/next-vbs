@@ -1,13 +1,12 @@
-import { motion } from "framer-motion";
-import FormInput from "../../FormInput";
-import FormSelect from "../FormSelect";
-import { useState } from "react";
-import { FieldValues, UseFormReturn } from "react-hook-form";
+import useFetchParameter from "@/app/hooks/useFetchParameter";
 import { baseFormVariant } from "@/app/utilities/MotionVariant";
 import { para_agama, para_jns_pekerjaan, para_negara, para_profesi, para_sts_nikah } from "@prisma/client";
-import useFetchParameter from "@/app/hooks/useFetchParameter";
+import { motion } from "framer-motion";
 import moment from "moment";
-import getPerorangan from "@/app/hooks/cis/getPerorangan";
+import { useState } from "react";
+import { FieldValues, UseFormReturn } from "react-hook-form";
+import FormInput from "../../FormInput";
+import FormSelect from "../FormSelect";
 
 interface CreatePeroranganProps {
     navDirection: TNavDirection;
@@ -18,20 +17,20 @@ interface CreatePeroranganProps {
 const CreatePerorangan: React.FC<CreatePeroranganProps> = async ({ navDirection, formMethod, typeNasabah }) => {
     const [statusPenikahan, setStatusPernikahan] = useState<"Y" | "T" | undefined>();
 
-    const { convertedData: IStsPernikahan, isLoading: isLoadingStsPernikahan, apiUrl: urlStsPernikahan } = useFetchParameter<para_sts_nikah>({
-        parameter: "status-nikah"
+    const { convertedData: IStsPernikahan, isLoading: isLoadingStsPernikahan } = useFetchParameter<para_sts_nikah>({
+        parameter: "status-nikah",
     });
-    const { convertedData: IAgama, isLoading: isLoadingAgama, apiUrl: urlAgama } = useFetchParameter<para_agama>({
-        parameter: "agama"
+    const { convertedData: IAgama, isLoading: isLoadingAgama } = useFetchParameter<para_agama>({
+        parameter: "agama",
     });
-    const { convertedData: INegara, isLoading: isLoadingNegara, apiUrl: urlNegara } = useFetchParameter<para_negara>({
-        parameter: "negara"
+    const { convertedData: INegara, isLoading: isLoadingNegara } = useFetchParameter<para_negara>({
+        parameter: "negara",
     });
-    const { convertedData: IProfesi, isLoading: isLoadingProfesi, apiUrl: urlProfesi } = useFetchParameter<para_profesi>({
-        parameter: "profesi"
+    const { convertedData: IProfesi, isLoading: isLoadingProfesi } = useFetchParameter<para_profesi>({
+        parameter: "profesi",
     });
-    const { convertedData: IJnsPekerjaan, isLoading: isLoadingJnsPekerjaan, apiUrl: urlJnsPekerjaan } = useFetchParameter<para_jns_pekerjaan>({
-        parameter: "jenis-pekerjaan"
+    const { convertedData: IJnsPekerjaan, isLoading: isLoadingJnsPekerjaan } = useFetchParameter<para_jns_pekerjaan>({
+        parameter: "jenis-pekerjaan",
     });
     return (
         <motion.div
@@ -81,17 +80,7 @@ const CreatePerorangan: React.FC<CreatePeroranganProps> = async ({ navDirection,
                     isRequired
                 />
                 {/* status pernikahan */}
-                <FormSelect
-                    fetchUrl={urlStsPernikahan}
-                    isLoading={isLoadingStsPernikahan}
-                    items={IStsPernikahan}
-                    formMethod={formMethod}
-                    id="sts_nikah"
-                    label="Status Pernikahan"
-                    placeholder="Pilih Status Pernikahan"
-                    onChange={setStatusPernikahan}
-                    isRequired
-                />
+                <FormSelect isLoading={isLoadingStsPernikahan} items={IStsPernikahan} formMethod={formMethod} id="kd_sts_nikah" label="Status Pernikahan" placeholder="Pilih Status Pernikahan" onChange={setStatusPernikahan} isRequired />
                 {/* nama pasangan */}
                 <FormInput type="text" label="Nama Pasangan" formMethod={formMethod} id="nm_pasangan" placeholder="Masukan Nama Pasangan" isRequired={statusPenikahan === "Y"} />
                 {/* no ident pasangan */}
@@ -99,13 +88,13 @@ const CreatePerorangan: React.FC<CreatePeroranganProps> = async ({ navDirection,
                 {/* nama ahli waris */}
                 <FormInput type="text" label="Nama Ahli Waris" formMethod={formMethod} id="nm_ahli_waris" placeholder="Masukan Nama Ahli Waris" isRequired={statusPenikahan === "Y"} />
                 {/* agama */}
-                <FormSelect fetchUrl={urlAgama} isLoading={isLoadingAgama} items={IAgama} formMethod={formMethod} id="agama" label="Agama" placeholder="Pilih Agama" isRequired />
+                <FormSelect isLoading={isLoadingAgama} items={IAgama} formMethod={formMethod} id="kd_agama" label="Agama" placeholder="Pilih Agama" isRequired />
                 {/* kewarganegaraan */}
-                <FormSelect fetchUrl={urlNegara} isLoading={isLoadingNegara} items={INegara} formMethod={formMethod} id="kewarganegaraan" label="Kewarganegaraan" placeholder="Pilih Kewarganegaraan" isRequired />
+                <FormSelect isLoading={isLoadingNegara} items={INegara} formMethod={formMethod} id="kd_kewarganegaraan" label="Kewarganegaraan" placeholder="Pilih Kewarganegaraan" isRequired />
                 {/* profesi */}
-                <FormSelect fetchUrl={urlProfesi} isLoading={isLoadingProfesi} items={IProfesi} formMethod={formMethod} id="profesi" label="Profesi" placeholder="Pilih Profesi" isRequired />
+                <FormSelect isLoading={isLoadingProfesi} items={IProfesi} formMethod={formMethod} id="kd_profesi" label="Profesi" placeholder="Pilih Profesi" isRequired />
                 {/* jenis pekerjaan */}
-                <FormSelect fetchUrl={urlJnsPekerjaan} isLoading={isLoadingJnsPekerjaan} items={IJnsPekerjaan} formMethod={formMethod} id="jns_pekerjaan" label="Jenis Pekerjaan" placeholder="Pilih Jenis Pekerjaan" isRequired />
+                <FormSelect isLoading={isLoadingJnsPekerjaan} items={IJnsPekerjaan} formMethod={formMethod} id="kd_jns_pekerjaan" label="Jenis Pekerjaan" placeholder="Pilih Jenis Pekerjaan" isRequired />
                 {/* jabatan */}
                 <FormInput type="text" label="Jabatan" formMethod={formMethod} id="jabatan" placeholder="Masukan Jabatan" isRequired />
                 {/* nama kantor */}

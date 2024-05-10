@@ -2,9 +2,8 @@ import { z } from "zod";
 
 const schemaPerusahaan = z.object({
     no_nas: z.string(),
-    jns_usaha_tkt: z.number(),
     flag_bank: z.boolean(),
-    group_nas: z.number(),
+    kd_sgroup_nas: z.number(),
     modal_sendiri: z.number(),
     modal_setor: z.number(),
     no_akte_awal: z.string(),
@@ -25,7 +24,6 @@ const schemaPerusahaan = z.object({
 
 schemaPerusahaan.required({
     no_nas: true,
-    jns_usaha_tkt: true,
     flag_bank: true,
     group_nas: true,
     modal_sendiri: true,
