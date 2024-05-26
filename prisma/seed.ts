@@ -27,6 +27,27 @@ import { hash } from "bcrypt";
 const prisma = new PrismaClient();
 
 async function main() {
+    const kantor = await prisma.kantor.create({
+        data: {
+            kd_kantor: "1",
+            nm_kantor: "Kantor Pusat Neural Bank",
+            alamat: {
+                create: {
+                    jns_alamat: "1",
+                    kd_negara: "ID",
+                    kd_provinsi: 36,
+                    kd_kota: 3671,
+                    kd_kecamatan: 3671030,
+                    kd_kelurahan: 3671011004,
+                    kd_pos: "14145",
+                    alamat_detail: "Jl. H. Nawi",
+                    rt: "001",
+                    rw: "001",
+                    usrid_create: "faza",
+                },
+            },
+        },
+    });
     // ? generate level pemakai
     const level = await prisma.para_level_user.createMany({
         data: [
@@ -44,7 +65,6 @@ async function main() {
             },
         ],
     });
-    console.log(level);
     // ? generate data pemakai
     const pemakai = await prisma.aks_pemakai.create({
         data: {

@@ -12,16 +12,15 @@ datasource db {
 
 model aks_pemakai {
     id_pemakai String @id @default(auto()) @map("_id") @db.ObjectId
-    name       String
+    id_lvl     String @db.ObjectId
+    id_karyawan String @unique @db.ObjectId
     username   String @unique
     password   String
-    email      String @unique
-    id_lvl     String @db.ObjectId
-    kd_kntr    String  
 
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
 
+    karyawan karyawan @relation(fields: [id_karyawan], references: [id_karyawan], onDelete: NoAction, onUpdate: Cascade)
     para_level_user        para_level_user  @relation(fields: [id_lvl], references: [id_level], onDelete: NoAction, onUpdate: Cascade)
     cis_master_created     cis_master[]     @relation("aks_pemakai_create")
     cis_master_updated     cis_master[]     @relation("aks_pemakai_update")
@@ -75,6 +74,18 @@ model aks_pemakai {
     notification_reciver notification[] @relation("notification_reciver")
 }
 
+model karyawan {
+    id_karyawan           String    @id @default(auto()) @map("_id") @db.ObjectId
+    kd_kantor String
+    kd_jns_ident Int
+    no_ident String
+    name String
+    jenis_kelamin String
+
+    aks_pemakai aks_pemakai?
+    kantor kantor @relation(fields: [kd_kantor], references: [kd_kantor], onDelete: NoAction, onUpdate: Cascade)
+}
+
 model cis_master {
     id_master           String    @id @default(auto()) @map("_id") @db.ObjectId
     no_nas              String    @unique
@@ -124,6 +135,7 @@ model cis_master {
     pengeluaran         para_penghasilan   @relation("pengeluaran", fields: [kd_pengeluaran_bulan], references: [kode], onDelete: NoAction, onUpdate: Cascade)
     pengeluaran_lainnya para_penghasilan?  @relation("pengeluaran_lainnya", fields: [kd_pengeluaran_lainnya], references: [kode], onDelete: NoAction, onUpdate: Cascade)
     bidang_usaha        para_bidang_usaha? @relation(fields: [kd_bidang_usaha], references: [kode], onDelete: NoAction, onUpdate: Cascade)
+    kantor kantor @relation(fields: [created_at_kantor], references: [kd_kantor], onDelete: NoAction, onUpdate: Cascade)
 }
 
 model cis_alamat {
@@ -156,6 +168,7 @@ model cis_alamat {
     kota          para_kota      @relation(fields: [kd_kota], references: [kd_kota], onDelete: NoAction, onUpdate: Cascade)
     kecamatan     para_kecamatan @relation(fields: [kd_kecamatan], references: [kd_kecamatan], onDelete: NoAction, onUpdate: Cascade)
     kelurahan     para_kelurahan @relation(fields: [kd_kelurahan], references: [kd_kelurahan], onDelete: NoAction, onUpdate: Cascade)
+    kantor kantor? @relation(fields: [id_pengurus], references: [id], onDelete: NoAction, onUpdate: Cascade)
 }
 
 model cis_perorangan {
@@ -253,7 +266,6 @@ model cis_pengurus {
     aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
     cis_master         cis_master?  @relation(fields: [no_nas], references: [no_nas], onDelete: NoAction, onUpdate: Cascade)
     cis_alamat         cis_alamat[]
-
     jenis_identitas para_jns_ident @relation(fields: [kd_jns_ident], references: [kode], onDelete: NoAction, onUpdate: Cascade)
     negara    para_negara    @relation(fields: [kd_kewarganegaraan], references: [kd_negara], onDelete: NoAction, onUpdate: Cascade)
     agama     para_agama     @relation(fields: [kd_agama], references: [kode], onDelete: NoAction, onUpdate: Cascade)
@@ -316,6 +328,17 @@ model notification {
 
     aks_pemakai_send aks_pemakai @relation("notification_sender",fields: [send_from], references: [username], onDelete: NoAction, onUpdate: Cascade)
     aks_pemakai_recive aks_pemakai @relation("notification_reciver",fields: [send_to], references: [username], onDelete: NoAction, onUpdate: Cascade)
+}
+
+model kantor {
+    id   String @id @default(auto()) @map("_id") @db.ObjectId
+    kd_kantor String @unique
+    nm_kantor String
+    // alamat
+    alamat cis_alamat[]
+    karyawan karyawan[]
+    cis_master cis_master[]
+    
 }
 
 model para_cs_tujuan {

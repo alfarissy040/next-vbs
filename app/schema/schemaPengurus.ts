@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 const schemaPengurus = z.object({
-    jns_pengurus: z.number(),
     kd_kewarganegaraan: z.string(),
     kd_jns_ident: z.number(),
     no_ident: z.string(),

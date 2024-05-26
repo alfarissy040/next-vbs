@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { ISelectItem } from "../types/parameter";
 
 /**
  * A custom hook that provides functions for getting the name and color of a
@@ -65,4 +66,18 @@ export const generateNoNas = (tipeNas: number, createdAtKantor: number, count: n
 
     // Concatenate the padded values to form the noNas
     return `${paddedTipeNas}${paddedCreatedAtKantor}${paddedCount}`;
+};
+
+/**
+ * Returns a list of select items for the jenis alamat field, or a single select item if the value is provided.
+ *
+ * @param {number | string | undefined} value - The value of the jenis alamat field.
+ * @return {(ISelectItem[] | ISelectItem)} The list of select items or a single select item.
+ */
+export const getJenisAlamat = (): Array<ISelectItem> => {
+    return [
+        { label: "Sesuai Identitas", value: 1 },
+        { label: "Sesuai Domisili", value: 2 },
+        { label: "Sesuai Alamat", value: 3 },
+    ];
 };

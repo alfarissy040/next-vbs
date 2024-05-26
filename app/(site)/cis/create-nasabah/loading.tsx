@@ -1,12 +1,8 @@
-"use client"
-import { Spinner } from "@nextui-org/react"
+"use client";
+import MainLoading from "@/app/components/MainLoading";
 
 const loading = () => {
-    return (
-        <section className="w-full h-full flex items-center justify-center">
-            <Spinner size="lg" />
-        </section>
-    )
-}
+    return <MainLoading />;
+};
 
-export default loading
+export default loading;

@@ -9,6 +9,8 @@ import { FieldValues, UseFormReturn } from "react-hook-form";
 import FormInput from "../../FormInput";
 import FormTextarea from "../../FormTextarea";
 import FormSelect from "../FormSelect";
+import { getJenisAlamat } from "@/app/utilities/Cis";
+import { ISelectItem } from "@/app/types/parameter";
 
 interface CreateAlamatProps {
     navDirection: TNavDirection;
@@ -18,7 +20,7 @@ interface CreateAlamatProps {
 }
 
 const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, kdTypeNasabah, formMethod }) => {
-    const { getValues } = formMethod
+    const { getValues } = formMethod;
     const [kdProvinsi, setKdProvinsi] = useState<number | null>(getValues("provinsi") ?? null);
     const [kdKota, setKdKota] = useState<number | null>(getValues("kota") ?? null);
     const [kdKecamatan, setKdKecamatan] = useState<number | null>(getValues("kecamatan") ?? null);
@@ -29,9 +31,9 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
         isLoading: isLoadingNegara,
         setSize: setPageNegara,
         size: sizeNegara,
-        setSearch: setSearchNegara
+        setSearch: setSearchNegara,
     } = useFetchPaginateParameter<para_negara>({
-        parameter: "negara"
+        parameter: "negara",
     });
     const {
         data: IProvinsi,
@@ -39,12 +41,12 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
         isLoading: isLoadingProvinsi,
         setSize: setPageProvinsi,
         size: sizeProvinsi,
-        setSearch: setSearchProvinsi
+        setSearch: setSearchProvinsi,
     } = useFetchPaginateParameter<para_provinsi>({
         parameter: "provinsi",
         option: {
-            value: "kd_provinsi"
-        }
+            value: "kd_provinsi",
+        },
     });
     const {
         data: IKota,
@@ -52,13 +54,13 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
         isLoading: isLoadingKota,
         setSize: setPageKota,
         size: sizeKota,
-        setSearch: setSearchKota
+        setSearch: setSearchKota,
     } = useFetchPaginateParameter<para_kota>({
         parameter: "kota",
         option: { value: "kd_kota", keepPreviousData: false },
         queryParams: {
-            provinsi: kdProvinsi ?? undefined
-        }
+            provinsi: kdProvinsi ?? undefined,
+        },
     });
     const {
         data: IKecamatan,
@@ -66,13 +68,13 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
         isLoading: isLoadingKecamatan,
         setSize: setPageKecamatan,
         size: sizeKecamatan,
-        setSearch: setSearchKecamatan
+        setSearch: setSearchKecamatan,
     } = useFetchPaginateParameter<para_kecamatan>({
         parameter: "kecamatan",
         option: { value: "kd_kecamatan", keepPreviousData: false },
         queryParams: {
-            kota: kdKota ?? undefined
-        }
+            kota: kdKota ?? undefined,
+        },
     });
     const {
         data: IKelurahan,
@@ -85,8 +87,8 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
         parameter: "kelurahan",
         option: { value: "kd_kelurahan", keepPreviousData: false },
         queryParams: {
-            kecamatan: kdKecamatan ?? undefined
-        }
+            kecamatan: kdKecamatan ?? undefined,
+        },
     });
     return (
         <motion.div
@@ -106,18 +108,7 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
             </h2>
             <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mt-3">
                 {/* jenis alamat */}
-                <FormSelect
-                    items={[
-                        { label: "Sesuai Identitas", value: 1 },
-                        { label: "Sesuai Domisili", value: 2 },
-                        { label: "Sesuai Alamat", value: 3 },
-                    ]}
-                    formMethod={formMethod}
-                    id="jns_alamat"
-                    label="Jenis Alamat"
-                    placeholder="Pilih Jenis Alamat"
-                    isRequired
-                />
+                <FormSelect items={getJenisAlamat() as ISelectItem[]} formMethod={formMethod} id="jns_alamat" label="Jenis Alamat" placeholder="Pilih Jenis Alamat" isRequired />
                 {/* negara */}
                 <FormSelect
                     isLoading={isLoadingNegara}
@@ -163,7 +154,8 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                     label="Kota"
                     placeholder="Pilih Kota"
                     isSearchable
-                    isRequired />
+                    isRequired
+                />
                 {/* kecamatan */}
                 <FormSelect
                     currentPage={sizeKecamatan}
