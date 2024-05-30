@@ -33,13 +33,13 @@ const ItemCis: React.FC<ItemCisProps> = ({ setNavState, handleToggle = () => { }
                 </Link>
             </li>
             <li>
-                <Link href={"/cis/persetujuan-perubahan"} className="sidebar__item" onClick={() => handleToggle(false)}>
-                    <span>Persetujuan Perubahan Informasi</span>
+                <Link href={"/cis/aktivasi-nasabah"} className="sidebar__item" onClick={() => handleToggle(false)}>
+                    <span>Aktivasi Customer</span>
                 </Link>
             </li>
             <li>
-                <Link href={"/cis/aktivasi"} className="sidebar__item" onClick={() => handleToggle(false)}>
-                    <span>Aktivasi Customer</span>
+                <Link href={"/cis/persetujuan-perubahan"} className="sidebar__item" onClick={() => handleToggle(false)}>
+                    <span>Persetujuan Perubahan Informasi</span>
                 </Link>
             </li>
         </motion.ul >

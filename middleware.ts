@@ -2,7 +2,8 @@ import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 const excludeRoute = ["/cs"];
-const route = ["/", "/login", "/cis/:path", "/parameter/:path", "/account/:path", "/cs/:path"];
+// const route = ["/", "/login", "/cis/:path", "/parameter/:path", "/account/:path", "/cs/:path"];
+const route = ["/", "/login", "/parameter/:path", "/account/:path", "/cs/:path"];
 export default async function middleware(req: NextRequest) {
     const {
         nextUrl: { origin, pathname },

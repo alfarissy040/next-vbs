@@ -8,7 +8,9 @@ export const fetchCisMaster = async (url: string) => {
         },
     })
         .then((res) => res.json())
-        .catch(() => new Error("Something went wrong"));
+        .catch(() => {
+            throw new Error("Something went wrong")
+        });
 };
 
 export async function postFetcher<T>(url: string, data: T) {
@@ -47,7 +49,22 @@ export const fetcher = async (url: string) => {
         },
     })
         .then((res) => res.json())
-        .catch(() => new Error("Something went wrong"));
+        .catch(() => {
+            throw new Error("Something went wrong")
+        });
+};
+
+export const fetcherNoCache = async (url: string) => {
+    return await fetch(url, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+        cache: "no-cache",
+    })
+        .then((res) => res.json())
+        .catch(() => {
+            throw new Error("Something went wrong")
+        });
 };
 
 export const parameterFetcher = async (url: string) => {
@@ -59,5 +76,7 @@ export const parameterFetcher = async (url: string) => {
     })
         .then((res) => res.json())
         .then((res) => convertToSelectItems(res))
-        .catch(() => new Error("Something went wrong"));
+        .catch(() => {
+            throw new Error("Something went wrong")
+        });
 };

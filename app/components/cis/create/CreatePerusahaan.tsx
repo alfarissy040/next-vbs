@@ -39,8 +39,6 @@ const CreatePerusahaan: React.FC<CreatePerusahaanProps> = ({ navDirection, typeN
                 <FormSelect isLoading={isLoadingGropNasabah} items={IGropNasabah} formMethod={formMethod} id="kd_group_nas" label="Group Nasabah" placeholder="Pilih Group Nasabah" isSearchable isRequired />
                 {/* 5. Modal Sendiri (modal_sendiri) - String */}
                 <FormInput type="number" formMethod={formMethod} id="modal_sendiri" label="Modal Sendiri" placeholder="Masukan Modal Sendiri" isRequired />
-                {/* 6. Modal Setor (modal_setor) - String */}
-                <FormInput type="number" formMethod={formMethod} id="modal_sendiri" label="Modal Sendiri" placeholder="Masukan Modal Sendiri" isRequired />
                 {/* 7. Termasuk Bank (flag_bank) - Boolean */}
                 <FormSelect
                     items={[
