@@ -1,4 +1,4 @@
-import { aks_pemakai, para_level_user } from "@prisma/client";
+import { aks_pemakai, kantor, para_level_user } from "@prisma/client";
 
 declare module "next-auth" {
     /**
@@ -10,15 +10,16 @@ declare module "next-auth" {
             id: string;
             username: string;
             level: para_level_user;
+            kantor: kantor;
         } & DefaultSession["user"];
     }
 
     export interface AdapterUser extends User {
         /** A unique identifier for the user. */
         id: string;
-        name: string;
         username: string;
-        email: string;
+        name: string;
+        kantor: kantor;
         level: para_level_user;
     }
 }
@@ -26,7 +27,10 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
     /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
     interface JWT {
-        userId: string;
+        id: string;
+        username: string;
+        name: string;
+        kantor: kantor;
         level: para_level_user;
     }
 }

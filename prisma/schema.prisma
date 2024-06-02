@@ -118,12 +118,13 @@ model cis_master {
     created_at   DateTime @default(now())
     updated_at   DateTime @updatedAt
 
-    aks_pemakai_create       aks_pemakai        @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
-    aks_pemakai_update       aks_pemakai?       @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
     alamat                   cis_alamat[]
     cis_perusahaan           cis_perusahaan?
     cis_perorangan           cis_perorangan?
     cis_pengurus             cis_pengurus[]
+    cis_update cis_update[]
+    aks_pemakai_create       aks_pemakai        @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update       aks_pemakai?       @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
     jenis_identitas           para_jns_ident     @relation(fields: [kd_jns_ident], references: [kode], onDelete: NoAction, onUpdate: Cascade)
     bentuk_hukum            para_bntk_hkm      @relation(fields: [kd_bntk_hkm], references: [kode], onDelete: NoAction, onUpdate: Cascade)
     golongan_pemilik            para_gol_pmlk      @relation(fields: [kd_gol_pemilik], references: [kode], onDelete: NoAction, onUpdate: Cascade)
@@ -273,12 +274,14 @@ model cis_pengurus {
 
 model cis_update {
     id_update   String @id @default(auto()) @map("_id") @db.ObjectId
+    no_nas String
     db_field String
     nm_field String
     current_record String
     new_record String
 
     sts_update String @default("00")
+    kd_kantor_update String
     usrid_create String
     usrid_update String?
     created_at DateTime @default(now())
@@ -286,6 +289,9 @@ model cis_update {
 
     aks_pemakai_create aks_pemakai  @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
     aks_pemakai_update aks_pemakai? @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    cis_master cis_master @relation(fields: [no_nas], references: [no_nas], onDelete: NoAction, onUpdate: Cascade)
+    kantor kantor @relation(fields: [kd_kantor_update], references: [kd_kantor], onDelete: NoAction, onUpdate: Cascade)
+    
 }
 
 model cs_form {
@@ -338,6 +344,7 @@ model kantor {
     alamat cis_alamat[]
     karyawan karyawan[]
     cis_master cis_master[]
+    cis_update cis_update[]
     
 }
 

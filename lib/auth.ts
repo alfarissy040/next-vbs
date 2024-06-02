@@ -29,10 +29,13 @@ export const authOption: NextAuthOptions = {
                         select: {
                             id_pemakai: true,
                             username: true,
-                            name: true,
-                            email: true,
                             password: true,
                             para_level_user: true,
+                            karyawan: {
+                                include: {
+                                    kantor: true,
+                                },
+                            },
                         },
                     });
 
@@ -45,8 +48,8 @@ export const authOption: NextAuthOptions = {
                     return Promise.resolve({
                         id: user.id_pemakai,
                         username: user.username,
-                        name: user.name,
-                        email: user.email,
+                        name: user.karyawan.name,
+                        kantor: user.karyawan.kantor,
                         level: user.para_level_user,
                     });
                 } catch (error) {
@@ -64,17 +67,23 @@ export const authOption: NextAuthOptions = {
         maxAge: 60 * 60, // Set token to expire after 1 hour
     },
     callbacks: {
-        async jwt({ token, account, user }) {
+        async jwt({ token, account, user: dataUser }) {
+            const user = dataUser as AdapterUser;
             if (account && account.type === "credentials" && user) {
-                token.userId = account.providerAccountId;
-                token.level = (user as AdapterUser).level;
+                token.id = user.id;
+                token.username = user.username;
+                token.name = user.name;
+                token.kantor = user.kantor;
+                token.level = user.level;
             }
             return token;
         },
         async session({ session, token }) {
             if (session.user) {
-                session.user.id = token.userId;
+                session.user.id = token.id;
+                session.user.username = token.username;
                 session.user.level = token.level;
+                session.user.kantor = token.kantor;
             }
             return Promise.resolve(session);
         },

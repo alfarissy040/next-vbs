@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
 /**
@@ -74,3 +75,5 @@ export const flatQueryParams = (params: Record<string, any>) => {
     // Return the flattened query parameters.
     return result;
 };
+
+export const prisma = new PrismaClient();
