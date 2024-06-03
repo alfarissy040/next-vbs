@@ -9,6 +9,7 @@ declare module "next-auth" {
         user: {
             id: string;
             username: string;
+            email: string;
             level: para_level_user;
             kantor: kantor;
         } & DefaultSession["user"];
@@ -18,6 +19,7 @@ declare module "next-auth" {
         /** A unique identifier for the user. */
         id: string;
         username: string;
+        email: string;
         name: string;
         kantor: kantor;
         level: para_level_user;
@@ -29,6 +31,7 @@ declare module "next-auth/jwt" {
     interface JWT {
         id: string;
         username: string;
+        email: string;
         name: string;
         kantor: kantor;
         level: para_level_user;

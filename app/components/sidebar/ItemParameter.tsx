@@ -7,7 +7,7 @@ import { FaChevronLeft } from "react-icons/fa"
 import Link from "next/link"
 
 interface ItemParameterProps {
-    setNavState: Dispatch<SetStateAction<navProps>>
+    setNavState: (state: navProps) => void
     handleToggle?: (val: boolean) => void
 }
 

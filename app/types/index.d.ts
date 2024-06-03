@@ -5,6 +5,7 @@ import {
     cis_pengurus,
     cis_perorangan,
     cis_perusahaan,
+    cis_update,
     para_agama,
     para_bidang_usaha,
     para_bntk_hkm,
@@ -32,6 +33,9 @@ export type TCommonApiError = {
 export type TCisQParam = "search" | "orderby" | "direction" | "page";
 
 declare module "@prisma/client" {
+    interface extendCisUpdate extends cis_master {
+        cis_update: cis_update
+    }
     interface extendCisMaster extends cis_master {
         aks_pemakai_create: aks_pemakai;
         aks_pemakai_update?: aks_pemakai;

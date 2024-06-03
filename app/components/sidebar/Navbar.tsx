@@ -21,6 +21,10 @@ const Navbar = () => {
         setIsMenuOpen(state)
         setNavState("home")
     }, [])
+    const handleNavigate = useCallback((state: navProps) => {
+        setNavState(state)
+        setIsMenuOpen(false)
+    }, [])
     return (
         <Nav onMenuOpenChange={handleToggle} className='lg:hidden' classNames={{
             base: "bg-blue-500 dark:bg-blue-700",
@@ -85,10 +89,10 @@ const Navbar = () => {
                         <ItemHome setNavState={setNavState} />
                     )}
                     {navState == "cis" && (
-                        <ItemCis setNavState={setNavState} handleToggle={handleToggle} />
+                        <ItemCis setNavState={handleNavigate} handleToggle={handleToggle} />
                     )}
                     {navState == "parameter" && (
-                        <ItemParameter setNavState={setNavState} handleToggle={handleToggle} />
+                        <ItemParameter setNavState={handleNavigate} handleToggle={handleToggle} />
                     )}
                     {navState == "tema" && (
                         <ItemTheme setNavState={setNavState} />

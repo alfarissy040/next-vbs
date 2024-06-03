@@ -7,7 +7,7 @@ import { FaChevronLeft } from "react-icons/fa"
 import Link from "next/link"
 
 interface ItemCisProps {
-    setNavState: Dispatch<SetStateAction<navProps>>
+    setNavState: (state: navProps) => void
     handleToggle?: (val: boolean) => void
 }
 
@@ -38,7 +38,7 @@ const ItemCis: React.FC<ItemCisProps> = ({ setNavState, handleToggle = () => { }
                 </Link>
             </li>
             <li>
-                <Link href={"/cis/persetujuan-perubahan"} className="sidebar__item" onClick={() => handleToggle(false)}>
+                <Link href={"/cis/permintaan-ubah"} className="sidebar__item" onClick={() => handleToggle(false)}>
                     <span>Persetujuan Perubahan Informasi</span>
                 </Link>
             </li>

@@ -1,14 +1,15 @@
 "use client"
 
 import { CDialog } from "@/app/components/ClassnamesData"
+import CardUpdate from "@/app/components/cis/permintaan-ubah/CardUpdate"
 import { TCommonApiError } from "@/app/types"
 import { flatQueryParams } from "@/app/utilities"
-import { useNasabahType } from "@/app/utilities/Cis"
 import { fetcherNoCache } from "@/app/utilities/Fetcher"
-import { Button, Chip, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, SortDescriptor, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from "@nextui-org/react"
-import { cis_master } from "@prisma/client"
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ScrollShadow, SortDescriptor, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from "@nextui-org/react"
+import { cis_update, extendCisUpdate } from "@prisma/client"
+import { isArray } from "lodash"
 import { useSearchParams } from "next/navigation"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import toast from "react-hot-toast"
 import useSWR, { useSWRConfig } from "swr"
 
@@ -19,17 +20,16 @@ const AktivasiNasabahPage = () => {
     const [selectedUser, setSelectedUser] = useState("");
     const [modalState, setModalState] = useState<"terima" | "tolak" | null>(null)
     const [sortState, setSortState] = useState<SortDescriptor>({
-        column: queryParams.get("orderby") ?? "nomor-identitas",
+        column: queryParams.get("orderby") ?? "nomor-nasabah",
         direction: queryParams.get("direction") === "asc" ? "ascending" : "descending",
     });
     const [qParams, setQParams] = useState({
         orderBy: sortState.column,
         direction: sortState.direction === "ascending" ? "asc" : "desc",
     })
-    const { getBadgeColor, getTypeName } = useNasabahType();
-    const { isOpen, onOpen, onClose: closeModal } = useDisclosure();
+    const { isOpen, onOpen, onOpenChange, onClose: closeModal } = useDisclosure();
 
-    const { data, error: isError, isLoading: loadingData } = useSWR(`/api/cis/aktivasi-nasabah/?${flatQueryParams(qParams)}`, fetcherNoCache);
+    const { data, error: isError, isLoading: loadingData } = useSWR<extendCisUpdate[]>(`/api/cis/permintaan-ubah/?${flatQueryParams(qParams)}`, fetcherNoCache);
 
     const handleSortChange = (sortDescriptor: SortDescriptor) => {
         const orderByParam = sortDescriptor.column?.toString() ?? "";
@@ -40,6 +40,16 @@ const AktivasiNasabahPage = () => {
             direction: directionParam,
         })
     };
+
+    const getDataUpdate = useMemo<Record<string, any>>(() => {
+        if (!isArray(data)) return [];
+        const result = data.find(
+            (item: extendCisUpdate) =>
+                item.no_nas.trim().toLowerCase() === selectedUser.trim().toLowerCase()
+        );
+        return result?.cis_update ?? [];
+    }, [data, selectedUser]);
+
     const handleOpenModal = (noNas: string) => {
         onOpen()
         setSelectedUser(noNas)
@@ -53,7 +63,7 @@ const AktivasiNasabahPage = () => {
         closeModal()
 
         try {
-            const res = await fetch("/api/cis/perubahan-data/", {
+            const res = await fetch("/api/cis/aktivasi-nasabah/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -85,9 +95,8 @@ const AktivasiNasabahPage = () => {
 
     return (
         <section className="w-full h-full flex flex-col">
-            <h1 className="font-medium text-2xl">Permintaan Perubahan Data Nasabah</h1>
+            <h1 className="font-medium text-2xl">Permintaan Perubahan Data</h1>
             <Table
-                aria-label="table for data cis"
                 className="flex-1"
                 classNames={{
                     wrapper: "dark:bg-slate-800 bg-slate-200 overflow-auto shadow-lg mt-3 h-full",
@@ -99,59 +108,63 @@ const AktivasiNasabahPage = () => {
                 isHeaderSticky
             >
                 <TableHeader>
-                    <TableColumn key="nomor-identitas" allowsSorting>
-                        Nomor Identitas
+                    <TableColumn key="nomor-nasabah" allowsSorting>
+                        Nomor Nasabah
                     </TableColumn>
                     <TableColumn key="nama-nasabah" allowsSorting>
                         Nama
                     </TableColumn>
                     <TableColumn key="tipe-nasabah" allowsSorting>
-                        Tipe
+                        Diubah oleh
                     </TableColumn>
                     <TableColumn className="flex justify-center items-center">Menu</TableColumn>
                 </TableHeader>
-                <TableBody items={data?.data ?? []} emptyContent={isError ? "Something went wrong!" : "Data tidak ditemukan!"} isLoading={loadingData} loadingContent={<Spinner size="md" />}>
-                    {(item: cis_master) => (
+                <TableBody items={isArray(data) ? data : []} emptyContent={isError ? "Something went wrong!" : "Data tidak ditemukan!"} isLoading={loadingData} loadingContent={<Spinner size="md" />}>
+                    {(item: extendCisUpdate) => (
                         <TableRow key={item?.no_nas}>
-                            <TableCell>{item?.no_ident}</TableCell>
+                            <TableCell>{item?.no_nas}</TableCell>
                             <TableCell>{item?.nm_nas}</TableCell>
                             <TableCell>
-                                <Chip
-                                    size="sm"
-                                    variant="light"
-                                    classNames={{
-                                        base: getBadgeColor(item?.tipe_nas),
-                                        content: ["text-white"],
-                                    }}
-                                >
-                                    {getTypeName(item?.tipe_nas)}
-                                </Chip>
+                                {item?.cis_update.usrid_create}
                             </TableCell>
                             <TableCell className="flex items-center justify-center gap-2">
-                                <Button color="primary" onPress={() => handleOpenModal(item?.no_nas)}>Detail</Button>
+                                <Button color="primary" onPress={() => handleOpenModal(item?.no_nas)}>Menu</Button>
                             </TableCell>
                         </TableRow>
                     )}
                 </TableBody>
             </Table>
-            <Modal isOpen={isOpen} onOpenChange={handleCloseModal} backdrop="blur" classNames={CDialog}>
+            <Modal isOpen={isOpen} onOpenChange={handleCloseModal} backdrop="blur" classNames={CDialog} size="5xl" className="max-h-[85%] h-auto" scrollBehavior="outside">
                 <ModalContent>
                     <ModalHeader className="flex flex-col gap-1">
-                        {modalState === null ? "Permintaan Persetujuan" : "Konfirmasi Tindakan"}
+                        {modalState === null ? "Detail Perubahan" : "Konfirmasi Tindakan"}
                     </ModalHeader>
-                    <ModalBody>
-                        {modalState === null && (
-                            <p>Silakan konfirmasi keputusan Anda untuk permintaan ini. Pilih <span className="font-semibold border-b-2 dark:border-slate-50">Terima</span> untuk menyetujui atau <span className="font-semibold border-b-2 dark:border-slate-50">Tolak</span> untuk menolak.</p>
-                        )}
-                        {modalState === "terima" && (
-                            <p>Apakah Anda yakin ingin <span className="font-semibold border-b-2 dark:border-slate-50">menerima</span> permintaan ini? Harap pastikan semua informasi sudah benar sebelum melanjutkan.
-                            </p>
-                        )}
-                        {modalState === "tolak" && (
-                            <p>Apakah Anda yakin ingin <span className="font-semibold border-b-2 dark:border-slate-50">menolak</span> permintaan ini? Harap pastikan semua informasi sudah benar sebelum melanjutkan.
-                            </p>
-                        )}
-                    </ModalBody>
+                    <ScrollShadow hideScrollBar>
+                        <ModalBody>
+                            {modalState === null && (
+                                <div className="grid grid-cols-3 gap-3">
+                                    {/* card */}
+                                    {getDataUpdate.map((item: cis_update) => (
+                                        <CardUpdate
+                                            key={item.id_update}
+                                            label={item?.nm_field}
+                                            currentValue={item?.current_record}
+                                            newValue={item?.new_record}
+                                            created_at={item?.created_at}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                            {modalState === "terima" && (
+                                <p>Apakah Anda yakin ingin <span className="font-semibold border-b-2 dark:border-slate-50">menerima</span> permintaan ini? Harap pastikan semua informasi sudah benar sebelum melanjutkan.
+                                </p>
+                            )}
+                            {modalState === "tolak" && (
+                                <p>Apakah Anda yakin ingin <span className="font-semibold border-b-2 dark:border-slate-50">menolak</span> permintaan ini? Harap pastikan semua informasi sudah benar sebelum melanjutkan.
+                                </p>
+                            )}
+                        </ModalBody>
+                    </ScrollShadow>
                     <ModalFooter>
                         {modalState === null ? (
                             <>
@@ -175,7 +188,7 @@ const AktivasiNasabahPage = () => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-        </section>
+        </section >
     )
 }
 

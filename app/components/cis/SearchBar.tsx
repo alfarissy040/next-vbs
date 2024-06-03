@@ -27,9 +27,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ qParams, setQParams }) => {
 
     useEffect(() => {
         return () => {
-            searchDebounce.current.cancel();
+            searchDebounce.current?.cancel();
         };
-    }, []);
+    }, [searchDebounce]);
 
     const handleSearch = useCallback(
         (value: string) => {

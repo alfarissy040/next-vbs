@@ -13,14 +13,6 @@ import para_negara from "@/dummy/para_negara.json";
 import para_profesi from "@/dummy/para_profesi.json";
 import para_provinsi from "@/dummy/para_provinsi.json";
 import para_sts_nikah from "@/dummy/para_sts_nikah.json";
-import seedCISAlamat from "@/dummy/seedCISAlamat.json";
-import seedCISMasterA from "@/dummy/seedCISMasterA.json";
-import seedCISMasterB from "@/dummy/seedCISMasterB.json";
-import seedCISMasterC from "@/dummy/seedCISMasterC.json";
-import seedCISMasterD from "@/dummy/seedCISMasterD.json";
-import seedCISPerorangan from "@/dummy/seedCISPerorangan.json";
-import seedCISPerusahaan from "@/dummy/seedCISPerusahaan.json";
-import seedCISPengurus from "@/dummy/seedCISPengurus.json";
 import { PrismaClient } from "@prisma/client";
 import { hash } from "bcrypt";
 
@@ -49,7 +41,7 @@ async function main() {
         },
     });
     // ? generate level pemakai
-    const level = await prisma.para_level_user.createMany({
+    await prisma.para_level_user.createMany({
         data: [
             {
                 level: 1,
@@ -65,17 +57,28 @@ async function main() {
             },
         ],
     });
+    const level = await prisma.para_level_user.findFirstOrThrow({ where: { level: 1 } });
+    // generate karyawan
+    const karyawan = await prisma.karyawan.create({
+        data: {
+            name: "Muhammad Faza Alfarisy",
+            jenis_kelamin: "Laki-laki",
+            no_ident: "17200414",
+            kd_jns_ident: 1,
+            kd_kantor: kantor.kd_kantor,
+        }
+    })
     // ? generate data pemakai
     const pemakai = await prisma.aks_pemakai.create({
         data: {
             username: "faza",
-            name: "Muhammad Faza Alfarisy",
-            email: "alfarissy040@gmail.com",
+            email: "faza@neuralbank.com",
             password: await hash("admin", 16),
-            id_lvl: level[0].id,
-            kd_kntr: "1",
+            id_lvl: level?.id_level,
+            id_karyawan: karyawan.id_karyawan,
         },
     });
+
 
     // ? generate data parameter
     await prisma.para_cs_tujuan.create({
@@ -216,9 +219,6 @@ async function main() {
     });
     await prisma.para_bidang_usaha.createMany({
         data: para_bidang_usaha.map((data) => ({ ...data, usrid_create: pemakai.username })),
-    });
-    await prisma.para_jns_usaha_tkt.createMany({
-        data: para_jns_usaha_tkt.map((data) => ({ ...data, usrid_create: pemakai.username })),
     });
     await prisma.para_grup_nas.createMany({
         data: para_grup_nas.map((data) => ({ ...data, usrid_create: pemakai.username })),

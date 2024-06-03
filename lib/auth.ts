@@ -29,6 +29,7 @@ export const authOption: NextAuthOptions = {
                         select: {
                             id_pemakai: true,
                             username: true,
+                            email: true,
                             password: true,
                             para_level_user: true,
                             karyawan: {
@@ -47,6 +48,7 @@ export const authOption: NextAuthOptions = {
 
                     return Promise.resolve({
                         id: user.id_pemakai,
+                        email: user.email,
                         username: user.username,
                         name: user.karyawan.name,
                         kantor: user.karyawan.kantor,
@@ -72,6 +74,7 @@ export const authOption: NextAuthOptions = {
             if (account && account.type === "credentials" && user) {
                 token.id = user.id;
                 token.username = user.username;
+                token.email = user.email;
                 token.name = user.name;
                 token.kantor = user.kantor;
                 token.level = user.level;
@@ -82,6 +85,7 @@ export const authOption: NextAuthOptions = {
             if (session.user) {
                 session.user.id = token.id;
                 session.user.username = token.username;
+                session.user.email = token.email;
                 session.user.level = token.level;
                 session.user.kantor = token.kantor;
             }

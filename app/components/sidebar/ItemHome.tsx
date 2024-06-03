@@ -1,15 +1,14 @@
 "use client"
 
-import { FaChevronRight } from "react-icons/fa";
-import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
-import { Dispatch, SetStateAction } from "react";
 import { navProps } from "@/app/types/sidebar";
-import Link from "next/link";
+import { motion } from "framer-motion";
 import { signOut } from "next-auth/react";
+import { useTheme } from "next-themes";
+import Link from "next/link";
+import { FaChevronRight } from "react-icons/fa";
 
 interface ItemHomeProps {
-    setNavState: Dispatch<SetStateAction<navProps>>
+    setNavState: (state: navProps) => void
 }
 
 const ItemHome: React.FC<ItemHomeProps> = ({ setNavState }) => {

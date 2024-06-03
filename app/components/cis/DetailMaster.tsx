@@ -20,21 +20,21 @@ const DetailMaster: React.FC<DetailMasterProps> = ({ data }) => {
             {/* tanggal identitas */}
             {data?.masa_ident === 1 ? <CardField label="Masa Belaku Identitas" value="Seumur Hidup" /> : <CardField label="Tanggal Masa Identitas" value={moment(data?.tgl_ident).format("DD MMMM YYYY") ?? ""} />}
             {/* bentuk hukum */}
-            <CardField label="Bentuk Hukum" value={data?.bentuk_hukum.keterangan} />
+            <CardField label="Bentuk Hukum" value={data?.bentuk_hukum?.keterangan} />
             {/* golongan pemilik */}
-            <CardField label="Golongan Pemilik" value={data?.golongan_pemilik.keterangan} />
+            <CardField label="Golongan Pemilik" value={data?.golongan_pemilik?.keterangan} />
             {/* sumber dana */}
-            <CardField label="Sumber Dana" value={data?.sumber_dana.keterangan} />
+            <CardField label="Sumber Dana" value={data?.sumber_dana?.keterangan} />
             {/* tujuan dana */}
-            <CardField label="Tujuan Dana" value={data?.tujuan_dana.keterangan} />
+            <CardField label="Tujuan Dana" value={data?.tujuan_dana?.keterangan} />
             {/* maksimal transaksi */}
-            <CardField label="Maskimal Transaksi" value={data?.transaksi.keterangan} />
+            <CardField label="Maskimal Transaksi" value={data?.transaksi?.keterangan} />
             {/* penghasilan bulanan */}
-            <CardField label="Penghasilan Bulanan" value={data?.penghasilan.keterangan} />
+            <CardField label="Penghasilan Bulanan" value={data?.penghasilan?.keterangan} />
             {/* penghasilan lainnya */}
             <CardField label="Penghasilan Lainnya" value={data?.penghasilan_lainnya?.keterangan} />
             {/* pengeluaran bulanan */}
-            <CardField label="Pengeluaran Bulanan" value={data?.pengeluaran.keterangan} />
+            <CardField label="Pengeluaran Bulanan" value={data?.pengeluaran?.keterangan} />
             {/* pengeluaran lainnya */}
             <CardField label="Pengeluaran Lainnya" value={data?.pengeluaran_lainnya?.keterangan} />
             {/* npwp */}
