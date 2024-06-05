@@ -2,7 +2,7 @@
 
 import loginBackground from "@/assets/image/bg-login.jpeg";
 import { Button, Spinner } from "@nextui-org/react";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";

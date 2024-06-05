@@ -1,4 +1,4 @@
-import { getValidationMessage } from "@/app/utilities";
+import { getValidationMessage, prisma } from "@/app/utilities";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -7,7 +7,6 @@ interface IParams {
     nonas: string;
 }
 
-const prisma = new PrismaClient();
 export async function POST(request: NextRequest, { params }: { params: IParams }): Promise<NextResponse> {
     const body = await request.json();
     const { nonas } = params;
@@ -53,7 +52,7 @@ export async function POST(request: NextRequest, { params }: { params: IParams }
             },
         });
 
-        return NextResponse.json({ message: "Nasabah berhasil diaktifkan" }, { status: 200 });
+        return NextResponse.json({ message: body.isApprove ? "Nasabah berhasil diaktifkan" : "Penolakan Aktivasi Berhasil" }, { status: 200 });
     } catch (error) {
         console.log(error);
         if (error instanceof Prisma.PrismaClientKnownRequestError) {

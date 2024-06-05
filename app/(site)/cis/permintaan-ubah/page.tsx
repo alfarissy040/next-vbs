@@ -27,7 +27,7 @@ const AktivasiNasabahPage = () => {
         orderBy: sortState.column,
         direction: sortState.direction === "ascending" ? "asc" : "desc",
     })
-    const { isOpen, onOpen, onOpenChange, onClose: closeModal } = useDisclosure();
+    const { isOpen, onOpen, onClose: closeModal } = useDisclosure();
 
     const { data, error: isError, isLoading: loadingData } = useSWR<extendCisUpdate[]>(`/api/cis/permintaan-ubah/?${flatQueryParams(qParams)}`, fetcherNoCache);
 

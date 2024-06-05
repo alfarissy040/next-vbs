@@ -1,3 +1,4 @@
+import { prisma } from "@/app/utilities";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
@@ -6,9 +7,7 @@ interface IParams {
 }
 
 export async function GET(request: Request, { params }: { params: IParams }) {
-    const prisma = new PrismaClient();
     const { nonas: noNas } = params;
-
     if (!noNas) return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
 
     try {
@@ -42,9 +41,6 @@ export async function GET(request: Request, { params }: { params: IParams }) {
                                 kecamatan: true,
                                 kelurahan: true,
                             },
-                            orderBy: {
-                                no_urut: "asc",
-                            },
                         },
                     },
                 },
@@ -55,9 +51,6 @@ export async function GET(request: Request, { params }: { params: IParams }) {
                         kota: true,
                         kecamatan: true,
                         kelurahan: true,
-                    },
-                    orderBy: {
-                        no_urut: "asc",
                     },
                 },
                 // parameter cis_master

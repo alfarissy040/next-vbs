@@ -1,9 +1,12 @@
 "use client";
 
+import { TCommonApiError } from "@/app/types";
+import { usePrefetchNavigate } from "@/app/utilities";
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { CDialog } from "../../ClassnamesData";
 import CreateAlamat from "./CreateAlamat";
 import CreateMaster from "./CreateMaster";
@@ -14,12 +17,10 @@ const FormPerorangan = ({ setFormType }: { setFormType: Dispatch<SetStateAction<
         shouldUnregister: false,
     });
     const {
-        trigger,
-        handleSubmit,
-        getValues,
-        unregister,
-        formState: { errors },
+        trigger, handleSubmit, getValues, unregister, formState: { errors },
     } = formMethod;
+    const navigateTo = usePrefetchNavigate()
+    const [isLoading, setIsLoading] = useState(false)
     const [step, setStep] = useState(1);
     const [navDirection, setNavDirection] = useState<TNavDirection>("initial");
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -40,7 +41,6 @@ const FormPerorangan = ({ setFormType }: { setFormType: Dispatch<SetStateAction<
     }, [step, trigger]);
     const handleReset = useCallback(() => {
         const allValues = getValues();
-
         Object.keys(allValues).map((fieldName) => {
             unregister(fieldName);
         });
@@ -48,8 +48,33 @@ const FormPerorangan = ({ setFormType }: { setFormType: Dispatch<SetStateAction<
         setFormType("home");
     }, [getValues, setFormType, unregister]);
 
-    const onSubmit: SubmitHandler<FieldValues> = (values) => {
-        console.log(errors.root?.message);
+    const onSubmit: SubmitHandler<FieldValues> = async (values) => {
+        setIsLoading(true)
+        const loadingToast = toast.loading("Sedang memproses...")
+        try {
+            const res = await fetch("/api/cis/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+            })
+            if (!res.ok) {
+                const result = await res.json()
+                throw ({
+                    status: res.status,
+                    message: result.message
+                })
+            }
+            toast.success("Data tersimpan")
+            return navigateTo("/cis")
+        } catch (err) {
+            const error = err as TCommonApiError
+            toast.error(error.message)
+        } finally {
+            toast.dismiss(loadingToast)
+            setIsLoading(false)
+        }
     };
     return (
         <>
@@ -66,7 +91,7 @@ const FormPerorangan = ({ setFormType }: { setFormType: Dispatch<SetStateAction<
                     noValidate
                 >
                     <AnimatePresence mode="popLayout">
-                        {step === 1 && <CreateMaster kdTypeNasabah={1} formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} handleReset={handleReset} />}
+                        {step === 1 && <CreateMaster kdTypeNasabah={1} formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} handleReset={handleReset} isLoading={isLoading} />}
                         {step === 2 && <CreatePerorangan formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} />}
                         {step === 3 && <CreateAlamat kdTypeNasabah={1} formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} />}
                     </AnimatePresence>
@@ -79,7 +104,7 @@ const FormPerorangan = ({ setFormType }: { setFormType: Dispatch<SetStateAction<
                                 Selanjutnya
                             </Button>
                         ) : (
-                            <Button variant="solid" color="primary" onPress={onOpen}>
+                            <Button variant="solid" color="primary" onPress={onOpen} isDisabled={isLoading}>
                                 Simpan
                             </Button>
                         )}

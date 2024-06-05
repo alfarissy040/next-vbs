@@ -4,17 +4,15 @@ import { schemaMaster } from "@/app/schema/schemaMaster";
 import schemaPengurus from "@/app/schema/schemaPengurus";
 import schemaPerorangan from "@/app/schema/schemaPerorangan";
 import schemaPerusahaan from "@/app/schema/schemaPerusahaan";
-import { getValidationMessage } from "@/app/utilities";
+import { getValidationMessage, prisma } from "@/app/utilities";
 import { generateNoNas } from "@/app/utilities/Cis";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodObject, z } from "zod";
 
 // TODOS test api dengan membuat user berdasarkan 4 tipe user
 
 type TTipeNas = 1 | 2 | 3 | 4;
-
-const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
     let body = await request.json();
@@ -133,7 +131,6 @@ export async function POST(request: NextRequest) {
         await prisma.cis_alamat.create({
             data: {
                 no_nas: validated.data.no_nas,
-                no_urut: validated.data.no_urut,
                 jns_alamat: validated.data.jns_alamat,
                 kd_negara: validated.data.kd_negara,
                 kd_provinsi: validated.data.kd_provinsi,
@@ -221,7 +218,6 @@ export async function POST(request: NextRequest) {
             await prisma.cis_alamat.create({
                 data: {
                     id_pengurus: fetchPengurus.id_pengurus,
-                    no_urut: validated.data.no_urut,
                     jns_alamat: validated.data.jns_alamat,
                     kd_negara: validated.data.kd_negara,
                     kd_provinsi: validated.data.kd_provinsi,

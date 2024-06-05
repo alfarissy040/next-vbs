@@ -1,3 +1,4 @@
+import { prisma } from "@/app/utilities";
 import { Prisma, PrismaClient } from "@prisma/client";
 import moment from "moment";
 import { getToken } from "next-auth/jwt";
@@ -15,7 +16,6 @@ const getOrderBy = (orderBy: string, direction: "asc" | "desc"): any => {
     }
 };
 
-const prisma = new PrismaClient();
 export async function GET(request: NextRequest) {
     const url = new URL(request.url);
     const orderBy = url.searchParams.get("orderby") ?? "nomor-nasabah";

@@ -20,9 +20,10 @@ interface CreateMasterProps {
     handleReset: () => void;
     typeNasabah: TNasabahType;
     formMethod: UseFormReturn<FieldValues>;
+    isLoading: boolean;
 }
 
-const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, typeNasabah, kdTypeNasabah, formMethod }) => {
+const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, typeNasabah, kdTypeNasabah, formMethod, isLoading }) => {
     const [isForeverMasaIdent, setIsForeverMasaIdent] = useState();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { unregister } = formMethod;
@@ -71,7 +72,7 @@ const CreateMaster: React.FC<CreateMasterProps> = ({ navDirection, handleReset, 
                         Nasabah Tipe <b className="capitalize">{typeNasabah.toLowerCase()}</b>
                     </h2>
                     <Tooltip content="Hapus Form">
-                        <Button isIconOnly size="sm" color="danger" variant="light" onPress={onOpen}>
+                        <Button isIconOnly size="sm" color="danger" variant="light" onPress={onOpen} isDisabled={isLoading}>
                             <FaTrashAlt className="w-4 h-4 text-red-500" />
                         </Button>
                     </Tooltip>
