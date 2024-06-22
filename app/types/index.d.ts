@@ -39,10 +39,10 @@ declare module "@prisma/client" {
     interface extendCisMaster extends cis_master {
         aks_pemakai_create: aks_pemakai;
         aks_pemakai_update?: aks_pemakai;
-        alamat: extendCisAlamat[];
+        alamat:? extendCisAlamat;
         cis_perusahaan?: extendCisPerusahaan;
         cis_perorangan?: extendCisPerorangan;
-        cis_pengurus: extendCisPengurus[];
+        cis_pengurus?: extendCisPengurus;
         jenis_identitas: para_jns_ident;
         bentuk_hukum: para_bntk_hkm;
         golongan_pemilik: para_gol_pmlk;
@@ -89,7 +89,7 @@ declare module "@prisma/client" {
         aks_pemakai_create: aks_pemakai;
         aks_pemakai_update?: aks_pemakai;
         cis_master?: cis_master;
-        cis_alamat: cis_alamat[];
+        cis_alamat: extendCisAlamat;
         jenis_identitas: para_jns_ident;
         negara: para_negara;
         agama: para_agama;

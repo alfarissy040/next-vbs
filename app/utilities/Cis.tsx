@@ -76,8 +76,8 @@ export const generateNoNas = (tipeNas: number, createdAtKantor: number, count: n
  */
 export const getJenisAlamat = (): Array<ISelectItem> => {
     return [
-        { label: "Sesuai Identitas", value: 1 },
-        { label: "Sesuai Domisili", value: 2 },
-        { label: "Sesuai Alamat", value: 3 },
+        { label: "Sesuai Identitas", value: "1" },
+        { label: "Sesuai Domisili", value: "2" },
+        { label: "Sesuai Alamat", value: "3" },
     ];
 };

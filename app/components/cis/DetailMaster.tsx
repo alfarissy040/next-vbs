@@ -18,7 +18,7 @@ const DetailMaster: React.FC<DetailMasterProps> = ({ data }) => {
             {/* nomor identitas */}
             <CardField label="Nomor Identitas" value={data?.no_ident} />
             {/* tanggal identitas */}
-            {data?.masa_ident === 1 ? <CardField label="Masa Belaku Identitas" value="Seumur Hidup" /> : <CardField label="Tanggal Masa Identitas" value={moment(data?.tgl_ident).format("DD MMMM YYYY") ?? ""} />}
+            {data?.masa_ident === 1 ? <CardField label="Masa Belaku Identitas" value="Seumur Hidup" /> : <CardField label="Masa Belaku Identitas" value={moment(data?.tgl_ident).format("DD MMMM YYYY") ?? ""} />}
             {/* bentuk hukum */}
             <CardField label="Bentuk Hukum" value={data?.bentuk_hukum?.keterangan} />
             {/* golongan pemilik */}

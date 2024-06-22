@@ -5,7 +5,6 @@ import para_gol_pmlk from "@/dummy/para_gol_pmlk.json";
 import para_grup_nas from "@/dummy/para_grup_nas.json";
 import para_jns_ident from "@/dummy/para_jns_ident.json";
 import para_jns_pekerjaan from "@/dummy/para_jns_pekerjaan.json";
-import para_jns_usaha_tkt from "@/dummy/para_jns_usaha_tkt.json";
 import para_kecamatan from "@/dummy/para_kecamatan.json";
 import para_kelurahan from "@/dummy/para_kelurahan.json";
 import para_kota from "@/dummy/para_kota.json";
@@ -15,6 +14,7 @@ import para_provinsi from "@/dummy/para_provinsi.json";
 import para_sts_nikah from "@/dummy/para_sts_nikah.json";
 import { PrismaClient } from "@prisma/client";
 import { hash } from "bcrypt";
+import nasabahA from "./seeder/nasabah perorangan.json";
 
 const prisma = new PrismaClient();
 
@@ -238,6 +238,68 @@ async function main() {
     await prisma.para_kelurahan.createMany({
         data: para_kelurahan.map((data) => ({ ...data, usrid_create: pemakai.username })),
     });
+    await prisma.cis_master.create({
+        data: {
+            no_nas: "0100100001",
+            created_at_kantor: nasabahA.created_at_kantor,
+            nm_nas: nasabahA.nm_nas,
+            tipe_nas: nasabahA.tipe_nas,
+            no_ident: nasabahA.no_ident,
+            masa_ident: nasabahA.masa_ident,
+            tgl_ident: nasabahA.tgl_ident,
+            npwp: nasabahA.npwp,
+            no_telp: nasabahA.no_telp,
+            email: nasabahA.email,
+            kd_jns_ident: nasabahA.kd_jns_ident,
+            kd_acc_off: nasabahA.kd_acc_off,
+            kd_bntk_hkm: nasabahA.kd_bntk_hkm,
+            kd_gol_pemilik: nasabahA.kd_gol_pemilik,
+            kd_sumber_dana:nasabahA.kd_sumber_dana,
+            kd_tujuan_dana: nasabahA.kd_tujuan_dana,
+            kd_maks_trans: nasabahA.kd_maks_trans,
+            kd_penghasilan_bulan: nasabahA.kd_penghasilan_bulan,
+            kd_penghasilan_lainnya: nasabahA.kd_penghasilan_lainnya,
+            kd_pengeluaran_bulan: nasabahA.kd_pengeluaran_bulan,
+            kd_pengeluaran_lainnya: nasabahA.kd_pengeluaran_lainnya,
+            kd_bidang_usaha: nasabahA.kd_bidang_usaha,
+            usrid_create: pemakai.username,
+            cis_perorangan: {
+                create: {
+                    nm_ibu: nasabahA.nm_ibu,
+                    tempat_lahir: nasabahA.tempat_lahir,
+                    tgl_lahir: nasabahA.tgl_lahir,
+                    jns_kelamin: nasabahA.jns_kelamin,
+                    nm_pasangan: nasabahA.nm_pasangan,
+                    no_ident_pasangan: nasabahA.no_ident_pasangan,
+                    nm_ahli_waris: nasabahA.nm_ahli_waris,
+                    jabatan: nasabahA.jabatan,
+                    nm_kntr: nasabahA.nm_kntr,
+                    kd_status_pernikahan: nasabahA.kd_status_pernikahan,
+                    kd_agama: nasabahA.kd_agama,
+                    kd_kewarganegaraan: nasabahA.kd_kewarganegaraan,
+                    kd_profesi: nasabahA.kd_profesi,
+                    kd_jns_pekerjaan: nasabahA.kd_jns_pekerjaan,
+                    usrid_create: pemakai.username
+                },
+            },
+            alamat: {
+                create: {
+                    jns_alamat: nasabahA.jns_alamat,
+                    kd_negara: nasabahA.kd_negara,
+                    kd_provinsi: nasabahA.kd_provinsi,
+                    kd_kota: nasabahA.kd_kota,
+                    kd_kecamatan: nasabahA.kd_kecamatan,
+                    kd_kelurahan: nasabahA.kd_kelurahan,
+                    rt: nasabahA.rt,
+                    rw: nasabahA.rw,
+                    kd_pos: nasabahA.kd_pos,
+                    alamat_detail: nasabahA.alamat_detail,
+                    usrid_create: pemakai.username
+                }
+            }
+
+        },
+    })
 }
 
 main()

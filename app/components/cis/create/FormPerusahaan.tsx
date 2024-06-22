@@ -10,6 +10,7 @@ import CreateAlamatPengurus from "./CreateAlamatPengurus"
 import CreateMaster from "./CreateMaster"
 import CreatePengurus from "./CreatePengurus"
 import CreatePerusahaan from "./CreatePerusahaan"
+import FormMaster from "../form/FormMaster"
 
 
 const FormPerusahaan = ({ setFormType }: { setFormType: Dispatch<SetStateAction<TAddFormState>> }) => {
@@ -56,7 +57,7 @@ const FormPerusahaan = ({ setFormType }: { setFormType: Dispatch<SetStateAction<
                     }}
                     onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 gap-3 overflow-x-clip" noValidate>
                     <AnimatePresence mode="popLayout">
-                        {step === 1 && <CreateMaster kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} handleReset={handleReset} />}
+                        {step === 1 && <FormMaster kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} handleReset={handleReset} />}
                         {step === 2 && <CreatePerusahaan kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} />}
                         {step === 3 && <CreateAlamat kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} />}
                         {step === 4 && <CreatePengurus kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} />}

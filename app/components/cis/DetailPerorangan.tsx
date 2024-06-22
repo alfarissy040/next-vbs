@@ -33,7 +33,7 @@ const DetailPerorangan: React.FC<DetailPeroranganPorps> = ({ data }) => {
                 {/* tanggal lahir */}
                 <CardField label="Tanggal Lahir" value={moment(data?.tgl_lahir).format("DD MMMM YYYY") ?? ""} />
                 {/* jenis kelamin */}
-                <CardField label="Jenis Kelamin" value={data?.jns_kelamin} />
+                <CardField label="Jenis Kelamin" value={data?.jns_kelamin.toLowerCase() === "l"? "Laki-laki":"Perempuan"} />
                 {/* flag karyawan */}
                 <CardField label="Karyawan Bank Sendiri" value={data?.flag_karyawan ? "Karyawan Sendiri" : "Bukan Karyawan"} />
                 {/* status pernikahan */}
@@ -49,7 +49,7 @@ const DetailPerorangan: React.FC<DetailPeroranganPorps> = ({ data }) => {
                 {/* kewarganegaraan */}
                 <CardField label="Kewarganegaraan" value={data?.negara.keterangan} />
                 {/* profesi */}
-                <CardField label="Profesi" value={data?.profesi} />
+                <CardField label="Profesi" value={data?.profesi.keterangan} />
                 {/* jenis pekerjaan */}
                 <CardField label="Jenis Pekerjaan" value={data?.jenis_pekerjaan.keterangan} />
                 {/* jabatan */}

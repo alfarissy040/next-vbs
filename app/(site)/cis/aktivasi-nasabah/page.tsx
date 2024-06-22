@@ -145,14 +145,14 @@ const AktivasiNasabahPage = () => {
                     </ModalHeader>
                     <ModalBody>
                         {modalState === null && (
-                            <p>Silakan konfirmasi keputusan Anda untuk permintaan ini. Pilih <span className="font-semibold border-b-2 dark:border-slate-50">Terima</span> untuk menyetujui atau <span className="font-semibold border-b-2 dark:border-slate-50">Tolak</span> untuk menolak.</p>
+                            <p>Silakan konfirmasi keputusan Anda untuk permintaan ini. Pilih <span className="font-semibold border-b-2 dark:border-slate-50 border-slate-900">Terima</span> untuk menyetujui atau <span className="font-semibold border-b-2 dark:border-slate-50 border-slate-900">Tolak</span> untuk menolak.</p>
                         )}
                         {modalState === "terima" && (
-                            <p>Apakah Anda yakin ingin <span className="font-semibold border-b-2 dark:border-slate-50">menerima</span> permintaan ini? Harap pastikan semua informasi sudah benar sebelum melanjutkan.
+                            <p>Apakah Anda yakin ingin <span className="font-semibold border-b-2 dark:border-slate-50 border-slate-900">menerima</span> permintaan ini? Harap pastikan semua informasi sudah benar sebelum melanjutkan.
                             </p>
                         )}
                         {modalState === "tolak" && (
-                            <p>Apakah Anda yakin ingin <span className="font-semibold border-b-2 dark:border-slate-50">menolak</span> permintaan ini? Harap pastikan semua informasi sudah benar sebelum melanjutkan.
+                            <p>Apakah Anda yakin ingin <span className="font-semibold border-b-2 dark:border-slate-50 border-slate-900">menolak</span> permintaan ini? Harap pastikan semua informasi sudah benar sebelum melanjutkan.
                             </p>
                         )}
                     </ModalBody>

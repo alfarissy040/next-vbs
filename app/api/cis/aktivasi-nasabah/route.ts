@@ -1,4 +1,4 @@
-import { prisma } from "@/app/utilities";
+import { prisma } from "@/app/utilities/ServerUtilities";;
 import { Prisma, PrismaClient } from "@prisma/client";
 import moment from "moment";
 import { getToken } from "next-auth/jwt";

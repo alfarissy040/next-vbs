@@ -1,4 +1,4 @@
-import { prisma } from "@/app/utilities";
+import { prisma } from "@/app/utilities/ServerUtilities";;
 import { convertToCisUpdate } from "@/app/utilities/action";
 import { Prisma, cis_perorangan, cis_perusahaan } from "@prisma/client";
 import { get, has, isEmpty, isEqual, omitBy } from "lodash";

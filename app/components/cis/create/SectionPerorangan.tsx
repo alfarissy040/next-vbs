@@ -1,26 +1,28 @@
 "use client";
 
-import { TCommonApiError } from "@/app/types";
-import { usePrefetchNavigate } from "@/app/utilities";
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
+import { cis_alamat, extendCisMaster } from "@prisma/client";
 import { AnimatePresence, motion } from "framer-motion";
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
-import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { FieldValues, FormProvider, SubmitHandler, UseFormReturn } from "react-hook-form";
 import { CDialog } from "../../ClassnamesData";
-import CreateAlamat from "./CreateAlamat";
-import CreateMaster from "./CreateMaster";
-import CreatePerorangan from "./CreatePerorangan";
+import FormAlamat from "../form/FormAlamat";
+import FormMaster from "../form/FormMaster";
+import FormPerorangan from "../form/FormPerorangan";
 
-const FormPerorangan = ({ setFormType }: { setFormType: Dispatch<SetStateAction<TAddFormState>> }) => {
-    const formMethod = useForm({
-        shouldUnregister: false,
-    });
+interface SectionPeroranganProps {
+    setFormType?: Dispatch<SetStateAction<TAddFormState>>
+    onSubmit: SubmitHandler<FieldValues>
+    formMethod: UseFormReturn<FieldValues>
+    isLoading: boolean
+    defaultValue?: extendCisMaster
+}
+
+const SectionPerorangan:React.FC<SectionPeroranganProps> = ({ setFormType, onSubmit, isLoading, formMethod, defaultValue }) => {
     const {
         trigger, handleSubmit, getValues, unregister, formState: { errors },
     } = formMethod;
-    const navigateTo = usePrefetchNavigate()
-    const [isLoading, setIsLoading] = useState(false)
+    
     const [step, setStep] = useState(1);
     const [navDirection, setNavDirection] = useState<TNavDirection>("initial");
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -40,42 +42,17 @@ const FormPerorangan = ({ setFormType }: { setFormType: Dispatch<SetStateAction<
         });
     }, [step, trigger]);
     const handleReset = useCallback(() => {
-        const allValues = getValues();
-        Object.keys(allValues).map((fieldName) => {
-            unregister(fieldName);
-        });
-
-        setFormType("home");
+        if(setFormType) {
+            const allValues = getValues();
+            Object.keys(allValues).map((fieldName) => {
+                unregister(fieldName);
+            });
+            
+            setFormType("home");
+        }
     }, [getValues, setFormType, unregister]);
 
-    const onSubmit: SubmitHandler<FieldValues> = async (values) => {
-        setIsLoading(true)
-        const loadingToast = toast.loading("Sedang memproses...")
-        try {
-            const res = await fetch("/api/cis/create", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(values),
-            })
-            if (!res.ok) {
-                const result = await res.json()
-                throw ({
-                    status: res.status,
-                    message: result.message
-                })
-            }
-            toast.success("Data tersimpan")
-            return navigateTo("/cis")
-        } catch (err) {
-            const error = err as TCommonApiError
-            toast.error(error.message)
-        } finally {
-            toast.dismiss(loadingToast)
-            setIsLoading(false)
-        }
-    };
+    
     return (
         <>
             <FormProvider {...formMethod}>
@@ -91,9 +68,9 @@ const FormPerorangan = ({ setFormType }: { setFormType: Dispatch<SetStateAction<
                     noValidate
                 >
                     <AnimatePresence mode="popLayout">
-                        {step === 1 && <CreateMaster kdTypeNasabah={1} formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} handleReset={handleReset} isLoading={isLoading} />}
-                        {step === 2 && <CreatePerorangan formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} />}
-                        {step === 3 && <CreateAlamat kdTypeNasabah={1} formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} />}
+                        {step === 1 && <FormMaster kdTypeNasabah={1} formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} handleReset={setFormType? handleReset:undefined} isLoading={isLoading} defaultValue={defaultValue} />}
+                        {step === 2 && <FormPerorangan formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} defaultValue={defaultValue?.cis_perorangan} />}
+                        {step === 3 && <FormAlamat kdTypeNasabah={1} formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} defaultValue={defaultValue?.alamat as cis_alamat} />}
                     </AnimatePresence>
                     <div className="flex items-center justify-end gap-3">
                         <Button variant="solid" color={step === 1 ? "default" : "primary"} onClick={handlePrevStep} isDisabled={step === 1}>
@@ -135,4 +112,4 @@ const FormPerorangan = ({ setFormType }: { setFormType: Dispatch<SetStateAction<
     );
 };
 
-export default FormPerorangan;
+export default SectionPerorangan;

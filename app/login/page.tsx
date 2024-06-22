@@ -31,6 +31,7 @@ const LoginPage = () => {
                 password,
                 redirect: false,
             });
+            console.log(login)
             // const result = await login?.json()
 
             if (!login?.ok) {
@@ -43,6 +44,7 @@ const LoginPage = () => {
             toast.success("Berhasil login");
             navigateTo("/");
         } catch (error) {
+            console.log(error)
             const errorMessage = error as TCommonApiError;
             toast.error(errorMessage.message);
         } finally {

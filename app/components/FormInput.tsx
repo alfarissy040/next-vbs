@@ -14,7 +14,7 @@ interface FormInputProps {
     isRequired?: boolean;
     isDisabled?: boolean;
     inputMode?: "text" | "search" | "email" | "tel" | "url" | "none" | "numeric" | "decimal";
-    defaultValue?: string;
+    defaultValue?: string | null;
     min?: string | number;
     max?: string | number;
     rules?: RegisterOptions<FieldValues, string>;

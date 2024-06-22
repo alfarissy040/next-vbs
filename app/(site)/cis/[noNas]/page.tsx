@@ -64,11 +64,11 @@ const PageDetail = ({ params }: { params: IParamSlug }) => {
                     {/* perusahaan */}
                     {nasabahType === 2 || (nasabahType === 4 && <DetailPerusahaan data={data?.cis_perusahaan as extendCisPerusahaan} isLoading={isLoading} />)}
                     {/* alamat */}
-                    <DetailAlamat data={data?.alamat[0]} isLoading={isLoading} />
+                    <DetailAlamat data={data?.alamat ?? undefined} isLoading={isLoading} />
                     {/* pengurus */}
-                    {nasabahType !== 1 && <DetailPengurus data={data?.cis_pengurus[0] as extendCisPengurus} isLoading={isLoading} />}
+                    {nasabahType !== 1 && <DetailPengurus data={data?.cis_pengurus as extendCisPengurus} isLoading={isLoading} />}
                     {/* alamat pengurus */}
-                    {nasabahType !== 1 && <DetailAlamatPengurus data={data?.cis_pengurus[0].cis_alamat[0] as extendCisAlamat} isLoading={isLoading} />}
+                    {nasabahType !== 1 && <DetailAlamatPengurus data={(data?.cis_pengurus as extendCisPengurus)?.cis_alamat} isLoading={isLoading} />}
                 </>
             )}
 

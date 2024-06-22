@@ -4,9 +4,10 @@ import { schemaMaster } from "@/app/schema/schemaMaster";
 import schemaPengurus from "@/app/schema/schemaPengurus";
 import schemaPerorangan from "@/app/schema/schemaPerorangan";
 import schemaPerusahaan from "@/app/schema/schemaPerusahaan";
-import { getValidationMessage, prisma } from "@/app/utilities";
 import { generateNoNas } from "@/app/utilities/Cis";
+import { prisma, getValidationMessage } from "@/app/utilities/ServerUtilities";
 import { Prisma } from "@prisma/client";
+import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodObject, z } from "zod";
 
@@ -15,6 +16,12 @@ import { ZodObject, z } from "zod";
 type TTipeNas = 1 | 2 | 3 | 4;
 
 export async function POST(request: NextRequest) {
+    const token = await getToken({
+        req: request,
+        secret: process.env.NEXTAUTH_SECRET,
+    
+    })
+    if(!token) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     let body = await request.json();
     const { tipe_nas } = body;
     const isHavePengurus = "pengurus" in body;

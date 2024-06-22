@@ -20,7 +20,7 @@ interface FormSelectProps {
     items?: ISelectItem[];
     paginateItems?: IPaginateDataAny[];
     filteredItems?: ISelectItem[];
-    defaultValue?: string;
+    defaultValue?: string | null | number;
     onChange?: (value: any) => void;
     rules?: RegisterOptions<FieldValues, string>;
     formMethod: UseFormReturn<FieldValues>;
@@ -97,7 +97,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
         <Controller
             control={control}
             name={id}
-            defaultValue={getValues(id)}
+            defaultValue={getValues(id) ?? defaultValue as string}
             rules={{
                 required: {
                     value: isRequired,

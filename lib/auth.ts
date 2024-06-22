@@ -1,4 +1,4 @@
-import { prisma } from "@/app/utilities";
+import { prisma } from "@/app/utilities/ServerUtilities";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { compare } from "bcrypt";
 import { AdapterUser, NextAuthOptions } from "next-auth/";
@@ -13,7 +13,6 @@ export const authOption: NextAuthOptions = {
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials, req) {
-                console.log({ credentials });
                 if (!credentials) {
                     throw new Error("invalid crendetials!");
                 }

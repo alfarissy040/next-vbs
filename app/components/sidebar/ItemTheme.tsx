@@ -29,15 +29,15 @@ const ItemTheme: React.FC<ItemThemeProps> = ({ setNavState }) => {
             </li>
             <li className="sidebar__item justify-between" onClick={() => setTheme("light")}>
                 <span>Terang</span>
-                {theme === "light" && <FaCheck className="w-3 h-3 dark:text-slate-400 text-slate-50" />}
+                {theme === "light" && <FaCheck className="w-3 h-3 dark:text-slate-400 text-slate-900" />}
             </li>
             <li className="sidebar__item justify-between" onClick={() => setTheme("dark")}>
                 <span>Gelap</span>
-                {theme === "dark" && <FaCheck className="w-3 h-3 dark:text-slate-400 text-slate-50" />}
+                {theme === "dark" && <FaCheck className="w-3 h-3 dark:text-slate-400 text-slate-900" />}
             </li>
             <li className="sidebar__item justify-between" onClick={() => setTheme("system")}>
                 <span>Sistem</span>
-                {theme === "system" && <FaCheck className="w-3 h-3 dark:text-slate-400 text-slate-50" />}
+                {theme === "system" && <FaCheck className="w-3 h-3 dark:text-slate-400 text-slate-900" />}
             </li>
         </motion.ul>
     )

@@ -2,8 +2,11 @@ import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 const excludeRoute = ["/cs"];
-// const route = ["/", "/login", "/cis/:path", "/parameter/:path", "/account/:path", "/cs/:path"];
-const route = ["/", "/login", "/parameter/:path", "/account/:path", "/cs/:path"];
+const route = ["/", "/login", "/cis", "/parameter", "/account", "/cs"];
+const levelRoute:Record<number, string[]> = {
+    1: ["/parameter", "/cis/aktivasi-nasabah", "cis/permintaan-ubah"],
+    99: ["/", "/login", "/cis", "/account", "/cs"]
+}
 export default async function middleware(req: NextRequest) {
     const {
         nextUrl: { origin, pathname },
@@ -15,10 +18,18 @@ export default async function middleware(req: NextRequest) {
         req: req,
         secret: process.env.NEXTAUTH_SECRET,
     });
+    const level = await token?.level.level ?? 99
+    const isAuthorized = levelRoute[level].includes(pathname)
     const redirectTo = (path: string) => NextResponse.redirect(new URL(path, origin));
+
+    console.log(isAuthorized)
 
     if (!isInRoute) {
         return NextResponse.next();
+    }
+
+    if(!isAuthorized) {
+        return redirectTo("/error/403");
     }
 
     if (isLoginPage && token) {
