@@ -1,5 +1,6 @@
 "use client"
 
+import moment from "moment";
 import { useRouter } from "next/navigation";
 
 /**
@@ -52,3 +53,8 @@ export const flatQueryParams = (params: Record<string, any>) => {
     // Return the flattened query parameters.
     return result;
 };
+
+export const dateToString = (params?: Date | string) => {
+    const result = moment(params).format("YYYY-MM-DD")
+    return params? result:""
+}

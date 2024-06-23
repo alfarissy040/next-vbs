@@ -2,24 +2,23 @@
 
 import useFetchPaginateParameter from "@/app/hooks/useFetchPaginateParameter";
 import { baseFormVariant } from "@/app/utilities/MotionVariant";
-import { para_kecamatan, para_kelurahan, para_kota, para_negara, para_provinsi } from "@prisma/client";
+import { cis_alamat, para_kecamatan, para_kelurahan, para_kota, para_negara, para_provinsi } from "@prisma/client";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { FieldValues, UseFormReturn } from "react-hook-form";
 import FormInput from "../../FormInput";
 import FormTextarea from "../../FormTextarea";
 import FormSelect from "../FormSelect";
-import { getJenisAlamat } from "@/app/utilities/Cis";
-import { ISelectItem } from "@/app/types/parameter";
 
-interface CreateAlamatProps {
+interface FormAlamatPengurusProps {
     navDirection: TNavDirection;
     typeNasabah: TNasabahType;
     formMethod: UseFormReturn<FieldValues>;
     kdTypeNasabah: number;
+    defaultValue?: cis_alamat
 }
 
-const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, kdTypeNasabah, formMethod }) => {
+const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, typeNasabah, formMethod, defaultValue }) => {
     const { getValues } = formMethod;
     const [kdProvinsi, setKdProvinsi] = useState<number | null>(getValues("provinsi") ?? null);
     const [kdKota, setKdKota] = useState<number | null>(getValues("kota") ?? null);
@@ -104,11 +103,23 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
             className="rounded-lg shadow-lg w-full p-3 bg-slate-100 dark:bg-slate-800"
         >
             <h2 className="font-medium md:text-lg">
-                Nasabah Tipe <b className="capitalize">{typeNasabah.toLowerCase()}</b> - Alamat {typeNasabah}
+                Nasabah Tipe <b className="capitalize">{typeNasabah.toLowerCase()}</b> - Alamat Pengurus
             </h2>
             <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mt-3">
                 {/* jenis alamat */}
-                <FormSelect items={getJenisAlamat() as ISelectItem[]} formMethod={formMethod} id="jns_alamat" label="Jenis Alamat" placeholder="Pilih Jenis Alamat" isRequired />
+                <FormSelect
+                    items={[
+                        { label: "Sesuai Identitas", value: 1 },
+                        { label: "Sesuai Domisili", value: 2 },
+                        { label: "Sesuai Alamat", value: 3 },
+                    ]}
+                    formMethod={formMethod}
+                    id="pengurus.alamat.jns_alamat"
+                    label="Jenis Alamat Pengurus"
+                    placeholder="Pilih Jenis Alamat"
+                    defaultValue={defaultValue?.jns_alamat}
+                    isRequired
+                />
                 {/* negara */}
                 <FormSelect
                     isLoading={isLoadingNegara}
@@ -118,9 +129,10 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                     handleChangePage={setPageNegara}
                     handleSearch={setSearchNegara}
                     formMethod={formMethod}
-                    id="kd_negara"
-                    label="Negara"
+                    id="pengurus.alamat.kd_negara"
+                    label="Negara Pengurus"
                     placeholder="Pilih Negara"
+                    defaultValue={defaultValue?.kd_negara}
                     isSearchable
                     isRequired
                 />
@@ -134,9 +146,10 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                     handleSearch={setSearchProvinsi}
                     onChange={setKdProvinsi}
                     formMethod={formMethod}
-                    id="kd_provinsi"
+                    id="pengurus.alamat.kd_provinsi"
                     label="Provinsi"
                     placeholder="Pilih Provinsi"
+                    defaultValue={defaultValue?.kd_provinsi}
                     isSearchable
                     isRequired
                 />
@@ -150,9 +163,10 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                     onChange={setKdKota}
                     handleSearch={setSearchKota}
                     formMethod={formMethod}
-                    id="kd_kota"
+                    id="pengurus.alamat.kd_kota"
                     label="Kota"
                     placeholder="Pilih Kota"
+                    defaultValue={defaultValue?.kd_kota}
                     isSearchable
                     isRequired
                 />
@@ -166,9 +180,10 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                     handleSearch={setSearchKecamatan}
                     onChange={setKdKecamatan}
                     formMethod={formMethod}
-                    id="kd_kecamatan"
+                    id="pengurus.alamat.kd_kecamatan"
                     label="Kecamatan"
                     placeholder="Pilih Kecamatan"
+                    defaultValue={defaultValue?.kd_kecamatan}
                     isSearchable
                     isRequired
                 />
@@ -181,9 +196,10 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                     handleChangePage={setPageKelurahan}
                     handleSearch={setSearchKelurahan}
                     formMethod={formMethod}
-                    id="kd_kelurahan"
+                    id="pengurus.alamat.kd_kelurahan"
                     label="Kelurahan"
                     placeholder="Pilih Kelurahan"
+                    defaultValue={defaultValue?.kd_kelurahan}
                     isSearchable
                     isRequired
                 />
@@ -200,8 +216,9 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                         inputMode="numeric"
                         label="RT"
                         formMethod={formMethod}
-                        id="rt"
+                        id="pengurus.alamat.rt"
                         placeholder="Masukan RT"
+                        defaultValue={defaultValue?.rt}
                         isRequired
                     />
                     <FormInput
@@ -215,8 +232,9 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                         inputMode="numeric"
                         label="RW"
                         formMethod={formMethod}
-                        id="rw"
+                        id="pengurus.alamat.rw"
                         placeholder="Masukan RW"
+                        defaultValue={defaultValue?.rw}
                         isRequired
                     />
                 </div>
@@ -232,17 +250,18 @@ const CreateAlamat: React.FC<CreateAlamatProps> = ({ navDirection, typeNasabah, 
                     inputMode="numeric"
                     label="Kode Pos"
                     formMethod={formMethod}
-                    id="kd_pos"
+                    id="pengurus.alamat.kd_pos"
                     placeholder="Masukan Kode Pos"
+                    defaultValue={defaultValue?.kd_pos}
                     isRequired
                 />
                 {/* alamat detail */}
                 <div className="md:col-span-2">
-                    <FormTextarea formMethod={formMethod} id="alamat" label="Detail Alamat" placeholder="Masukan Alamat" isRequired />
+                    <FormTextarea formMethod={formMethod} id="pengurus.alamat.alamat_detail" label="Detail Alamat Pengurus" placeholder="Masukan Alamat" defaultValue={defaultValue?.alamat_detail} isRequired />
                 </div>
             </div>
         </motion.div>
     );
 };
 
-export default CreateAlamat;
+export default FormAlamatPengurus;

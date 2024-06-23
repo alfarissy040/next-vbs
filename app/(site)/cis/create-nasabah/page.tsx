@@ -1,17 +1,17 @@
 "use client";
 
 import ChooseNasabah from "@/app/components/cis/create/ChooseNasabah";
-import FormInstansi from "@/app/components/cis/create/FormInstansi";
-import FormNonProfit from "@/app/components/cis/create/FormNonProfit";
-import FormPerorangan from "@/app/components/cis/create/SectionPerorangan";
-import FormPerusahaan from "@/app/components/cis/create/FormPerusahaan";
+import SectionInstansi from "@/app/components/cis/create/SectionInstansi";
+import SectionNonProfit from "@/app/components/cis/create/SectionNonProfit";
+import SectionPerorangan from "@/app/components/cis/create/SectionPerorangan";
+import SectionPerusahaan from "@/app/components/cis/create/SectionPerusahaan";
+import { TCommonApiError } from "@/app/types";
+import { usePrefetchNavigate } from "@/app/utilities";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import Link from "next/link";
 import { useState } from "react";
-import { TCommonApiError } from "@/app/types";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { usePrefetchNavigate } from "@/app/utilities";
 
 const CreateNasabahPage = () => {
     const [formType, setFormType] = useState<TAddFormState>("home");
@@ -72,10 +72,10 @@ const CreateNasabahPage = () => {
             </div>
             <div className="flex flex-col flex-1 h-auto gap-3">
                 {formType === "home" && <ChooseNasabah setFormType={setFormType} />}
-                {formType === "perorangan" && <FormPerorangan setFormType={setFormType} onSubmit={onSubmit} isLoading={isLoading} formMethod={formMethod} />}
-                {formType === "perusahaan" && <FormPerusahaan setFormType={setFormType} />}
-                {formType === "pemerintah" && <FormInstansi setFormType={setFormType} />}
-                {formType === "Lembaga non-profit" && <FormNonProfit setFormType={setFormType} />}
+                {formType === "perorangan" && <SectionPerorangan setFormType={setFormType} onSubmit={onSubmit} isLoading={isLoading} formMethod={formMethod} />}
+                {formType === "perusahaan" && <SectionPerusahaan setFormType={setFormType} onSubmit={onSubmit} isLoading={isLoading} formMethod={formMethod} />}
+                {formType === "pemerintah" && <SectionInstansi setFormType={setFormType} onSubmit={onSubmit} isLoading={isLoading} formMethod={formMethod} />}
+                {formType === "Lembaga non-profit" && <SectionNonProfit setFormType={setFormType} onSubmit={onSubmit} isLoading={isLoading} formMethod={formMethod} />}
             </div>
         </section>
     );

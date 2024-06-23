@@ -1,49 +1,58 @@
 "use client"
 
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react"
+import { extendCisMaster, extendCisPengurus } from "@prisma/client"
 import { AnimatePresence, motion } from "framer-motion"
 import { Dispatch, SetStateAction, useCallback, useState } from "react"
-import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form"
+import { FieldValues, FormProvider, SubmitHandler, UseFormReturn } from "react-hook-form"
 import { CDialog } from "../../ClassnamesData"
-import CreateAlamat from "./CreateAlamat"
-import CreateMaster from "./CreateMaster"
-import CreatePengurus from "./CreatePengurus"
-import CreatePerusahaan from "./CreatePerusahaan"
-import CreateAlamatPengurus from "./CreateAlamatPengurus"
+import FormAlamat from "../form/FormAlamat"
+import FormAlamatPengurus from "../form/FormAlamatPengurus"
+import FormMaster from "../form/FormMaster"
+import FormPengurus from "../form/FormPengurus"
+import FormPerusahaan from "../form/FormPerusahaan"
 
+interface SectionPerusahaanProps {
+    setFormType?: Dispatch<SetStateAction<TAddFormState>>
+    onSubmit: SubmitHandler<FieldValues>
+    formMethod: UseFormReturn<FieldValues>
+    isLoading: boolean
+    defaultValue?: extendCisMaster
+}
 
-const FormNonProfit = ({ setFormType }: { setFormType: Dispatch<SetStateAction<TAddFormState>> }) => {
-    const formMethod = useForm()
-    const { trigger, handleSubmit, getValues, unregister, formState: { errors } } = formMethod
-    const [step, setStep] = useState(1)
-    const [navDirection, setNavDirection] = useState<TNavDirection>("initial")
+const SectionPerusahaan:React.FC<SectionPerusahaanProps> = ({ setFormType, onSubmit, isLoading, formMethod, defaultValue }) => {
+    const {
+        trigger, handleSubmit, getValues, unregister, formState: { errors },
+    } = formMethod;
+    
+    const [step, setStep] = useState(1);
+    const [navDirection, setNavDirection] = useState<TNavDirection>("initial");
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const handlePrevStep = useCallback(() => {
-        const nextStep = step !== 1 ? step - 1 : step
-        setStep(nextStep)
-        setNavDirection("out")
-    }, [step])
+        const prevStep = step !== 1 ? step - 1 : step;
+        setStep(prevStep);
+        setNavDirection("out");
+    }, [step]);
     const handleNextStep = useCallback(() => {
+        const nextStep = step < 4 ? step + 1 : step;
         trigger().then((res) => {
             if (res) {
-                const nextStep = step < 6 ? step + 1 : step
-                setNavDirection("in")
-                setStep(nextStep)
+                setNavDirection("in");
+                setStep(nextStep);
             }
-        })
-    }, [step, trigger])
-    const handleReset = useCallback(() => {
-        const allValues = getValues();
-        Object.keys(allValues).map((fieldName) => {
-            unregister(fieldName);
         });
-        setFormType("home")
-    }, [getValues, setFormType, unregister])
-
-    const onSubmit: SubmitHandler<FieldValues> = (values) => {
-        console.log(values)
-    }
+    }, [step, trigger]);
+    const handleReset = useCallback(() => {
+        if(setFormType) {
+            const allValues = getValues();
+            Object.keys(allValues).map((fieldName) => {
+                unregister(fieldName);
+            });
+            
+            setFormType("home");
+        }
+    }, [getValues, setFormType, unregister]);
     return (
         <>
             <FormProvider {...formMethod}>
@@ -56,11 +65,11 @@ const FormNonProfit = ({ setFormType }: { setFormType: Dispatch<SetStateAction<T
                     }}
                     onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 gap-3 overflow-x-clip" noValidate>
                     <AnimatePresence mode="popLayout">
-                        {step === 1 && <CreateMaster formMethod={formMethod} kdTypeNasabah={4} typeNasabah="Lembaga non-profit" navDirection={navDirection} handleReset={handleReset} />}
-                        {step === 2 && <CreatePerusahaan formMethod={formMethod} kdTypeNasabah={4} typeNasabah="Lembaga non-profit" navDirection={navDirection} />}
-                        {step === 3 && <CreateAlamat formMethod={formMethod} kdTypeNasabah={4} typeNasabah="Lembaga non-profit" navDirection={navDirection} />}
-                        {step === 4 && <CreatePengurus formMethod={formMethod} kdTypeNasabah={4} typeNasabah="Lembaga non-profit" navDirection={navDirection} />}
-                        {step === 5 && <CreateAlamatPengurus formMethod={formMethod} kdTypeNasabah={4} typeNasabah="Lembaga non-profit" navDirection={navDirection} />}
+                        {step === 1 && <FormMaster kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} handleReset={setFormType ? handleReset:undefined} isLoading={isLoading} defaultValue={defaultValue} />}
+                        {step === 2 && <FormPerusahaan kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} isLoading={isLoading} defaultValue={defaultValue?.cis_perusahaan} />}
+                        {step === 3 && <FormAlamat kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} defaultValue={defaultValue?.alamat ?? undefined} />}
+                        {step === 4 && <FormPengurus kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} defaultValue={defaultValue?.cis_pengurus} />}
+                        {step === 5 && <FormAlamatPengurus kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} defaultValue={(defaultValue?.cis_pengurus as extendCisPengurus)?.cis_alamat} />}
                     </AnimatePresence>
                     <div className="flex items-center justify-end gap-3">
                         <Button variant="solid" color={step === 1 ? "default" : "primary"} onClick={handlePrevStep} isDisabled={step === 1}>Sebelumnya</Button>
@@ -100,4 +109,4 @@ const FormNonProfit = ({ setFormType }: { setFormType: Dispatch<SetStateAction<T
     )
 }
 
-export default FormNonProfit
+export default SectionPerusahaan
