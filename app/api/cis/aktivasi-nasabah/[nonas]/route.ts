@@ -1,5 +1,5 @@
-import { getValidationMessage, prisma } from "@/app/utilities";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { getValidationMessage, prisma } from "@/app/utilities/ServerUtilities";
+import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 

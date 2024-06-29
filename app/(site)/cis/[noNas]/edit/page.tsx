@@ -31,7 +31,7 @@ const EditNasabahPage = ({ params }: { params: IParamSlug }) => {
         setIsLoading(true)
         const loadingToast = toast.loading("Sedang memproses...")
         try {
-            const res = await fetch("/api/cis/create", {
+            const res = await fetch(`/api/cis/${noNas}/edit`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
