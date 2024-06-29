@@ -1,4 +1,4 @@
-import { getValidationMessage, prisma } from "@/app/utilities";
+import { getValidationMessage, prisma } from "@/app/utilities/ServerUtilities";
 import { Prisma } from "@prisma/client";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
