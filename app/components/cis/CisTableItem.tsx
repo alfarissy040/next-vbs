@@ -23,10 +23,10 @@ const CisTableItem = ({ item }: { item: cis_master }) => {
                     size="sm"
                     variant="light"
                     classNames={{
-                        base: getBadgeColor(item.jns_ident),
+                        base: getBadgeColor(item.kd_jns_ident),
                         content: ["text-white"]
                     }}>
-                    {getTypeName(item.jns_ident)}
+                    {getTypeName(item.kd_jns_ident)}
                 </Chip>
             </TableCell>
             <TableCell>

@@ -1,13 +1,33 @@
-import { prisma } from "@/app/utilities/ServerUtilities";;
+import { prisma } from "@/app/utilities/ServerUtilities";
 import { convertToCisUpdate } from "@/app/utilities/action";
-import { Prisma, cis_perorangan, cis_perusahaan } from "@prisma/client";
-import { get, has, isEmpty, isEqual, omitBy } from "lodash";
+import { Prisma } from "@prisma/client";
+import { has, isEmpty, isEqual, toPairs } from "lodash";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 interface IParams {
     nonas?: string;
 }
+
+const isInException = (key:string) => {
+    return ["cis_perorangan", "cis_perusahaan", "alamat", "cis_pengurus", "cis_alamat"].includes(key.trim().toLowerCase())
+}
+
+const getCisDiffData = (nasabah: Record<string, any> | null, data: Record<string, any>) => {
+    if (isEmpty(nasabah) || isEmpty(data)) return {};
+  
+    return toPairs(nasabah).reduce((acc, [key, value]) => {
+      if (!has(data, key) || isInException(key)) {
+        return acc;
+      }
+      if (!isEqual(value, data[key])) {
+        acc[key] = data[key];
+      }
+      return acc;
+    }, {} as Record<string, any>);
+  };
+
+// TODOS test this fnction with 4 types of user
 
 export async function POST(request: NextRequest, { params }: { params: IParams }) {
     const body = await request.json()
@@ -36,23 +56,22 @@ export async function POST(request: NextRequest, { params }: { params: IParams }
         })
         if (!nasabah) return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
 
-        const difMaster = omitBy(nasabah, (value, key) => isEqual(value, body[key]))
-        const difPerorangan = omitBy(nasabah.cis_perorangan as cis_perorangan, (value, key) => isEqual(value, body[key]))
-        const difPerusahaan = omitBy(nasabah.cis_perusahaan as cis_perusahaan, (value, key) => isEqual(value, body[key]))
-        const difPengurus = omitBy(nasabah.cis_pengurus, (value, key) => isEqual(value, body.pengurus[key]))
-        const difAlamat = omitBy(nasabah.alamat, (value, key) => isEqual(value, body[key]))
-        const difAlamatPengurus = omitBy(nasabah.cis_pengurus?.cis_alamat, (value, key) => isEqual(value, body.pengurus[key]))
+        const diffMaster = getCisDiffData(nasabah, body);
+        const diffPerorangan = getCisDiffData(nasabah.cis_perorangan, body)
+        const diffPerusahaan = getCisDiffData(nasabah.cis_perusahaan, body)
+        const diffAlamat = getCisDiffData(nasabah.alamat, body.alamat)
+        const diffPengurus = getCisDiffData(nasabah.cis_pengurus, body.pengurus)
+        const diffAlamatPengurus = getCisDiffData(nasabah.cis_pengurus?.cis_alamat ?? null, body.pengurus.alamat)
 
         const entries = [
-            ...convertToCisUpdate(nasabah, difMaster, noNas, "cis_master", token.kantor.kd_kantor),
-            ...convertToCisUpdate(nasabah, difPerorangan, noNas, "cis_perorangan", token.kantor.kd_kantor),
-            ...convertToCisUpdate(nasabah, difPerusahaan, noNas, "cis_perusahaan", token.kantor.kd_kantor),
-            ...convertToCisUpdate(nasabah, difPengurus, noNas, "cis_pengurus", token.kantor.kd_kantor),
-            ...convertToCisUpdate(nasabah, difAlamat, noNas, "cis_alamat", token.kantor.kd_kantor),
-            ...convertToCisUpdate(nasabah, difAlamatPengurus, noNas, "cis_alamat", token.kantor.kd_kantor),
+            ...convertToCisUpdate(nasabah, diffMaster, noNas, "cis_master", token.kantor.kd_kantor, token.username),
+            ...convertToCisUpdate(nasabah, diffPerorangan, noNas, "cis_perorangan", token.kantor.kd_kantor, token.username),
+            ...convertToCisUpdate(nasabah, diffPerusahaan, noNas, "cis_perusahaan", token.kantor.kd_kantor, token.username),
+            ...convertToCisUpdate(nasabah, diffPengurus, noNas, "cis_pengurus", token.kantor.kd_kantor, token.username),
+            ...convertToCisUpdate(nasabah, diffAlamat, noNas, "cis_alamat", token.kantor.kd_kantor, token.username),
+            ...convertToCisUpdate(nasabah, diffAlamatPengurus, noNas, "cis_alamat", token.kantor.kd_kantor, token.username),
         ]
         if (isEmpty(entries)) return NextResponse.json({ message: "Tidak ada data yang diperbarui" }, { status: 404 })
-
         await prisma.cis_update.createMany({
             data: entries
         })

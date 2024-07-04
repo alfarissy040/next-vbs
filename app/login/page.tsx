@@ -14,6 +14,7 @@ import { usePrefetchNavigate } from "../utilities";
 
 const LoginPage = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const [loginError, setLoginError] = useState("")
 
     const navigateTo = usePrefetchNavigate();
     const form = useForm();
@@ -22,6 +23,7 @@ const LoginPage = () => {
 
     const onSubmit: SubmitHandler<FieldValues> = async (credentials) => {
         setIsLoading(true);
+        setLoginError("");
         const toastLoading = toast.loading("Sedang memproses");
         const { username, password } = credentials;
 
@@ -31,8 +33,6 @@ const LoginPage = () => {
                 password,
                 redirect: false,
             });
-            console.log(login)
-            // const result = await login?.json()
 
             if (!login?.ok) {
                 throw {
@@ -44,9 +44,13 @@ const LoginPage = () => {
             toast.success("Berhasil login");
             navigateTo("/");
         } catch (error) {
-            console.log(error)
             const errorMessage = error as TCommonApiError;
-            toast.error(errorMessage.message);
+            if(!errorMessage.status){
+                toast.error("Something went wrong!")
+                setLoginError("");
+                console.log(error)
+            }
+            setLoginError(errorMessage.message);
         } finally {
             setIsLoading(false);
             toast.dismiss(toastLoading);
@@ -67,6 +71,8 @@ const LoginPage = () => {
                     <h1 className="font-bold text-3xl text-slate-900 dark:text-white">Neural Bank</h1>
                     {/* form */}
                     <form onSubmit={handleSubmit(onSubmit)} noValidate className="w-full max-w-lg mt-10 space-y-3">
+                        {/* login error */}
+                        {loginError && <p className="text-red-500 font-semibold text-sm w-full px-3 py-2 rounded shadow bg-red-200">{loginError}</p>}
                         {/* username */}
                         <FormInput formMethod={form} type="text" id="username" label="Username" isDisabled={isLoading} isRequired />
                         {/* password */}

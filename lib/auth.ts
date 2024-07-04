@@ -14,7 +14,10 @@ export const authOption: NextAuthOptions = {
             },
             async authorize(credentials, req) {
                 if (!credentials) {
-                    throw new Error("invalid crendetials!");
+                    throw ({
+                        status: 401,
+                        message:"invalid crendetials!"
+                    });
                 }
                 const username = credentials?.username;
                 const password = credentials?.password;
@@ -38,7 +41,10 @@ export const authOption: NextAuthOptions = {
                         },
                     });
 
-                    if (!user) throw new Error("User not found!");
+                    if (!user) throw ({
+                        status: 404,
+                        message: "User not found!"
+                    });
 
                     const isMatch = await compare(password, user.password);
 
@@ -53,7 +59,7 @@ export const authOption: NextAuthOptions = {
                         level: user.para_level_user,
                     });
                 } catch (error) {
-                    throw new Error(error as string);
+                    throw error;
                 }
             },
         }),
@@ -69,25 +75,31 @@ export const authOption: NextAuthOptions = {
     callbacks: {
         async jwt({ token, account, user: dataUser }) {
             const user = dataUser as AdapterUser;
-            if (account && account.type === "credentials" && user) {
-                token.id = user.id;
-                token.username = user.username;
-                token.email = user.email;
-                token.name = user.name;
-                token.kantor = user.kantor;
-                token.level = user.level;
+            if (account && account.type === "credentials") {
+                return {
+                    ...token,
+                    id: user.id,
+                    username: user.username,
+                    email: user.email,
+                    name: user.name,
+                    kantor: user.kantor,
+                    level: user.level,
+                };
             }
             return token;
         },
         async session({ session, token }) {
-            if (session.user) {
-                session.user.id = token.id;
-                session.user.username = token.username;
-                session.user.email = token.email;
-                session.user.level = token.level;
-                session.user.kantor = token.kantor;
-            }
-            return Promise.resolve(session);
+            return {
+                ...session,
+                user: {
+                    ...session.user,
+                    id: token.id,
+                    username: token.username,
+                    email: token.email,
+                    level: token.level,
+                    kantor: token.kantor,
+                },
+            };
         },
     },
     pages: {

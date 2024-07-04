@@ -38,18 +38,20 @@ const EditNasabahPage = ({ params }: { params: IParamSlug }) => {
                 },
                 body: JSON.stringify(values),
             })
+            const result = await res.json()
             if (!res.ok) {
-                const result = await res.json()
                 throw ({
                     status: res.status,
                     message: result.message
                 })
             }
+            console.log(result)
             revalidatePath("/api/cis/permintaan-ubah")
             mutate("/api/cis/permintaan-ubah")
             toast.success("Data tersimpan")
             return navigateTo("/cis")
         } catch (err) {
+            console.log(err)
             const error = err as TCommonApiError
             toast.error(error.message)
         } finally {
@@ -58,6 +60,7 @@ const EditNasabahPage = ({ params }: { params: IParamSlug }) => {
         }
     };
     const { data, isLoading:isLoadingData, error } = useSWR(`/api/cis/${noNas}`, fetcherNoCache);
+    console.log(data);
 
     const formType = useMemo(() => {
         const tipe: Record<string, string> = {
@@ -90,10 +93,10 @@ const EditNasabahPage = ({ params }: { params: IParamSlug }) => {
                 </Breadcrumbs>
             </div>
             <div className="flex flex-col flex-1 h-auto gap-3">
-                {formType === "perorangan" && <SectionPerorangan onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} />}
-                {formType === "perusahaan" && <SectionPerusahaan onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} />}
-                {formType === "pemerintah" && <SectionInstansi onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} />}
-                {formType === "Lembaga non-profit" && <SectionNonProfit onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} />}
+                {formType === "perorangan" && <SectionPerorangan onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} defaultValue={data} />}
+                {formType === "perusahaan" && <SectionPerusahaan onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} defaultValue={data} />}
+                {formType === "pemerintah" && <SectionInstansi onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} defaultValue={data} />}
+                {formType === "Lembaga non-profit" && <SectionNonProfit onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} defaultValue={data} />}
             </div>
         </section>
     )

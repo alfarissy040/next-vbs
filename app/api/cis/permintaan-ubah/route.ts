@@ -25,33 +25,16 @@ export async function GET(request: NextRequest) {
     if (!token) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     try {
-        const data = await prisma.cis_update.findMany({
-            where: {
-                AND: [
-                    {
-                        kd_kantor_update: token?.kantor.kd_kantor,
-                    },
-                ],
-            },
-            select: {
-                cis_master: {
-                    select: {
-                        no_nas: true,
-                        no_ident: true,
-                        nm_nas: true,
-                        tipe_nas: true,
-                    },
-                },
-            },
-            orderBy: getOrderby(orderBy, direction),
-        });
-
-        await prisma.cis_master.findMany({
+        const result = await prisma.cis_master.findMany({
             where: {
                 cis_update: {
-                    some: {},
+                    some: {
+                        kd_kantor_update: token?.kantor.kd_kantor,
+                        sts_update: "00"
+                    },
                 },
             },
+            distinct: ["no_nas"],
             select: {
                 no_nas: true,
                 no_ident: true,
@@ -59,34 +42,24 @@ export async function GET(request: NextRequest) {
                 tipe_nas: true,
                 created_at: true,
                 cis_update: {
-                    where: {
-                        AND: [
-                            {
-                                kd_kantor_update: token?.kantor.kd_kantor,
-                            },
-                            {
-                                sts_update: {
-                                    equals: "00",
-                                },
-                            },
-                        ],
-                    },
                     select: {
+                        usrid_create: true,
+                        nm_field: true,
+                        current_record: true,
+                        new_record: true,
+                        created_at: true,
                         id_update: true,
-                    },
-                    orderBy: {
-                        created_at: "asc",
-                    },
-                },
+                    }
+                }
             },
-            orderBy: {
-                created_at: "desc",
-            },
+            orderBy: getOrderby(orderBy, direction),
         });
 
-        if (!data || data.length === 0) return NextResponse.json({ message: "Data not found" }, { status: 404 });
 
-        return NextResponse.json({ data });
+
+        if (!result || result.length === 0) return NextResponse.json({ message: "Data not found" }, { status: 404 });
+
+        return NextResponse.json(result, {status: 200});
     } catch (error) {
         console.log(error);
         if (error instanceof Prisma.PrismaClientKnownRequestError) {

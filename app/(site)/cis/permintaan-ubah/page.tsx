@@ -29,8 +29,7 @@ const AktivasiNasabahPage = () => {
     })
     const { isOpen, onOpen, onClose: closeModal } = useDisclosure();
 
-    const { data, error: isError, isLoading: loadingData } = useSWR<extendCisUpdate[]>(`/api/cis/permintaan-ubah/?${flatQueryParams(qParams)}`, fetcherNoCache);
-
+    const { data, error: isError, isLoading: loadingData } = useSWR<extendCisUpdate[]>(`/api/cis/permintaan-ubah?${flatQueryParams(qParams)}`, fetcherNoCache);
     const handleSortChange = (sortDescriptor: SortDescriptor) => {
         const orderByParam = sortDescriptor.column?.toString() ?? "";
         const directionParam = sortDescriptor.direction === "ascending" ? "asc" : "desc";
@@ -59,11 +58,11 @@ const AktivasiNasabahPage = () => {
         closeModal()
     }
     const handleSubmit = async (isApprove: boolean) => {
-        setIsLoading(true)
-        closeModal()
+        setIsLoading(true);
+        const loadingToast = toast.loading("Memperoses...")
 
         try {
-            const res = await fetch("/api/cis/aktivasi-nasabah/", {
+            const res = await fetch(`/api/cis/permintaan-ubah/${selectedUser}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -81,12 +80,13 @@ const AktivasiNasabahPage = () => {
                     message: result.message
                 }
             }
-            mutate(`/api/cis/aktivasi-nasabah/?${flatQueryParams(qParams)}`)
+            mutate(`/api/cis/permintaan-ubah`)
             toast.success(isApprove ? "Nasabah Berhasilal Aktivasi" : "Nasabah telah ditolak")
         } catch (error) {
             const errorApi = error as TCommonApiError
             toast.error(errorApi.message)
         } finally {
+            toast.dismiss(loadingToast)
             setIsLoading(false)
             setModalState(null)
             closeModal()
@@ -119,13 +119,13 @@ const AktivasiNasabahPage = () => {
                     </TableColumn>
                     <TableColumn className="flex justify-center items-center">Menu</TableColumn>
                 </TableHeader>
-                <TableBody items={isArray(data) ? data : []} emptyContent={isError ? "Something went wrong!" : "Data tidak ditemukan!"} isLoading={loadingData} loadingContent={<Spinner size="md" />}>
+                <TableBody items={isArray(data) ? data : []} emptyContent={isError ? "Something went wrong!" : (loadingData?"":"Data tidak ditemukan!")} isLoading={loadingData} loadingContent={<Spinner size="md" />}>
                     {(item: extendCisUpdate) => (
                         <TableRow key={item?.no_nas}>
                             <TableCell>{item?.no_nas}</TableCell>
                             <TableCell>{item?.nm_nas}</TableCell>
                             <TableCell>
-                                {item?.cis_update.usrid_create}
+                                {item?.cis_update?.usrid_create}
                             </TableCell>
                             <TableCell className="flex items-center justify-center gap-2">
                                 <Button color="primary" onPress={() => handleOpenModal(item?.no_nas)}>Menu</Button>
@@ -188,7 +188,7 @@ const AktivasiNasabahPage = () => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-        </section >
+        </section>
     )
 }
 

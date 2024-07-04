@@ -59,7 +59,7 @@ interface Queue {
 }
 
 export async function POST(request: NextRequest, { params }: { params: IParams }) {
-    const { body } = request;
+    const body = await request.json();
     const { nonas } = params;
 
     const schemaValidasi = z
