@@ -1,10 +1,10 @@
 "use client";
 
 import { Input } from "@nextui-org/react";
+import moment from "moment";
+import { useMemo } from "react";
 import { FieldValues, RegisterOptions, UseFormReturn } from "react-hook-form";
 import { CINputA } from "./ClassnamesData";
-import { useMemo } from "react";
-import moment from "moment";
 
 interface FormInputProps {
     label: string;
@@ -28,7 +28,6 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, placeholder, isR
         getValues,
         formState: { errors },
     } = formMethod;
-
     const getRules = useMemo(() => {
         const result = rules ?? {};
 
@@ -53,10 +52,25 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, placeholder, isR
 
         // memberikan rules min
         if (min) {
-            result.min = {
-                value: min,
-                message: `${label} tidak boleh kurang dari ${min}`,
-            };
+            if (type === "date") {
+                const minVal = moment(min);
+                result.min = {
+                    value: minVal.format("YYYY-MM-DD"),
+                    message: `${label} tidak boleh Kurang dari tanggal ${minVal.format("DD MMM YYYY")}`,
+                };
+            } else {
+                result.min = {
+                    value: min,
+                    message: `${label} tidak boleh kurang dari ${min}`,
+                };
+            }
+        }
+
+        if(type === "number") {
+            result.pattern = {
+                value: /^[0-9]*$/,
+                message: `${label} harus berupa angka`,
+            }
         }
 
         return result;

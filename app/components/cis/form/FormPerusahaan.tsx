@@ -38,7 +38,7 @@ const FormPerusahaan: React.FC<FormPerusahaanProps> = ({ navDirection, handleRes
             </h2>
             <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mt-3">
                 {/* 4. Group Nasabah (group_nas) - String */}
-                <FormSelect isLoading={isLoadingGropNasabah} items={IGropNasabah} formMethod={formMethod} id="kd_group_nas" label="Group Nasabah" placeholder="Pilih Group Nasabah" defaultValue={defaultValue?.kd_group_nas} isSearchable isRequired />
+                <FormSelect isLoading={isLoadingGropNasabah} items={IGropNasabah} formMethod={formMethod} id="kd_group_nas" label="Group Nasabah" placeholder="Pilih Group Nasabah" defaultValue={defaultValue?.kd_group_nas} isRequired />
                 {/* 5. Modal Sendiri (modal_sendiri) - String */}
                 <FormInput type="number" formMethod={formMethod} id="modal_sendiri" label="Modal Sendiri" placeholder="Masukan Modal Sendiri" defaultValue={defaultValue?.modal_sendiri} isRequired />
                 {/* 7. Termasuk Bank (flag_bank) - Boolean */}
@@ -61,7 +61,7 @@ const FormPerusahaan: React.FC<FormPerusahaanProps> = ({ navDirection, handleRes
                 {/* 10. Nomor Akte Akhir (no_akte_akhir) - String */}
                 <FormInput type="text" formMethod={formMethod} id="no_akte_akhir" label="Nomor Akte Akhir" placeholder="Masukan Nomor Akte Akhir" defaultValue={defaultValue?.no_akte_akhir} isRequired />
                 {/* 11. Tanggal Akte Akhir (tgl_akte_akhir) - DateTime */}
-                <FormInput type="date" formMethod={formMethod} id="tgl_akte_awal" label="Tanggal Akte Akhir" placeholder="Masukan Tanggal Akte Awal" defaultValue={dateToString(defaultValue?.tgl_akte_akhir)} isRequired />
+                <FormInput type="date" formMethod={formMethod} id="tgl_akte_akhir" label="Tanggal Akte Akhir" placeholder="Masukan Tanggal Akte Awal" defaultValue={dateToString(defaultValue?.tgl_akte_akhir)} min={moment().format("YYYY-MM-DD")} isRequired />
                 {/* 12. Nama Notaris (nm_notaris) - String */}
                 <FormInput type="text" formMethod={formMethod} id="nm_notaris" label="Nama Notaris" placeholder="Masukan Nama Notaris" defaultValue={defaultValue?.nm_notaris} isRequired />
                 {/* 13. Nomor Notaris (no_notaris) - String */}

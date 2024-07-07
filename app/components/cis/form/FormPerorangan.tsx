@@ -1,3 +1,4 @@
+import useFetchPaginateParameter from "@/app/hooks/useFetchPaginateParameter";
 import useFetchParameter from "@/app/hooks/useFetchParameter";
 import { baseFormVariant } from "@/app/utilities/MotionVariant";
 import { cis_perorangan, para_agama, para_jns_pekerjaan, para_negara, para_profesi, para_sts_nikah } from "@prisma/client";
@@ -24,7 +25,13 @@ const FormPerorangan: React.FC<FormPeroranganProps> = async ({ navDirection, for
     const { convertedData: IAgama, isLoading: isLoadingAgama } = useFetchParameter<para_agama>({
         parameter: "agama",
     });
-    const { convertedData: INegara, isLoading: isLoadingNegara } = useFetchParameter<para_negara>({
+    const {
+        data: INegara,
+        isLoading: isLoadingNegara,
+        setSize: setPageNegara,
+        size: sizeNegara,
+        setSearch: setSearchNegara,
+    } = useFetchPaginateParameter<para_negara>({
         parameter: "negara",
     });
     const { convertedData: IProfesi, isLoading: isLoadingProfesi } = useFetchParameter<para_profesi>({
@@ -93,7 +100,24 @@ const FormPerorangan: React.FC<FormPeroranganProps> = async ({ navDirection, for
                 {/* agama */}
                 <FormSelect isLoading={isLoadingAgama} items={IAgama} formMethod={formMethod} id="kd_agama" label="Agama" placeholder="Pilih Agama" isRequired defaultValue={defaultValue?.kd_agama}/>
                 {/* kewarganegaraan */}
-                <FormSelect isLoading={isLoadingNegara} items={INegara} formMethod={formMethod} id="kd_kewarganegaraan" label="Kewarganegaraan" placeholder="Pilih Kewarganegaraan" isRequired defaultValue={defaultValue?.kd_kewarganegaraan}/>
+                <FormSelect
+                    isLoading={isLoadingNegara}
+                    paginateItems={INegara}
+                    currentPage={sizeNegara}
+                    maxPage={INegara ? INegara[0]?.totalPage : 0}
+                    handleChangePage={setPageNegara}
+                    handleSearch={setSearchNegara}
+                    formMethod={formMethod}
+                    id="kd_kewarganegaraan"
+                    label="Kewarganegaraan"
+                    placeholder="Pilih Kewarganegaraan"
+                    defaultValue={defaultValue?.kd_kewarganegaraan}
+                    config={{
+                        paginateItems: {value:"kd_provinsi"}
+                    }}
+                    isSearchable
+                    isRequired
+                />
                 {/* profesi */}
                 <FormSelect isLoading={isLoadingProfesi} items={IProfesi} formMethod={formMethod} id="kd_profesi" label="Profesi" placeholder="Pilih Profesi" isRequired defaultValue={defaultValue?.kd_profesi}/>
                 {/* jenis pekerjaan */}

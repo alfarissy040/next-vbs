@@ -58,3 +58,12 @@ export const dateToString = (params?: Date | string) => {
     const result = moment(params).format("YYYY-MM-DD")
     return params? result:""
 }
+
+export const numberToCurrency = (value?:number) => {
+    return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format((value as number) ?? 0);
+}

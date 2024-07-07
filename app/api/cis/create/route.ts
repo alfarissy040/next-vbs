@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     const { tipe_nas } = body;
     const isHavePengurus = "pengurus" in body;
     const validTipeNas = ["1", "2", "3", "4"];
-    const isValidTipeNas = validTipeNas.includes(tipe_nas.toString());
+    const isValidTipeNas = validTipeNas.includes((tipe_nas ?? "").toString());
 
     // validasi tipe nasabah
     if (!isValidTipeNas) {

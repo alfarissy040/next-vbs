@@ -60,7 +60,6 @@ const EditNasabahPage = ({ params }: { params: IParamSlug }) => {
         }
     };
     const { data, isLoading:isLoadingData, error } = useSWR(`/api/cis/${noNas}`, fetcherNoCache);
-    console.log(data);
 
     const formType = useMemo(() => {
         const tipe: Record<string, string> = {

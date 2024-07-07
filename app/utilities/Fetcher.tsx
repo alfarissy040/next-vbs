@@ -44,7 +44,7 @@ export const fetcher = async (url: string) => {
         },
         cache: "force-cache",
         next: {
-            revalidate: 5,
+            revalidate: 900, // 15 menit
             tags: [url],
         },
     })

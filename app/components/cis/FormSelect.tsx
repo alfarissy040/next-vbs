@@ -5,7 +5,7 @@ import { convertToSelectItems } from "@/app/utilities/action";
 import { Autocomplete, AutocompleteItem, Select, SelectItem } from "@nextui-org/react";
 import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll";
 import { debounce } from "lodash";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Controller, FieldValues, RegisterOptions, UseFormReturn } from "react-hook-form";
 import { CSelectPopover, CSelectWarpA } from "../ClassnamesData";
 
@@ -29,6 +29,12 @@ interface FormSelectProps {
     handleChangePage?: (page: number) => void;
     handleSearch?: (page: string) => void;
     fetchUrl?: string;
+    config?: {
+        paginateItems?: {
+            label?: string;
+            value?: string
+        }
+    }
 }
 
 const FormSelect: React.FC<FormSelectProps> = ({
@@ -49,6 +55,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
     maxPage = 1,
     handleChangePage,
     handleSearch,
+    config
 }) => {
     const {
         control,
@@ -57,6 +64,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
         formState: { errors },
     } = formMethod;
     const [isOpen, setIsOpen] = useState(false);
+    const [currentValue, setCurrentValue] = useState();
     const hasMore = currentPage < maxPage;
     const [, scrollerRef] = useInfiniteScroll({
         hasMore,
@@ -71,45 +79,48 @@ const FormSelect: React.FC<FormSelectProps> = ({
 
     const sanitizedData = useMemo<ISelectItem[]>(() => {
         if (paginateItems) {
-            return paginateItems.flatMap((item) => convertToSelectItems(item.data));
+            return paginateItems.flatMap((item) => convertToSelectItems(item.data, config?.paginateItems?.label, config?.paginateItems?.value));
         }
         return [];
-    }, [paginateItems]);
+    }, [config?.paginateItems?.label, config?.paginateItems?.value, paginateItems]);
+
 
     const searchDebounce = useRef(
         debounce((input: string) => {
             if (handleSearch) {
                 handleSearch(input);
             }
-        }, 510)
+        }, 500)
     ).current;
 
     const onSearch = (input: string) => {
-        const lowerInput = input.toLowerCase().trim();
-        const isExist = [...items ?? []].some((val) => val.label.toLowerCase().trim() === lowerInput);
+        const isExist = !!sanitizedData.find((item) => item.label === input.toUpperCase())
         if (!isExist) {
             searchDebounce.cancel();
             searchDebounce(input);
         }
     };
-
+    useEffect(() => {
+        setCurrentValue(currentValue)
+    }, [currentValue])
     return (
         <Controller
             control={control}
             name={id}
-            defaultValue={getValues(id) ?? defaultValue as string}
+            defaultValue={getValues(id) ?? defaultValue}
             rules={{
                 required: {
                     value: isRequired,
                     message: `${label} harus diisi!`,
                 },
-                onChange: (e: any) => {
+                onChange: useCallback((e: any) => {
                     setValue(id, e.target.value);
+                    setCurrentValue(e.target.value)
                     if (onChange) {
                         onChange(e.target.value);
                     }
                     return e.target.value;
-                },
+                }, [id, onChange, setValue]),
                 ...rules,
             }}
             render={({ field: { name, onChange, ref, value } }) => {
@@ -118,15 +129,14 @@ const FormSelect: React.FC<FormSelectProps> = ({
                         id={id}
                         name={name}
                         ref={ref}
-                        value={value}
                         label={label}
                         filterOptions={{
                             sensitivity: "base",
                         }}
-                        defaultItems={[...items ?? []]}
+                        defaultItems={[...sanitizedData ?? []]}
                         errorMessage={(errors[id]?.message as string) ?? ""}
                         placeholder={placeholder}
-                        defaultSelectedKey={value ?? ""}
+                        defaultSelectedKey={value}
                         isDisabled={isDisabled}
                         isRequired={isRequired}
                         // onChange={onChange}

@@ -25,7 +25,7 @@ interface FormMasterProps {
 }
 
 const FormMaster: React.FC<FormMasterProps> = ({ navDirection, handleReset, typeNasabah, kdTypeNasabah, formMethod, isLoading=false, defaultValue }) => {
-    const [isForeverMasaIdent, setIsForeverMasaIdent] = useState();
+    const [isForeverMasaIdent, setIsForeverMasaIdent] = useState(defaultValue?.masa_ident ?? '1');
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { unregister } = formMethod;
 
@@ -102,7 +102,7 @@ const FormMaster: React.FC<FormMasterProps> = ({ navDirection, handleReset, type
                         isRequired
                     />
                     {/* tanggal identitas */}
-                    {isForeverMasaIdent !== "1" && <FormInput type="date" label="Tanggal Masa Identitas" formMethod={formMethod} id="tgl_ident" placeholder="Masukan Tanggal Masa Identitas" max={moment().format("YYYY-MM-DD")} defaultValue={defaultValue?.tgl_ident?moment(defaultValue?.tgl_ident).toLocaleString(): ""} isRequired />}
+                    {isForeverMasaIdent !== "1" && <FormInput type="date" label="Tanggal Masa Identitas" formMethod={formMethod} id="tgl_ident" placeholder="Masukan Tanggal Masa Identitas" defaultValue={defaultValue?.tgl_ident?moment(defaultValue?.tgl_ident).format("mm-DD-YYYY"): ""} isRequired />}
                     {/* bentuk hukum */}
                     <FormSelect items={IBntkHkm} isLoading={isLoadingBntkHkm} formMethod={formMethod} id="kd_bntk_hkm" label="Bentuk Hukum" placeholder="Pilih Bentuk Hukum" defaultValue={defaultValue?.kd_bntk_hkm.toString()} isRequired />
                     {/* golongan pemilik */}
@@ -140,7 +140,7 @@ const FormMaster: React.FC<FormMasterProps> = ({ navDirection, handleReset, type
                     {/* pengeluaran lainnya */}
                     <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="kd_pengeluaran_lainnya" label="Pengeluaran Lainnya" placeholder="Pilih Pengeluaran Lainnya" defaultValue={(defaultValue?.kd_pengeluaran_lainnya ?? "").toString()} />
                     {/* npwp */}
-                    <FormInput type="text" label="NPWP" formMethod={formMethod} id="npwp" placeholder="Masukan NPWP" defaultValue={defaultValue?.npwp ?? ""} />
+                    {kdTypeNasabah === 1 && <FormInput type="text" label="NPWP" formMethod={formMethod} id="npwp" placeholder="Masukan NPWP" defaultValue={defaultValue?.npwp ?? ""} />}
                     {/* no telp */}
                     <FormInput type="text" label="Nomor Telp" formMethod={formMethod} id="no_telp" placeholder="Masukan Nomor Telp" defaultValue={defaultValue?.no_telp ?? ""} isRequired />
                     {/* email */}
@@ -150,14 +150,14 @@ const FormMaster: React.FC<FormMasterProps> = ({ navDirection, handleReset, type
                     {/* flag hubungan bank */}
                     <FormSelect
                         items={[
-                            { label: "Berhubungan dengan Bank", value: 1 },
-                            { label: "Tidak ada hubungan", value: 0 },
+                            { label: "Berhubungan dengan Bank", value: "true" },
+                            { label: "Tidak ada hubungan", value: "false" },
                         ]}
                         formMethod={formMethod}
                         id="flag_hub_bank"
                         label="Hubungan Bank"
                         placeholder="Pilih Hubungan Bank"
-                        defaultValue={defaultValue?.flag_hub_bank.toString()}
+                        defaultValue={defaultValue?.flag_hub_bank ?"true":"false"}
                         isRequired
                     />
                 </div>

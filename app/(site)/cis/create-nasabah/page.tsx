@@ -9,7 +9,7 @@ import { TCommonApiError } from "@/app/types";
 import { usePrefetchNavigate } from "@/app/utilities";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
@@ -21,6 +21,17 @@ const CreateNasabahPage = () => {
         shouldUnregister: false,
     });
 
+    const getTypeNasabah = useMemo(() => {
+        const result:Record<TAddFormState, number> = {
+            "perorangan": 1,
+            "perusahaan": 2,
+            "pemerintah": 3,
+            "Lembaga non-profit": 4,
+            "home": 0
+        }
+        return result[formType] ?? undefined
+    }, [])
+
     const onSubmit: SubmitHandler<FieldValues> = async (values) => {
         setIsLoading(true)
         const loadingToast = toast.loading("Sedang memproses...")
@@ -30,7 +41,7 @@ const CreateNasabahPage = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(values),
+                body: JSON.stringify({...values, tipe_nas: getTypeNasabah}),
             })
             if (!res.ok) {
                 const result = await res.json()

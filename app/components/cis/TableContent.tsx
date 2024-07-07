@@ -65,7 +65,7 @@ const TableContent: React.FC<TableContentProps> = ({ dataCis, isLoading, isError
             onSortChange={handleSortChange}
             bottomContentPlacement="outside"
             bottomContent={
-                dataCis?.total > 0 ? (
+                dataCis?.totalPage > 1 ? (
                     <div className="flex w-full justify-center">
                         <Pagination
                             isCompact

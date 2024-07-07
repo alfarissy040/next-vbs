@@ -22,13 +22,12 @@ interface FormAlamatProps {
 
 const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defaultValue, formMethod }) => {
     const { getValues } = formMethod;
-    const [kdProvinsi, setKdProvinsi] = useState<number | null>(getValues("provinsi") ?? (defaultValue?.kd_provinsi ?? null));
-    const [kdKota, setKdKota] = useState<number | null>(getValues("kota") ?? (defaultValue?.kd_kota ?? null));
-    const [kdKecamatan, setKdKecamatan] = useState<number | null>(getValues("kecamatan") ?? (defaultValue?.kd_kecamatan ?? null));
+    const [kdProvinsi, setKdProvinsi] = useState<number | null>(getValues("kd_provinsi") ?? (defaultValue?.kd_provinsi ?? null));
+    const [kdKota, setKdKota] = useState<number | null>(getValues("kd_kota") ?? (defaultValue?.kd_kota ?? null));
+    const [kdKecamatan, setKdKecamatan] = useState<number | null>(getValues("kd_kecamatan") ?? (defaultValue?.kd_kecamatan ?? null));
 
     const {
         data: INegara,
-        sanitizedData: INegaraSanitized,
         isLoading: isLoadingNegara,
         setSize: setPageNegara,
         size: sizeNegara,
@@ -38,7 +37,6 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
     });
     const {
         data: IProvinsi,
-        sanitizedData: IProvinsiSanitized,
         isLoading: isLoadingProvinsi,
         setSize: setPageProvinsi,
         size: sizeProvinsi,
@@ -51,7 +49,6 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
     });
     const {
         data: IKota,
-        sanitizedData: IKotaSanitized,
         isLoading: isLoadingKota,
         setSize: setPageKota,
         size: sizeKota,
@@ -65,7 +62,6 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
     });
     const {
         data: IKecamatan,
-        sanitizedData: IKecamatanSanitized,
         isLoading: isLoadingKecamatan,
         setSize: setPageKecamatan,
         size: sizeKecamatan,
@@ -79,7 +75,6 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
     });
     const {
         data: IKelurahan,
-        sanitizedData: IkelurahanSanitized,
         isLoading: isLoadingKelurahan,
         setSize: setPageKelurahan,
         size: sizeKelurahan,
@@ -113,7 +108,7 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                 {/* negara */}
                 <FormSelect
                     isLoading={isLoadingNegara}
-                    items={INegaraSanitized}
+                    paginateItems={INegara}
                     currentPage={sizeNegara}
                     maxPage={INegara ? INegara[0]?.totalPage : 0}
                     handleChangePage={setPageNegara}
@@ -123,13 +118,16 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     label="Negara"
                     placeholder="Pilih Negara"
                     defaultValue={defaultValue?.kd_negara}
+                    config={{
+                        paginateItems: {value:"kd_negara"}
+                    }}
                     isSearchable
                     isRequired
                 />
                 {/* provinsi */}
                 <FormSelect
                     isLoading={isLoadingProvinsi}
-                    items={IProvinsiSanitized}
+                    paginateItems={IProvinsi}
                     currentPage={sizeProvinsi}
                     maxPage={IProvinsi ? IProvinsi[0]?.totalPage : 0}
                     handleChangePage={setPageProvinsi}
@@ -140,13 +138,16 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     label="Provinsi"
                     placeholder="Pilih Provinsi"
                     defaultValue={defaultValue?.kd_provinsi}
+                    config={{
+                        paginateItems: {value:"kd_provinsi"}
+                    }}
                     isSearchable
                     isRequired
                 />
                 {/* kota */}
                 <FormSelect
                     isLoading={isLoadingKota}
-                    items={IKotaSanitized}
+                    paginateItems={IKota}
                     currentPage={sizeKota}
                     maxPage={IKota ? IKota[0]?.totalPage : 0}
                     handleChangePage={setPageKota}
@@ -157,6 +158,9 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     label="Kota"
                     placeholder="Pilih Kota"
                     defaultValue={defaultValue?.kd_kota}
+                    config={{
+                        paginateItems: {value:"kd_kota"}
+                    }}
                     isSearchable
                     isRequired
                 />
@@ -165,7 +169,7 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     currentPage={sizeKecamatan}
                     maxPage={IKecamatan ? IKecamatan[0]?.totalPage : 0}
                     isLoading={isLoadingKecamatan}
-                    items={IKecamatanSanitized}
+                    paginateItems={IKecamatan}
                     handleChangePage={setPageKecamatan}
                     handleSearch={setSearchKecamatan}
                     onChange={setKdKecamatan}
@@ -174,6 +178,9 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     label="Kecamatan"
                     placeholder="Pilih Kecamatan"
                     defaultValue={defaultValue?.kd_kecamatan}
+                    config={{
+                        paginateItems: {value:"kd_kecamatan"}
+                    }}
                     isSearchable
                     isRequired
                 />
@@ -182,7 +189,7 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     currentPage={sizeKelurahan}
                     maxPage={IKelurahan ? IKelurahan[0]?.totalPage : 0}
                     isLoading={isLoadingKelurahan}
-                    items={IkelurahanSanitized}
+                    paginateItems={IKelurahan}
                     handleChangePage={setPageKelurahan}
                     handleSearch={setSearchKelurahan}
                     formMethod={formMethod}
@@ -190,6 +197,9 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     label="Kelurahan"
                     placeholder="Pilih Kelurahan"
                     defaultValue={defaultValue?.kd_kelurahan}
+                    config={{
+                        paginateItems: {value:"kd_kelurahan"}
+                    }}
                     isSearchable
                     isRequired
                 />

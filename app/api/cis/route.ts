@@ -68,7 +68,9 @@ export async function GET(request: Request) {
         query.where = {
             OR: [
                 {
-                    status_nas: "01",
+                    status_nas: {
+                        equals: "01",
+                    },
                 },
                 {
                     no_nas: {
@@ -92,6 +94,11 @@ export async function GET(request: Request) {
         };
         totalQuery.where = {
             OR: [
+                {
+                    status_nas: {
+                        equals: "01",
+                    },
+                },
                 {
                     no_nas: {
                         startsWith: search as string,
@@ -119,11 +126,6 @@ export async function GET(request: Request) {
         const totalItems = await prisma.cis_master.count(totalQuery);
 
         if (!users) return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
-
-        console.log({
-            query,
-            data: users,
-        });
 
         return NextResponse.json({
             page: page,

@@ -36,13 +36,6 @@ export async function GET(request: Request) {
         }
 
         const totalPage = Math.ceil(totalItems / itemPerPage);
-        console.log({
-            page,
-            itemPerPage,
-            totalPage,
-            total: totalItems,
-            data: dataParameter,
-        })
         return NextResponse.json({
             page,
             itemPerPage,

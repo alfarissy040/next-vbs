@@ -40,6 +40,8 @@ const SectionPerorangan:React.FC<SectionPeroranganProps> = ({ setFormType, onSub
                 setStep(nextStep);
             }
         });
+        // setNavDirection("in");
+        // setStep(nextStep);
     }, [step, trigger]);
     const handleReset = useCallback(() => {
         if(setFormType) {
