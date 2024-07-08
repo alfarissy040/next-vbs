@@ -1,6 +1,7 @@
 import { prisma } from "@/app/utilities/ServerUtilities";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { compare } from "bcrypt";
+import moment from "moment";
 import { AdapterUser, NextAuthOptions } from "next-auth/";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -16,7 +17,7 @@ export const authOption: NextAuthOptions = {
                 if (!credentials) {
                     throw ({
                         status: 401,
-                        message:"invalid crendetials!"
+                        message: "invalid crendetials!"
                     });
                 }
                 const username = credentials?.username;
@@ -84,6 +85,7 @@ export const authOption: NextAuthOptions = {
                     name: user.name,
                     kantor: user.kantor,
                     level: user.level,
+                    expires: token.expires
                 };
             }
             return token;
@@ -99,6 +101,7 @@ export const authOption: NextAuthOptions = {
                     level: token.level,
                     kantor: token.kantor,
                 },
+                expires: moment().add(1, "hour").toISOString(),
             };
         },
     },

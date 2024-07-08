@@ -35,5 +35,6 @@ declare module "next-auth/jwt" {
         name: string;
         kantor: kantor;
         level: para_level_user;
+        expires: string;
     }
 }

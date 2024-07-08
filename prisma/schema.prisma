@@ -143,7 +143,7 @@ model cis_master {
 model cis_alamat {
     id_alamat     String  @id @default(auto()) @map("_id") @db.ObjectId
     no_nas        String? @unique
-    id_pengurus   String? @unique @db.ObjectId
+    id_pengurus   String? @unique
     jns_alamat    String
     kd_negara     String
     kd_provinsi   Int
@@ -163,13 +163,14 @@ model cis_alamat {
     aks_pemakai_create aks_pemakai    @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
     aks_pemakai_update aks_pemakai?   @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
     cis_master         cis_master?    @relation(fields: [no_nas], references: [no_nas], onDelete: NoAction, onUpdate: Cascade)
-    cis_pengurus       cis_pengurus?  @relation(fields: [id_pengurus], references: [id_pengurus], onDelete: NoAction, onUpdate: Cascade)
+    cis_pengurus       cis_pengurus?  @relation(fields: [id_pengurus], references: [no_nas], onDelete: NoAction, onUpdate: Cascade)
     negara             para_negara    @relation(fields: [kd_negara], references: [kd_negara], onDelete: NoAction, onUpdate: Cascade)
     provinsi           para_provinsi  @relation(fields: [kd_provinsi], references: [kd_provinsi], onDelete: NoAction, onUpdate: Cascade)
     kota               para_kota      @relation(fields: [kd_kota], references: [kd_kota], onDelete: NoAction, onUpdate: Cascade)
     kecamatan          para_kecamatan @relation(fields: [kd_kecamatan], references: [kd_kecamatan], onDelete: NoAction, onUpdate: Cascade)
     kelurahan          para_kelurahan @relation(fields: [kd_kelurahan], references: [kd_kelurahan], onDelete: NoAction, onUpdate: Cascade)
-    kantor             kantor?        @relation(fields: [id_pengurus], references: [id], onDelete: NoAction, onUpdate: Cascade)
+    kantor             kantor?        @relation(fields: [kantorId], references: [id])
+    kantorId           String?        @db.ObjectId
 }
 
 model cis_perorangan {
