@@ -41,11 +41,13 @@ const CreateNasabahPage = () => {
         try {
             const dataPost = {
                 ...sanitizeCisMaster(values),
-                ...sanitizeCisAlamat(values["alamat"]),
+                alamat: sanitizeCisAlamat(values["alamat"]),
                 ...(getTypeNasabah === 1 ? sanitizeCisPerorangan(values) : {}),
                 ...(getTypeNasabah === 2 || getTypeNasabah === 4 ? sanitizeCisPerusahaan(values) : {}),
-                ...(getTypeNasabah !== 1 ? sanitizeCisPengurus(values["pengurus"]) : {}),
-                ...(getTypeNasabah !== 1 ? sanitizeCisAlamatPengurus(values["pengurus"]["alamat"]) : {}),
+                pengurus: {
+                    ...(getTypeNasabah !== 1 ? sanitizeCisPengurus(values["pengurus"]) : {}),
+                    alamat: (getTypeNasabah !== 1 ? sanitizeCisAlamatPengurus(values["pengurus"]["alamat"]) : {}),
+                },
                 tipe_nas: getTypeNasabah
             }
             console.log(dataPost)

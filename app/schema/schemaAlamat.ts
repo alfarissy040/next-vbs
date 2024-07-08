@@ -2,8 +2,6 @@ import { z } from "zod";
 
 const schemaAlamat = z
     .object({
-        no_nas: z.string(),
-        no_urut: z.number(),
         jns_alamat: z.string(),
         kd_negara: z.string(),
         kd_provinsi: z.number(),
