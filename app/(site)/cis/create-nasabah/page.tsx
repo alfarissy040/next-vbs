@@ -7,7 +7,9 @@ import SectionPerorangan from "@/app/components/cis/create/SectionPerorangan";
 import SectionPerusahaan from "@/app/components/cis/create/SectionPerusahaan";
 import { TCommonApiError } from "@/app/types";
 import { usePrefetchNavigate } from "@/app/utilities";
+import { sanitizeCisAlamat, sanitizeCisAlamatPengurus, sanitizeCisMaster, sanitizeCisPengurus, sanitizeCisPerorangan, sanitizeCisPerusahaan } from "@/app/utilities/Cis";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
+import { mapValues } from "lodash";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -20,9 +22,10 @@ const CreateNasabahPage = () => {
     const formMethod = useForm({
         shouldUnregister: false,
     });
+    const { getValues } = formMethod
 
     const getTypeNasabah = useMemo(() => {
-        const result:Record<TAddFormState, number> = {
+        const result: Record<TAddFormState, number> = {
             "perorangan": 1,
             "perusahaan": 2,
             "pemerintah": 3,
@@ -30,24 +33,44 @@ const CreateNasabahPage = () => {
             "home": 0
         }
         return result[formType] ?? undefined
-    }, [])
+    }, [formType])
 
     const onSubmit: SubmitHandler<FieldValues> = async (values) => {
         setIsLoading(true)
         const loadingToast = toast.loading("Sedang memproses...")
         try {
+            const dataPost = {
+                ...sanitizeCisMaster(values),
+                ...sanitizeCisAlamat(values["alamat"]),
+                ...(getTypeNasabah === 1 ? sanitizeCisPerorangan(values) : {}),
+                ...(getTypeNasabah === 2 || getTypeNasabah === 4 ? sanitizeCisPerusahaan(values) : {}),
+                ...(getTypeNasabah !== 1 ? sanitizeCisPengurus(values["pengurus"]) : {}),
+                ...(getTypeNasabah !== 1 ? sanitizeCisAlamatPengurus(values["pengurus"]["alamat"]) : {}),
+                tipe_nas: getTypeNasabah
+            }
+            console.log(dataPost)
             const res = await fetch("/api/cis/create", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({...values, tipe_nas: getTypeNasabah}),
+                body: JSON.stringify(dataPost),
             })
             if (!res.ok) {
                 const result = await res.json()
+                let errorMessage = result.message
+                if (res.status === 400) {
+                    errorMessage = "Invalid data"
+                    mapValues(result.message as Record<string, any>, (value, key) => {
+                        console.log(key, value)
+                        formMethod.setError(key, {
+                            message: value.join(", "),
+                        })
+                    })
+                }
                 throw ({
                     status: res.status,
-                    message: result.message
+                    message: errorMessage
                 })
             }
             toast.success("Data tersimpan")
@@ -55,6 +78,9 @@ const CreateNasabahPage = () => {
         } catch (err) {
             const error = err as TCommonApiError
             toast.error(error.message)
+            if (error.status === 400) {
+
+            }
         } finally {
             toast.dismiss(loadingToast)
             setIsLoading(false)

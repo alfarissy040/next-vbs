@@ -2,7 +2,6 @@ import { z } from "zod";
 
 export const schemaMaster = z
     .object({
-        created_at_kantor: z.string(),
         nm_nas: z.string(),
         tipe_nas: z.number(),
         kd_jns_ident: z.number(),
@@ -23,7 +22,7 @@ export const schemaMaster = z
         npwp: z.string(),
         no_telp: z.string(),
         email: z.string(),
-        bidang_usaha: z.number().optional(),
+        kd_bidang_usaha: z.number().optional(),
         usrid_create: z.string(),
     })
     .required({

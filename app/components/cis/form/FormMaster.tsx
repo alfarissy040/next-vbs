@@ -24,7 +24,7 @@ interface FormMasterProps {
     defaultValue?: extendCisMaster
 }
 
-const FormMaster: React.FC<FormMasterProps> = ({ navDirection, handleReset, typeNasabah, kdTypeNasabah, formMethod, isLoading=false, defaultValue }) => {
+const FormMaster: React.FC<FormMasterProps> = ({ navDirection, handleReset, typeNasabah, kdTypeNasabah, formMethod, isLoading = false, defaultValue }) => {
     const [isForeverMasaIdent, setIsForeverMasaIdent] = useState(defaultValue?.masa_ident ?? '1');
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { unregister } = formMethod;
@@ -74,10 +74,10 @@ const FormMaster: React.FC<FormMasterProps> = ({ navDirection, handleReset, type
                     </h2>
                     {handleReset && (
                         <Tooltip content="Hapus Form">
-                        <Button isIconOnly size="sm" color="danger" variant="light" onPress={onOpen} isDisabled={isLoading}>
-                            <FaTrashAlt className="w-4 h-4 text-red-500" />
-                        </Button>
-                    </Tooltip>
+                            <Button isIconOnly size="sm" color="danger" variant="light" onPress={onOpen} isDisabled={isLoading}>
+                                <FaTrashAlt className="w-4 h-4 text-red-500" />
+                            </Button>
+                        </Tooltip>
                     )}
                 </div>
                 <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mt-3">
@@ -102,7 +102,7 @@ const FormMaster: React.FC<FormMasterProps> = ({ navDirection, handleReset, type
                         isRequired
                     />
                     {/* tanggal identitas */}
-                    {isForeverMasaIdent !== "1" && <FormInput type="date" label="Tanggal Masa Identitas" formMethod={formMethod} id="tgl_ident" placeholder="Masukan Tanggal Masa Identitas" defaultValue={defaultValue?.tgl_ident?moment(defaultValue?.tgl_ident).format("mm-DD-YYYY"): ""} isRequired />}
+                    {isForeverMasaIdent !== "1" && <FormInput type="date" label="Tanggal Masa Identitas" formMethod={formMethod} id="tgl_ident" placeholder="Masukan Tanggal Masa Identitas" defaultValue={defaultValue?.tgl_ident ? moment(defaultValue?.tgl_ident).format("mm-DD-YYYY") : ""} isRequired />}
                     {/* bentuk hukum */}
                     <FormSelect items={IBntkHkm} isLoading={isLoadingBntkHkm} formMethod={formMethod} id="kd_bntk_hkm" label="Bentuk Hukum" placeholder="Pilih Bentuk Hukum" defaultValue={defaultValue?.kd_bntk_hkm.toString()} isRequired />
                     {/* golongan pemilik */}
@@ -146,7 +146,7 @@ const FormMaster: React.FC<FormMasterProps> = ({ navDirection, handleReset, type
                     {/* email */}
                     <FormInput type="email" label="Email" formMethod={formMethod} id="email" placeholder="Masukan Email" defaultValue={defaultValue?.email ?? ""} isRequired />
                     {/* bidang usaha */}
-                    {kdTypeNasabah === 1 && <FormSelect isLoading={isLoadingBidangUsaha} items={IBidangUsaha} formMethod={formMethod} id="kd_bidang_usaha" label="Bidang Usaha" placeholder="Pilih Bidang Usaha" defaultValue={(defaultValue?.kd_bidang_usaha ??"").toString()} isRequired />}
+                    {kdTypeNasabah !== 1 && <FormSelect isLoading={isLoadingBidangUsaha} items={IBidangUsaha} formMethod={formMethod} id="kd_bidang_usaha" label="Bidang Usaha" placeholder="Pilih Bidang Usaha" defaultValue={(defaultValue?.kd_bidang_usaha ?? "").toString()} isRequired />}
                     {/* flag hubungan bank */}
                     <FormSelect
                         items={[
@@ -157,7 +157,7 @@ const FormMaster: React.FC<FormMasterProps> = ({ navDirection, handleReset, type
                         id="flag_hub_bank"
                         label="Hubungan Bank"
                         placeholder="Pilih Hubungan Bank"
-                        defaultValue={defaultValue?.flag_hub_bank ?"true":"false"}
+                        defaultValue={defaultValue?.flag_hub_bank ? "true" : "false"}
                         isRequired
                     />
                 </div>

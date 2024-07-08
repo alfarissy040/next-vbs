@@ -1,3 +1,6 @@
+import { cis_master } from "@prisma/client";
+import { isEmpty, isNumber, isString, isUndefined } from "lodash";
+import moment from "moment";
 import { useCallback } from "react";
 import { ISelectItem } from "../types/parameter";
 
@@ -54,12 +57,13 @@ export const useNasabahType = () => {
  * @param {number} count - The count of the Nasabah.
  * @return {string} The generated noNas.
  */
-export const generateNoNas = (tipeNas: number, createdAtKantor: number, count: number): string => {
+export const generateNoNas = (tipeNas: number, createdAtKantor: number | string, count: number): string => {
+    console.log(createdAtKantor)
     // Pad the type number with leading zeros if necessary
     const paddedTipeNas = tipeNas.toString().padStart(2, "0");
 
     // Pad the creation time at the office with leading zeros if necessary
-    const paddedCreatedAtKantor = createdAtKantor.toString().padStart(3, "0");
+    const paddedCreatedAtKantor = (createdAtKantor as string).padStart(3, "0");
 
     // Pad the count with leading zeros if necessary
     const paddedCount = count.toString().padStart(5, "0");
@@ -81,3 +85,147 @@ export const getJenisAlamat = (): Array<ISelectItem> => {
         { label: "Sesuai Alamat", value: "3" },
     ];
 };
+
+export const convertToString = (value: string | number | null | undefined) => {
+    if (isEmpty(value) || isUndefined(value)) return ""
+    return isString(value) ? value : value?.toString()
+}
+export const convertToNumber = (value: string | number | null | undefined) => {
+    if (isEmpty(value) || isUndefined(value)) return null
+    return isString(value) ? parseInt(value) : value
+}
+export const convertToBoolean = (value: string | number | null | undefined) => {
+    if (isEmpty(value) || isUndefined(value)) return null
+    if (isString(value)) {
+        return value.toLowerCase() === "true" ? true : false
+    }
+    if (isNumber(value)) {
+        return value === 1 ? true : false
+    }
+    return false
+}
+
+export const convertToDate = (value: string | Date) => {
+    if (isEmpty(value) || isUndefined(value)) return undefined
+    return moment(value).toISOString()
+}
+
+export const sanitizeCisMaster = (data: Record<string, any>) => {
+    return ({
+        nm_nas: convertToString(data.nm_nas),
+        tipe_nas: convertToNumber(data.tipe_nas),
+        kd_jns_ident: convertToNumber(data.kd_jns_ident),
+        no_ident: convertToString(data.no_ident),
+        masa_ident: convertToNumber(data.masa_ident),
+        tgl_ident: convertToDate(data.tgl_ident),
+        kd_acc_off: convertToString(data.kd_acc_off),
+        kd_bntk_hkm: convertToNumber(data.kd_bntk_hkm),
+        kd_gol_pemilik: convertToNumber(data.kd_gol_pemilik),
+        flag_hub_bank: convertToBoolean(data.flag_hub_bank),
+        kd_sumber_dana: convertToNumber(data.kd_sumber_dana),
+        kd_tujuan_dana: convertToNumber(data.kd_tujuan_dana),
+        kd_maks_trans: convertToNumber(data.kd_maks_trans),
+        kd_penghasilan_bulan: convertToNumber(data.kd_penghasilan_bulan),
+        kd_penghasilan_lainnya: convertToNumber(data.kd_penghasilan_lainnya),
+        kd_pengeluaran_bulan: convertToNumber(data.kd_pengeluaran_bulan),
+        kd_pengeluaran_lainnya: convertToNumber(data.kd_pengeluaran_lainnya),
+        npwp: convertToString(data.npwp),
+        no_telp: convertToString(data.no_telp),
+        email: convertToString(data.email),
+        kd_bidang_usaha: convertToNumber(data.kd_bidang_usaha),
+    })
+}
+
+export const sanitizeCisPerorangan = (data: Record<string, any>) => {
+    console.log(data.tgl_lahir)
+    return ({
+        nm_ibu: convertToString(data.nm_ibu),
+        tempat_lahir: convertToString(data.tempat_lahir),
+        tgl_lahir: convertToDate(data.tgl_lahir),
+        jns_kelamin: convertToString(data.jns_kelamin),
+        flag_karyawan: convertToBoolean(data.flag_karyawan),
+        kd_status_pernikahan: convertToNumber(data.kd_status_pernikahan),
+        nm_pasangan: convertToString(data.nm_pasangan),
+        no_ident_pasangan: convertToString(data.no_ident_pasangan),
+        nm_ahli_waris: convertToString(data.nm_ahli_waris),
+        kd_agama: convertToNumber(data.kd_agama),
+        kd_kewarganegaraan: convertToString(data.kd_kewarganegaraan),
+        kd_profesi: convertToNumber(data.kd_profesi),
+        kd_jns_pekerjaan: convertToNumber(data.kd_jns_pekerjaan),
+        jabatan: convertToString(data.jabatan),
+        nm_kntr: convertToString(data.nm_kntr),
+    })
+}
+
+export const sanitizeCisPerusahaan = (data: Record<string, any>) => {
+    return ({
+        flag_bank: convertToBoolean(data.flag_bank),
+        kd_sgroup_nas: convertToNumber(data.kd_sgroup_nas),
+        modal_sendiri: convertToNumber(data.modal_sendiri),
+        modal_setor: convertToNumber(data.modal_setor),
+        no_akte_awal: convertToString(data.no_akte_awal),
+        tgl_akte_awal: convertToDate(data.tgl_akte_awal),
+        no_akte_akhir: convertToString(data.no_akte_akhir),
+        tgl_akte_akhir: convertToDate(data.tgl_akte_akhir),
+        nm_notaris: convertToString(data.nm_notaris),
+        no_notaris: convertToString(data.no_notaris),
+        tgl_notaris: convertToDate(data.tgl_notaris),
+        no_permohonan_dep: convertToString(data.no_permohonan_dep),
+        tgl_permohonan_dep: convertToDate(data.tgl_permohonan_dep),
+        no_izin_dep: convertToString(data.no_izin_dep),
+        tgl_izin_dep: convertToDate(data.tgl_izin_dep),
+        no_pub: convertToString(data.no_pub),
+        tgl_pub: convertToDate(data.tgl_pub),
+    })
+}
+
+export const sanitizeCisAlamat = (data: Record<string, any>) => {
+    return ({
+        jns_alamat: convertToString(data.jns_alamat),
+        kd_negara: convertToString(data.kd_negara),
+        kd_provinsi: convertToNumber(data.kd_provinsi),
+        kd_kota: convertToNumber(data.kd_kota),
+        kd_kecamatan: convertToNumber(data.kd_kecamatan),
+        kd_kelurahan: convertToNumber(data.kd_kelurahan),
+        rt: convertToString(data.rt),
+        rw: convertToString(data.rw),
+        kd_pos: convertToString(data.kd_pos),
+        alamat_detail: convertToString(data.alamat_detail),
+    })
+}
+
+export const sanitizeCisPengurus = (data: Record<string, any>) => {
+    return ({
+        kd_kewarganegaraan: convertToString(data.kd_kewarganegaraan),
+        kd_jns_ident: convertToNumber(data.kd_jns_ident),
+        no_ident: convertToString(data.no_ident),
+        nm_nas: convertToString(data.nm_nas),
+        masa_ident: convertToNumber(data.masa_ident),
+        tgl_ident: convertToDate(data.tgl_ident),
+        tempat_lahir: convertToString(data.tempat_lahir),
+        tgl_lahir: convertToDate(data.tgl_lahir),
+        kd_agama: convertToNumber(data.kd_agama),
+        no_hp: convertToString(data.no_hp),
+        no_telp: convertToString(data.no_telp),
+        email: convertToString(data.email),
+        nm_ibu: convertToString(data.nm_ibu),
+        jabatan: convertToString(data.jabatan),
+        kepemilikan: convertToNumber(data.kepemilikan),
+        npwp: convertToString(data.npwp),
+    })
+}
+
+export const sanitizeCisAlamatPengurus = (data: Record<string, any>) => {
+    return ({
+        jns_alamat: convertToString(data.jns_alamat),
+        kd_negara: convertToString(data.kd_negara),
+        kd_provinsi: convertToNumber(data.kd_provinsi),
+        kd_kota: convertToNumber(data.kd_kota),
+        kd_kecamatan: convertToNumber(data.kd_kecamatan),
+        kd_kelurahan: convertToNumber(data.kd_kelurahan),
+        rt: convertToString(data.rt),
+        rw: convertToString(data.rw),
+        kd_pos: convertToString(data.kd_pos),
+        alamat_detail: convertToString(data.alamat_detail),
+    })
+}

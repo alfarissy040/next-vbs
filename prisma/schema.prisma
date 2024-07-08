@@ -23,8 +23,8 @@ model aks_pemakai {
 
     karyawan                   karyawan             @relation(fields: [id_karyawan], references: [id_karyawan], onDelete: NoAction, onUpdate: Cascade)
     para_level_user            para_level_user      @relation(fields: [id_lvl], references: [id_level], onDelete: NoAction, onUpdate: Cascade)
-    cis_master_created         cis_master[]         @relation("aks_pemakai_create")
-    cis_master_updated         cis_master[]         @relation("aks_pemakai_update")
+    cis_master_created         cis_master[]         @relation("usrid_create")
+    cis_master_updated         cis_master[]         @relation("usrid_update")
     cis_perorangan_created     cis_perorangan[]     @relation("aks_pemakai_create")
     cis_perorangan_updated     cis_perorangan[]     @relation("aks_pemakai_update")
     cis_perusahaan_created     cis_perusahaan[]     @relation("aks_pemakai_create")
@@ -109,9 +109,9 @@ model cis_master {
     kd_tujuan_dana         Int
     kd_maks_trans          Int
     kd_penghasilan_bulan   Int
-    kd_penghasilan_lainnya Int?
+    kd_penghasilan_lainnya Int?      @default(1)
     kd_pengeluaran_bulan   Int
-    kd_pengeluaran_lainnya Int?
+    kd_pengeluaran_lainnya Int?      @default(1)
     kd_bidang_usaha        Int?
 
     usrid_create String
@@ -124,8 +124,8 @@ model cis_master {
     cis_perorangan      cis_perorangan?
     cis_pengurus        cis_pengurus?
     cis_update          cis_update[]
-    aks_pemakai_create  aks_pemakai        @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
-    aks_pemakai_update  aks_pemakai?       @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_create  aks_pemakai        @relation("usrid_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai_update  aks_pemakai?       @relation("usrid_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
     jenis_identitas     para_jns_ident     @relation(fields: [kd_jns_ident], references: [kode], onDelete: NoAction, onUpdate: Cascade)
     bentuk_hukum        para_bntk_hkm      @relation(fields: [kd_bntk_hkm], references: [kode], onDelete: NoAction, onUpdate: Cascade)
     golongan_pemilik    para_gol_pmlk      @relation(fields: [kd_gol_pemilik], references: [kode], onDelete: NoAction, onUpdate: Cascade)

@@ -104,7 +104,7 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
             </h2>
             <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mt-3">
                 {/* jenis alamat */}
-                <FormSelect items={getJenisAlamat() as ISelectItem[]} formMethod={formMethod} id="jns_alamat" label="Jenis Alamat" placeholder="Pilih Jenis Alamat" isRequired />
+                <FormSelect items={getJenisAlamat() as ISelectItem[]} formMethod={formMethod} id="alamat.jns_alamat" label="Jenis Alamat" placeholder="Pilih Jenis Alamat" isRequired />
                 {/* negara */}
                 <FormSelect
                     isLoading={isLoadingNegara}
@@ -114,12 +114,12 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     handleChangePage={setPageNegara}
                     handleSearch={setSearchNegara}
                     formMethod={formMethod}
-                    id="kd_negara"
+                    id="alamat.kd_negara"
                     label="Negara"
                     placeholder="Pilih Negara"
                     defaultValue={defaultValue?.kd_negara}
                     config={{
-                        paginateItems: {value:"kd_negara"}
+                        paginateItems: { value: "kd_negara" }
                     }}
                     isSearchable
                     isRequired
@@ -134,12 +134,12 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     handleSearch={setSearchProvinsi}
                     onChange={setKdProvinsi}
                     formMethod={formMethod}
-                    id="kd_provinsi"
+                    id="alamat.kd_provinsi"
                     label="Provinsi"
                     placeholder="Pilih Provinsi"
                     defaultValue={defaultValue?.kd_provinsi}
                     config={{
-                        paginateItems: {value:"kd_provinsi"}
+                        paginateItems: { value: "kd_provinsi" }
                     }}
                     isSearchable
                     isRequired
@@ -154,12 +154,12 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     onChange={setKdKota}
                     handleSearch={setSearchKota}
                     formMethod={formMethod}
-                    id="kd_kota"
+                    id="alamat.kd_kota"
                     label="Kota"
                     placeholder="Pilih Kota"
                     defaultValue={defaultValue?.kd_kota}
                     config={{
-                        paginateItems: {value:"kd_kota"}
+                        paginateItems: { value: "kd_kota" }
                     }}
                     isSearchable
                     isRequired
@@ -174,12 +174,12 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     handleSearch={setSearchKecamatan}
                     onChange={setKdKecamatan}
                     formMethod={formMethod}
-                    id="kd_kecamatan"
+                    id="alamat.kd_kecamatan"
                     label="Kecamatan"
                     placeholder="Pilih Kecamatan"
                     defaultValue={defaultValue?.kd_kecamatan}
                     config={{
-                        paginateItems: {value:"kd_kecamatan"}
+                        paginateItems: { value: "kd_kecamatan" }
                     }}
                     isSearchable
                     isRequired
@@ -193,12 +193,12 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     handleChangePage={setPageKelurahan}
                     handleSearch={setSearchKelurahan}
                     formMethod={formMethod}
-                    id="kd_kelurahan"
+                    id="alamat.kd_kelurahan"
                     label="Kelurahan"
                     placeholder="Pilih Kelurahan"
                     defaultValue={defaultValue?.kd_kelurahan}
                     config={{
-                        paginateItems: {value:"kd_kelurahan"}
+                        paginateItems: { value: "kd_kelurahan" }
                     }}
                     isSearchable
                     isRequired
@@ -216,7 +216,7 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                         inputMode="numeric"
                         label="RT"
                         formMethod={formMethod}
-                        id="rt"
+                        id="alamat.rt"
                         placeholder="Masukan RT"
                         defaultValue={defaultValue?.rt}
                         isRequired
@@ -232,7 +232,7 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                         inputMode="numeric"
                         label="RW"
                         formMethod={formMethod}
-                        id="rw"
+                        id="alamat.rw"
                         placeholder="Masukan RW"
                         defaultValue={defaultValue?.rw}
                         isRequired
@@ -250,14 +250,14 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     inputMode="numeric"
                     label="Kode Pos"
                     formMethod={formMethod}
-                    id="kd_pos"
+                    id="alamat.kd_pos"
                     placeholder="Masukan Kode Pos"
                     defaultValue={defaultValue?.kd_pos}
                     isRequired
                 />
                 {/* alamat detail */}
                 <div className="md:col-span-2">
-                    <FormTextarea formMethod={formMethod} id="alamat_detail" label="Detail Alamat" placeholder="Masukan Alamat" defaultValue={defaultValue?.alamat_detail} isRequired />
+                    <FormTextarea formMethod={formMethod} id="alamat.alamat_detail" label="Detail Alamat" placeholder="Masukan Alamat" defaultValue={defaultValue?.alamat_detail} isRequired />
                 </div>
             </div>
         </motion.div>

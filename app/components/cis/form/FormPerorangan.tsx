@@ -58,11 +58,11 @@ const FormPerorangan: React.FC<FormPeroranganProps> = async ({ navDirection, for
             </h2>
             <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mt-3">
                 {/* nama ibu */}
-                <FormInput type="text" label="Nama Ibu" formMethod={formMethod} id="nm_ibu" placeholder="Masukan Nama Ibu" defaultValue={defaultValue?.nm_ibu}  isRequired />
+                <FormInput type="text" label="Nama Ibu" formMethod={formMethod} id="nm_ibu" placeholder="Masukan Nama Ibu" defaultValue={defaultValue?.nm_ibu} isRequired />
                 {/* tempat lahir */}
                 <FormInput type="text" label="Tempat Lahir" formMethod={formMethod} id="tempat_lahir" placeholder="Masukan Tempat Lahir" defaultValue={defaultValue?.tempat_lahir} isRequired />
                 {/* tanggal lahir */}
-                <FormInput type="date" label="Tanggal Lahir" formMethod={formMethod} id="tgl_lahir" placeholder="Masukan Tanggal Lahir" max={moment().format("YYYY-MM-DD")} isRequired defaultValue={moment(defaultValue?.tgl_lahir).format("YYYY-MM-DD")}/>
+                <FormInput type="date" label="Tanggal Lahir" formMethod={formMethod} id="tgl_lahir" placeholder="Masukan Tanggal Lahir" max={moment().format("YYYY-MM-DD")} isRequired defaultValue={moment(defaultValue?.tgl_lahir).format("YYYY-MM-DD")} />
                 {/* jenis kelamin */}
                 <FormSelect
                     items={[
@@ -90,15 +90,15 @@ const FormPerorangan: React.FC<FormPeroranganProps> = async ({ navDirection, for
                     defaultValue={defaultValue?.flag_karyawan ? "true" : "false"}
                 />
                 {/* status pernikahan */}
-                <FormSelect isLoading={isLoadingStsPernikahan} items={IStsPernikahan} formMethod={formMethod} id="kd_status_pernikahan" label="Status Pernikahan" placeholder="Pilih Status Pernikahan" onChange={setStatusPernikahan} isRequired defaultValue={defaultValue?.kd_status_pernikahan.toString()}/>
+                <FormSelect isLoading={isLoadingStsPernikahan} items={IStsPernikahan} formMethod={formMethod} id="kd_status_pernikahan" label="Status Pernikahan" placeholder="Pilih Status Pernikahan" onChange={setStatusPernikahan} isRequired defaultValue={defaultValue?.kd_status_pernikahan.toString()} />
                 {/* nama pasangan */}
-                <FormInput type="text" label="Nama Pasangan" formMethod={formMethod} id="nm_pasangan" placeholder="Masukan Nama Pasangan" isRequired={statusPenikahan === "Y"} defaultValue={defaultValue?.nm_pasangan}/>
+                <FormInput type="text" label="Nama Pasangan" formMethod={formMethod} id="nm_pasangan" placeholder="Masukan Nama Pasangan" isRequired={statusPenikahan === "Y"} defaultValue={defaultValue?.nm_pasangan} />
                 {/* no ident pasangan */}
-                <FormInput type="text" label="Nomor Identitas Pasangan" formMethod={formMethod} id="no_ident_pasangan" placeholder="Masukan Nomor Identitas Pasangan" isRequired={statusPenikahan === "Y"} defaultValue={defaultValue?.no_ident_pasangan}/>
+                <FormInput type="text" label="Nomor Identitas Pasangan" formMethod={formMethod} id="no_ident_pasangan" placeholder="Masukan Nomor Identitas Pasangan" isRequired={statusPenikahan === "Y"} defaultValue={defaultValue?.no_ident_pasangan} />
                 {/* nama ahli waris */}
-                <FormInput type="text" label="Nama Ahli Waris" formMethod={formMethod} id="nm_ahli_waris" placeholder="Masukan Nama Ahli Waris" isRequired={statusPenikahan === "Y"} defaultValue={defaultValue?.nm_ahli_waris}/>
+                <FormInput type="text" label="Nama Ahli Waris" formMethod={formMethod} id="nm_ahli_waris" placeholder="Masukan Nama Ahli Waris" isRequired={statusPenikahan === "Y"} defaultValue={defaultValue?.nm_ahli_waris} />
                 {/* agama */}
-                <FormSelect isLoading={isLoadingAgama} items={IAgama} formMethod={formMethod} id="kd_agama" label="Agama" placeholder="Pilih Agama" isRequired defaultValue={defaultValue?.kd_agama}/>
+                <FormSelect isLoading={isLoadingAgama} items={IAgama} formMethod={formMethod} id="kd_agama" label="Agama" placeholder="Pilih Agama" isRequired defaultValue={defaultValue?.kd_agama} />
                 {/* kewarganegaraan */}
                 <FormSelect
                     isLoading={isLoadingNegara}
@@ -113,19 +113,19 @@ const FormPerorangan: React.FC<FormPeroranganProps> = async ({ navDirection, for
                     placeholder="Pilih Kewarganegaraan"
                     defaultValue={defaultValue?.kd_kewarganegaraan}
                     config={{
-                        paginateItems: {value:"kd_provinsi"}
+                        paginateItems: { value: "kd_negara" }
                     }}
                     isSearchable
                     isRequired
                 />
                 {/* profesi */}
-                <FormSelect isLoading={isLoadingProfesi} items={IProfesi} formMethod={formMethod} id="kd_profesi" label="Profesi" placeholder="Pilih Profesi" isRequired defaultValue={defaultValue?.kd_profesi}/>
+                <FormSelect isLoading={isLoadingProfesi} items={IProfesi} formMethod={formMethod} id="kd_profesi" label="Profesi" placeholder="Pilih Profesi" isRequired defaultValue={defaultValue?.kd_profesi} />
                 {/* jenis pekerjaan */}
-                <FormSelect isLoading={isLoadingJnsPekerjaan} items={IJnsPekerjaan} formMethod={formMethod} id="kd_jns_pekerjaan" label="Jenis Pekerjaan" placeholder="Pilih Jenis Pekerjaan" isRequired defaultValue={defaultValue?.kd_jns_pekerjaan}/>
+                <FormSelect isLoading={isLoadingJnsPekerjaan} items={IJnsPekerjaan} formMethod={formMethod} id="kd_jns_pekerjaan" label="Jenis Pekerjaan" placeholder="Pilih Jenis Pekerjaan" isRequired defaultValue={defaultValue?.kd_jns_pekerjaan} />
                 {/* jabatan */}
-                <FormInput type="text" label="Jabatan" formMethod={formMethod} id="jabatan" placeholder="Masukan Jabatan" isRequired defaultValue={defaultValue?.jabatan}/>
+                <FormInput type="text" label="Jabatan" formMethod={formMethod} id="jabatan" placeholder="Masukan Jabatan" isRequired defaultValue={defaultValue?.jabatan} />
                 {/* nama kantor */}
-                <FormInput type="text" label="Nama Kantor" formMethod={formMethod} id="nm_kntr" placeholder="Masukan Nama Kantor" isRequired defaultValue={defaultValue?.nm_kntr}/>
+                <FormInput type="text" label="Nama Kantor" formMethod={formMethod} id="nm_kntr" placeholder="Masukan Nama Kantor" isRequired defaultValue={defaultValue?.nm_kntr} />
             </div>
         </motion.div>
     );

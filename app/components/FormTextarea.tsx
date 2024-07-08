@@ -14,7 +14,7 @@ interface FormTextareaProps {
 }
 
 const FormTextarea: React.FC<FormTextareaProps> = ({ id, label, placeholder, isRequired = false, isDisabled = false, defaultValue, formMethod }) => {
-    const { register, formState: { errors } } = formMethod
+    const { register, formState: { errors }, getValues } = formMethod
     return (
         <Textarea
             {...register(id, {
@@ -31,7 +31,7 @@ const FormTextarea: React.FC<FormTextareaProps> = ({ id, label, placeholder, isR
             label={label}
             placeholder={placeholder}
             errorMessage={errors[id]?.message as string}
-            defaultValue={defaultValue}
+            defaultValue={getValues(id) ?? defaultValue}
             isRequired={isRequired}
             isDisabled={isDisabled}
         />
