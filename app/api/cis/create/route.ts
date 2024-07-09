@@ -52,6 +52,7 @@ export async function POST(request: NextRequest) {
             ...body,
             no_urut: noUrutAlamat + 1,
         };
+        console.log(body)
 
         if (isHavePengurus) {
             const noUrutAlamatPengurus = await prisma.cis_alamat.count({ where: { no_nas: body.no_nas } });
@@ -118,7 +119,6 @@ export async function POST(request: NextRequest) {
         await prisma.cis_alamat.create({
             data: {
                 no_nas: validated.data.no_nas,
-                id_pengurus: "",
                 jns_alamat: validated.data.alamat.jns_alamat,
                 kd_negara: validated.data.alamat.kd_negara,
                 kd_provinsi: validated.data.alamat.kd_provinsi,
@@ -152,8 +152,7 @@ export async function POST(request: NextRequest) {
                     kd_kewarganegaraan: validated.data.kd_kewarganegaraan,
                     kd_profesi: validated.data.kd_profesi,
                     kd_jns_pekerjaan: validated.data.kd_jns_pekerjaan,
-                    usrid_create: validated.data.
-                        usrid_create,
+                    usrid_create: validated.data.usrid_create,
                 }
             })
         }
@@ -183,10 +182,9 @@ export async function POST(request: NextRequest) {
             })
         }
         if (tipe_nas !== 1) {
-            await prisma.cis_pengurus.create({
+            const pengurus = await prisma.cis_pengurus.create({
                 data: {
-                    no_nas: validated.data.pengurus.no_nas,
-                    no_urut: validated.data.pengurus.no_urut,
+                    no_nas: validated.data.no_nas,
                     kd_agama: validated.data.pengurus.kd_agama,
                     kd_kewarganegaraan: validated.data.pengurus.kd_kewarganegaraan,
                     kd_jns_ident: validated.data.pengurus.kd_jns_ident,
@@ -203,12 +201,13 @@ export async function POST(request: NextRequest) {
                     jabatan: validated.data.pengurus.jabatan,
                     kepemilikan: validated.data.pengurus.kepemilikan,
                     npwp: validated.data.pengurus.npwp,
-                    usrid_create: validated.data.pengurus.usrid_create,
+                    usrid_create: validated.data.usrid_create,
                 }
             })
             await prisma.cis_alamat.create({
                 data: {
-                    id_pengurus: validated.data.no_nas,
+                    no_nas: validated.data.pengurus.no_nas,
+                    no_pengurus: pengurus.no_pengurus,
                     jns_alamat: validated.data.pengurus.alamat.jns_alamat,
                     kd_negara: validated.data.pengurus.alamat.kd_negara,
                     kd_provinsi: validated.data.pengurus.alamat.kd_provinsi,

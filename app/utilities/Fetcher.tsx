@@ -73,9 +73,12 @@ export const parameterFetcher = async (url: string) => {
             "Content-Type": "application/json",
         },
         cache: "force-cache",
+        next: {
+            revalidate: 3600,
+            tags: [url],
+        }
     })
         .then((res) => res.json())
-        .then((res) => convertToSelectItems(res))
         .catch(() => {
             throw new Error("Something went wrong")
         });

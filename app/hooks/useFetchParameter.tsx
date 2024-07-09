@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { fetcher } from "../utilities/Fetcher";
+import { parameterFetcher } from "../utilities/Fetcher";
 import { convertToSelectItems } from "../utilities/action";
 
 type ParameterFetchProps<T> = {
@@ -23,7 +23,7 @@ export default function useFetchParameter<T>({
 }: ParameterFetchProps<T>) {
     const apiUrl = `/api/parameter/${parameter}?${new URLSearchParams(queryParams).toString()}`;
 
-    const { data, error, isLoading } = useSWR<T[]>(apiUrl, fetcher, {
+    const { data, error, isLoading } = useSWR<T[]>(apiUrl, parameterFetcher, {
         refreshInterval,
         revalidateOnFocus,
         fallbackData,

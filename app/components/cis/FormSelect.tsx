@@ -4,10 +4,11 @@ import { IPaginateDataAny, ISelectItem } from "@/app/types/parameter";
 import { convertToSelectItems } from "@/app/utilities/action";
 import { Autocomplete, AutocompleteItem, Select, SelectItem } from "@nextui-org/react";
 import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll";
-import { debounce } from "lodash";
+import { debounce, has, isEmpty, some } from "lodash";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Controller, FieldValues, RegisterOptions, UseFormReturn } from "react-hook-form";
 import { CSelectPopover, CSelectWarpA } from "../ClassnamesData";
+import { isEqualCaseInsensitive } from "@/app/utilities/Cis";
 
 interface FormSelectProps {
     label: string;
@@ -20,7 +21,7 @@ interface FormSelectProps {
     items?: ISelectItem[];
     paginateItems?: IPaginateDataAny[];
     filteredItems?: ISelectItem[];
-    defaultValue?: string | null | number;
+    defaultValue?: string | number | null;
     onChange?: (value: any) => void;
     rules?: RegisterOptions<FieldValues, string>;
     formMethod: UseFormReturn<FieldValues>;
@@ -64,7 +65,10 @@ const FormSelect: React.FC<FormSelectProps> = ({
         formState: { errors },
     } = formMethod;
     const [isOpen, setIsOpen] = useState(false);
-    const [currentValue, setCurrentValue] = useState();
+    const [currentValue, setCurrentValue] = useState<ISelectItem>({
+        label: getValues(`label.${id}`) ?? "",
+        value: getValues(id) ?? "",
+    });
     const hasMore = currentPage < maxPage;
     const [, scrollerRef] = useInfiniteScroll({
         hasMore,
@@ -78,11 +82,15 @@ const FormSelect: React.FC<FormSelectProps> = ({
     });
 
     const sanitizedData = useMemo<ISelectItem[]>(() => {
-        if (paginateItems) {
-            return paginateItems.flatMap((item) => convertToSelectItems(item.data, config?.paginateItems?.label, config?.paginateItems?.value));
+        if (!paginateItems || isEmpty(paginateItems)) return [];
+        const items = paginateItems.flatMap((item) => convertToSelectItems(item.data, config?.paginateItems?.label, config?.paginateItems?.value));
+        const isExist = some(items, (item) => isEqualCaseInsensitive(item.value, currentValue.value))
+        if (!isExist && isEmpty(currentValue.value)) {
+            return items
         }
-        return [];
-    }, [config?.paginateItems?.label, config?.paginateItems?.value, paginateItems]);
+
+        return [currentValue, ...items]
+    }, [config?.paginateItems?.label, config?.paginateItems?.value, currentValue, paginateItems]);
 
 
     const searchDebounce = useRef(
@@ -94,15 +102,19 @@ const FormSelect: React.FC<FormSelectProps> = ({
     ).current;
 
     const onSearch = (input: string) => {
-        const isExist = !!sanitizedData.find((item) => item.label === input.toUpperCase())
+        const isExist = !!sanitizedData.find((item) => isEqualCaseInsensitive(item.label, input))
         if (!isExist) {
             searchDebounce.cancel();
             searchDebounce(input);
         }
     };
-    useEffect(() => {
-        setCurrentValue(currentValue)
-    }, [currentValue])
+    const handleSelectedValue = useCallback((value: string) => {
+        const item = sanitizedData.find((item) => isEqualCaseInsensitive(item.value, value))
+        if (!isEmpty(item)) {
+            setCurrentValue(item)
+            setValue(`label.${id}`, item.label);
+        }
+    }, [id, sanitizedData, setValue])
     return (
         <Controller
             control={control}
@@ -114,13 +126,14 @@ const FormSelect: React.FC<FormSelectProps> = ({
                     message: `${label} harus diisi!`,
                 },
                 onChange: useCallback((e: any) => {
-                    setValue(id, e.target.value);
-                    setCurrentValue(e.target.value)
+                    const value = e.target.value
+                    setValue(id, value);
+                    handleSelectedValue(value)
                     if (onChange) {
-                        onChange(e.target.value);
+                        onChange(value);
                     }
-                    return e.target.value;
-                }, [id, onChange, setValue]),
+                    return value;
+                }, [handleSelectedValue, id, onChange, setValue]),
                 ...rules,
             }}
             render={({ field: { name, onChange, ref, value } }) => {

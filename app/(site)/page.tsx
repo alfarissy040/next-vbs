@@ -4,7 +4,6 @@ import { SiNginx } from "react-icons/si"
 
 const MainPage = () => {
     const session = useSession()
-    console.log(session)
     return (
         <section className="w-full h-full flex-1 flex items-center justify-center flex-col">
             <SiNginx className="text-blue-500 dark:text-secondary md:w-28 md:h-28 w-20 h-20" />

@@ -11,15 +11,15 @@ export const schemaTypePerorangan = z.object({
 }).merge(schemaMaster).merge(schemaPerorangan)
 
 export const schemaTypePerusahaanNonProfit = z.object({
-    alamat: schemaAlamat,
+    alamat: schemaAlamat.optional(),
     pengurus: z.object({
-        alamat: schemaAlamatPengurus
+        alamat: schemaAlamatPengurus.optional()
     }).merge(schemaPengurus)
 }).merge(schemaMaster).merge(schemaPerusahaan)
 
 export const schemaTypeInstansi = z.object({
-    alamat: schemaAlamat,
+    alamat: schemaAlamat.optional(),
     pengurus: z.object({
-        alamat: schemaAlamatPengurus
+        alamat: schemaAlamatPengurus.optional()
     }).merge(schemaPengurus)
 }).merge(schemaMaster)

@@ -19,7 +19,7 @@ interface FormPerusahaanProps {
     defaultValue?: extendCisPerusahaan
 }
 
-const FormPerusahaan: React.FC<FormPerusahaanProps> = ({ navDirection, handleReset, typeNasabah, kdTypeNasabah, formMethod, isLoading=false, defaultValue }) => {
+const FormPerusahaan: React.FC<FormPerusahaanProps> = ({ navDirection, handleReset, typeNasabah, kdTypeNasabah, formMethod, isLoading = false, defaultValue }) => {
     const { convertedData: IGropNasabah, isLoading: isLoadingGropNasabah } = useFetchParameter<para_grup_nas>({ parameter: "group-nasabah" });
     return (
         <motion.div
@@ -41,6 +41,8 @@ const FormPerusahaan: React.FC<FormPerusahaanProps> = ({ navDirection, handleRes
                 <FormSelect isLoading={isLoadingGropNasabah} items={IGropNasabah} formMethod={formMethod} id="kd_group_nas" label="Group Nasabah" placeholder="Pilih Group Nasabah" defaultValue={defaultValue?.kd_group_nas} isRequired />
                 {/* 5. Modal Sendiri (modal_sendiri) - String */}
                 <FormInput type="number" formMethod={formMethod} id="modal_sendiri" label="Modal Sendiri" placeholder="Masukan Modal Sendiri" defaultValue={defaultValue?.modal_sendiri} isRequired />
+                {/* 6. Modal yang disetor (modal_setor) - String */}
+                <FormInput type="number" formMethod={formMethod} id="modal_setor" label="Modal yang disetor" placeholder="Masukan Modal yang disetor" defaultValue={defaultValue?.modal_setor} isRequired />
                 {/* 7. Termasuk Bank (flag_bank) - Boolean */}
                 <FormSelect
                     items={[
@@ -51,7 +53,7 @@ const FormPerusahaan: React.FC<FormPerusahaanProps> = ({ navDirection, handleRes
                     id="flag_bank"
                     label="Kategori Perusahaan"
                     placeholder="Pilih Kategori Perusahaan"
-                    defaultValue={defaultValue?.flag_bank? "Y":"T"}
+                    defaultValue={defaultValue?.flag_bank ? "Y" : "T"}
                     isRequired
                 />
                 {/* 8. Nomor Akte Awal (no_akte_awal) - String */}
@@ -79,7 +81,7 @@ const FormPerusahaan: React.FC<FormPerusahaanProps> = ({ navDirection, handleRes
                 {/* 19. Nomor Publikasi (no_pub) - String */}
                 <FormInput type="text" formMethod={formMethod} id="no_pub" label="Nomor Publikasi" placeholder="Masukan Nomor Publikasi" defaultValue={defaultValue?.no_pub} isRequired />
                 {/* 20. Tanggal Publikasi (tgl_pub) - DateTime */}
-                <FormInput type="date" formMethod={formMethod} id="tgl_permohonan_dep" label="Tanggal Publikasi" placeholder="Masukan Tanggal Publikasi" max={moment().format("YYYY-MM-DD")} defaultValue={dateToString(defaultValue?.tgl_pub)} isRequired />
+                <FormInput type="date" formMethod={formMethod} id="tgl_pub" label="Tanggal Publikasi" placeholder="Masukan Tanggal Publikasi" max={moment().format("YYYY-MM-DD")} defaultValue={dateToString(defaultValue?.tgl_pub)} isRequired />
             </div>
         </motion.div>
     );

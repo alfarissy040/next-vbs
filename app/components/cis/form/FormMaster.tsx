@@ -84,7 +84,7 @@ const FormMaster: React.FC<FormMasterProps> = ({ navDirection, handleReset, type
                     {/* nama nasabah */}
                     <FormInput type="text" label="Nama Lengkap" formMethod={formMethod} id="nm_nas" placeholder="Masukan nama lengkap" defaultValue={defaultValue?.nm_nas} isRequired />
                     {/* jenis identitas */}
-                    <FormSelect items={IJnsIdent} isLoading={isLoadingJnsIdent} formMethod={formMethod} id="kd_jns_ident" label="Jenis Identitas" placeholder="Pilih jenis identitas" defaultValue={defaultValue?.kd_jns_ident.toString()} isRequired />
+                    <FormSelect items={IJnsIdent} isLoading={isLoadingJnsIdent} formMethod={formMethod} id="kd_jns_ident" label="Jenis Identitas" placeholder="Pilih jenis identitas" defaultValue={defaultValue?.kd_jns_ident} isRequired />
                     {/* nomor identitas */}
                     <FormInput type="text" label="Nomor Identitas" formMethod={formMethod} id="no_ident" placeholder="Masukan Nomor Identitas" defaultValue={defaultValue?.no_ident} isRequired />
                     {/* masa berlaku identitas */}
@@ -98,13 +98,13 @@ const FormMaster: React.FC<FormMasterProps> = ({ navDirection, handleReset, type
                         label="Masa Belaku Identitas"
                         placeholder="Pilih Masa Belaku Identitas"
                         onChange={setIsForeverMasaIdent}
-                        defaultValue={defaultValue?.masa_ident.toString()}
+                        defaultValue={defaultValue?.masa_ident}
                         isRequired
                     />
                     {/* tanggal identitas */}
-                    {isForeverMasaIdent !== "1" && <FormInput type="date" label="Tanggal Masa Identitas" formMethod={formMethod} id="tgl_ident" placeholder="Masukan Tanggal Masa Identitas" defaultValue={defaultValue?.tgl_ident ? moment(defaultValue?.tgl_ident).format("mm-DD-YYYY") : ""} isRequired />}
+                    {isForeverMasaIdent !== "1" && <FormInput type="date" label="Tanggal Masa Identitas" formMethod={formMethod} id="tgl_ident" placeholder="Masukan Tanggal Masa Identitas" defaultValue={defaultValue?.tgl_ident} isRequired />}
                     {/* bentuk hukum */}
-                    <FormSelect items={IBntkHkm} isLoading={isLoadingBntkHkm} formMethod={formMethod} id="kd_bntk_hkm" label="Bentuk Hukum" placeholder="Pilih Bentuk Hukum" defaultValue={defaultValue?.kd_bntk_hkm.toString()} isRequired />
+                    <FormSelect items={IBntkHkm} isLoading={isLoadingBntkHkm} formMethod={formMethod} id="kd_bntk_hkm" label="Bentuk Hukum" placeholder="Pilih Bentuk Hukum" defaultValue={defaultValue?.kd_bntk_hkm} isRequired />
                     {/* golongan pemilik */}
                     <FormSelect
                         paginateItems={IGolPmlk}
@@ -117,36 +117,36 @@ const FormMaster: React.FC<FormMasterProps> = ({ navDirection, handleReset, type
                         handleSearch={setSearchGolPmlk}
                         currentPage={sizeGolPmlk}
                         maxPage={IGolPmlk ? IGolPmlk[0]?.totalPage : 0}
-                        defaultValue={defaultValue?.kd_gol_pemilik.toString()}
+                        defaultValue={defaultValue?.kd_gol_pemilik}
                         isSearchable
                         isRequired
                     />
                     {/* sumber dana */}
-                    <FormSelect isLoading={isLoadingDana} items={IDana} formMethod={formMethod} id="kd_sumber_dana" label="Sumber Dana" placeholder="Pilih Sumber Dana" defaultValue={defaultValue?.kd_sumber_dana.toString()} isRequired />
+                    <FormSelect isLoading={isLoadingDana} items={IDana} formMethod={formMethod} id="kd_sumber_dana" label="Sumber Dana" placeholder="Pilih Sumber Dana" defaultValue={defaultValue?.kd_sumber_dana} isRequired />
 
                     {/* tujuan dana */}
-                    <FormSelect isLoading={isLoadingDana} items={IDana} formMethod={formMethod} id="kd_tujuan_dana" label="Tujuan Dana" placeholder="Pilih Tujuan Dana" defaultValue={defaultValue?.kd_tujuan_dana.toString()} isRequired />
+                    <FormSelect isLoading={isLoadingDana} items={IDana} formMethod={formMethod} id="kd_tujuan_dana" label="Tujuan Dana" placeholder="Pilih Tujuan Dana" defaultValue={defaultValue?.kd_tujuan_dana} isRequired />
 
                     {/* maksimal transaksi */}
-                    <FormSelect isLoading={isLoadingTransaksi} items={ITransaksi} formMethod={formMethod} id="kd_maks_trans" label="Maskimal Transaksi" placeholder="Pilih Maskimal Transaksi" defaultValue={defaultValue?.kd_maks_trans.toString()} isRequired />
+                    <FormSelect isLoading={isLoadingTransaksi} items={ITransaksi} formMethod={formMethod} id="kd_maks_trans" label="Maskimal Transaksi" placeholder="Pilih Maskimal Transaksi" defaultValue={defaultValue?.kd_maks_trans} isRequired />
 
                     {/* penghasilan bulanan */}
-                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="kd_penghasilan_bulan" label="Penghasilan Bulanan" placeholder="Pilih Penghasilan Bulanan" defaultValue={defaultValue?.kd_penghasilan_bulan.toString()} isRequired />
+                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="kd_penghasilan_bulan" label="Penghasilan Bulanan" placeholder="Pilih Penghasilan Bulanan" defaultValue={defaultValue?.kd_penghasilan_bulan} isRequired />
 
                     {/* penghasilan lainnya */}
-                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="kd_penghasilan_lainnya" label="Penghasilan Lainnya" placeholder="Pilih Penghasilan Lainnya" defaultValue={(defaultValue?.kd_penghasilan_lainnya ?? "").toString()} />
+                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="kd_penghasilan_lainnya" label="Penghasilan Lainnya" placeholder="Pilih Penghasilan Lainnya" defaultValue={(defaultValue?.kd_penghasilan_lainnya)} />
                     {/* pengeluaran bulanan */}
-                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="kd_pengeluaran_bulan" label="Pengeluaran Bulanan" placeholder="Pilih Pengeluaran Bulanan" defaultValue={defaultValue?.kd_pengeluaran_bulan.toString()} isRequired />
+                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="kd_pengeluaran_bulan" label="Pengeluaran Bulanan" placeholder="Pilih Pengeluaran Bulanan" defaultValue={defaultValue?.kd_pengeluaran_bulan} isRequired />
                     {/* pengeluaran lainnya */}
-                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="kd_pengeluaran_lainnya" label="Pengeluaran Lainnya" placeholder="Pilih Pengeluaran Lainnya" defaultValue={(defaultValue?.kd_pengeluaran_lainnya ?? "").toString()} />
+                    <FormSelect isLoading={isLoadingPenghasilan} items={IPenghasilan} formMethod={formMethod} id="kd_pengeluaran_lainnya" label="Pengeluaran Lainnya" placeholder="Pilih Pengeluaran Lainnya" defaultValue={(defaultValue?.kd_pengeluaran_lainnya)} />
                     {/* npwp */}
-                    {kdTypeNasabah === 1 && <FormInput type="text" label="NPWP" formMethod={formMethod} id="npwp" placeholder="Masukan NPWP" defaultValue={defaultValue?.npwp ?? ""} />}
+                    {kdTypeNasabah === 1 && <FormInput type="text" label="NPWP" formMethod={formMethod} id="npwp" placeholder="Masukan NPWP" defaultValue={defaultValue?.npwp} />}
                     {/* no telp */}
-                    <FormInput type="text" label="Nomor Telp" formMethod={formMethod} id="no_telp" placeholder="Masukan Nomor Telp" defaultValue={defaultValue?.no_telp ?? ""} isRequired />
+                    <FormInput type="text" label="Nomor Telp" formMethod={formMethod} id="no_telp" placeholder="Masukan Nomor Telp" defaultValue={defaultValue?.no_telp} isRequired />
                     {/* email */}
-                    <FormInput type="email" label="Email" formMethod={formMethod} id="email" placeholder="Masukan Email" defaultValue={defaultValue?.email ?? ""} isRequired />
+                    <FormInput type="email" label="Email" formMethod={formMethod} id="email" placeholder="Masukan Email" defaultValue={defaultValue?.email} isRequired />
                     {/* bidang usaha */}
-                    {kdTypeNasabah !== 1 && <FormSelect isLoading={isLoadingBidangUsaha} items={IBidangUsaha} formMethod={formMethod} id="kd_bidang_usaha" label="Bidang Usaha" placeholder="Pilih Bidang Usaha" defaultValue={(defaultValue?.kd_bidang_usaha ?? "").toString()} isRequired />}
+                    {kdTypeNasabah !== 1 && <FormSelect isLoading={isLoadingBidangUsaha} items={IBidangUsaha} formMethod={formMethod} id="kd_bidang_usaha" label="Bidang Usaha" placeholder="Pilih Bidang Usaha" defaultValue={(defaultValue?.kd_bidang_usaha)} isRequired />}
                     {/* flag hubungan bank */}
                     <FormSelect
                         items={[

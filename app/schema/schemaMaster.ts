@@ -8,7 +8,7 @@ export const schemaMaster = z
         kd_jns_ident: z.number(),
         no_ident: z.string(),
         masa_ident: z.number(),
-        tgl_ident: z.string().datetime().optional(),
+        tgl_ident: z.union([z.string().datetime(), z.null()]).optional(),
         kd_acc_off: z.string(),
         kd_bntk_hkm: z.number(),
         kd_gol_pemilik: z.number(),

@@ -49,17 +49,17 @@ const AktivasiNasabahPage = () => {
         closeModal()
     }
     const handleSubmit = async (isApprove: boolean) => {
+        const loadingToast = toast.loading("Memperoses...")
         setIsLoading(true)
         closeModal()
 
         try {
-            const res = await fetch("/api/cis/aktivasi-nasabah/", {
+            const res = await fetch(`/api/cis/aktivasi-nasabah/${selectedUser}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    no_nas: selectedUser,
                     isApprove: isApprove
                 }),
             })
@@ -77,6 +77,7 @@ const AktivasiNasabahPage = () => {
             const errorApi = error as TCommonApiError
             toast.error(errorApi.message)
         } finally {
+            toast.dismiss(loadingToast)
             setIsLoading(false)
             setModalState(null)
             closeModal()

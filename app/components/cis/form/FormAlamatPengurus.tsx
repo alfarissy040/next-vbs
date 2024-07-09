@@ -26,7 +26,6 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
 
     const {
         data: INegara,
-        sanitizedData: INegaraSanitized,
         isLoading: isLoadingNegara,
         setSize: setPageNegara,
         size: sizeNegara,
@@ -36,7 +35,6 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
     });
     const {
         data: IProvinsi,
-        sanitizedData: IProvinsiSanitized,
         isLoading: isLoadingProvinsi,
         setSize: setPageProvinsi,
         size: sizeProvinsi,
@@ -49,7 +47,6 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
     });
     const {
         data: IKota,
-        sanitizedData: IKotaSanitized,
         isLoading: isLoadingKota,
         setSize: setPageKota,
         size: sizeKota,
@@ -63,7 +60,6 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
     });
     const {
         data: IKecamatan,
-        sanitizedData: IKecamatanSanitized,
         isLoading: isLoadingKecamatan,
         setSize: setPageKecamatan,
         size: sizeKecamatan,
@@ -77,7 +73,6 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
     });
     const {
         data: IKelurahan,
-        sanitizedData: IkelurahanSanitized,
         isLoading: isLoadingKelurahan,
         setSize: setPageKelurahan,
         size: sizeKelurahan,
@@ -123,23 +118,26 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
                 {/* negara */}
                 <FormSelect
                     isLoading={isLoadingNegara}
-                    items={INegaraSanitized}
+                    paginateItems={INegara}
                     currentPage={sizeNegara}
                     maxPage={INegara ? INegara[0]?.totalPage : 0}
                     handleChangePage={setPageNegara}
                     handleSearch={setSearchNegara}
                     formMethod={formMethod}
                     id="pengurus.alamat.kd_negara"
-                    label="Negara Pengurus"
+                    label="Negara"
                     placeholder="Pilih Negara"
                     defaultValue={defaultValue?.kd_negara}
+                    config={{
+                        paginateItems: { value: "kd_negara" }
+                    }}
                     isSearchable
                     isRequired
                 />
                 {/* provinsi */}
                 <FormSelect
                     isLoading={isLoadingProvinsi}
-                    items={IProvinsiSanitized}
+                    paginateItems={IProvinsi}
                     currentPage={sizeProvinsi}
                     maxPage={IProvinsi ? IProvinsi[0]?.totalPage : 0}
                     handleChangePage={setPageProvinsi}
@@ -150,13 +148,16 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
                     label="Provinsi"
                     placeholder="Pilih Provinsi"
                     defaultValue={defaultValue?.kd_provinsi}
+                    config={{
+                        paginateItems: { value: "kd_provinsi" }
+                    }}
                     isSearchable
                     isRequired
                 />
                 {/* kota */}
                 <FormSelect
                     isLoading={isLoadingKota}
-                    items={IKotaSanitized}
+                    paginateItems={IKota}
                     currentPage={sizeKota}
                     maxPage={IKota ? IKota[0]?.totalPage : 0}
                     handleChangePage={setPageKota}
@@ -167,6 +168,9 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
                     label="Kota"
                     placeholder="Pilih Kota"
                     defaultValue={defaultValue?.kd_kota}
+                    config={{
+                        paginateItems: { value: "kd_kota" }
+                    }}
                     isSearchable
                     isRequired
                 />
@@ -175,7 +179,7 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
                     currentPage={sizeKecamatan}
                     maxPage={IKecamatan ? IKecamatan[0]?.totalPage : 0}
                     isLoading={isLoadingKecamatan}
-                    items={IKecamatanSanitized}
+                    paginateItems={IKecamatan}
                     handleChangePage={setPageKecamatan}
                     handleSearch={setSearchKecamatan}
                     onChange={setKdKecamatan}
@@ -184,6 +188,9 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
                     label="Kecamatan"
                     placeholder="Pilih Kecamatan"
                     defaultValue={defaultValue?.kd_kecamatan}
+                    config={{
+                        paginateItems: { value: "kd_kecamatan" }
+                    }}
                     isSearchable
                     isRequired
                 />
@@ -192,7 +199,7 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
                     currentPage={sizeKelurahan}
                     maxPage={IKelurahan ? IKelurahan[0]?.totalPage : 0}
                     isLoading={isLoadingKelurahan}
-                    items={IkelurahanSanitized}
+                    paginateItems={IKelurahan}
                     handleChangePage={setPageKelurahan}
                     handleSearch={setSearchKelurahan}
                     formMethod={formMethod}
@@ -200,6 +207,9 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
                     label="Kelurahan"
                     placeholder="Pilih Kelurahan"
                     defaultValue={defaultValue?.kd_kelurahan}
+                    config={{
+                        paginateItems: { value: "kd_kelurahan" }
+                    }}
                     isSearchable
                     isRequired
                 />
@@ -257,8 +267,9 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
                 />
                 {/* alamat detail */}
                 <div className="md:col-span-2">
-                    <FormTextarea formMethod={formMethod} id="pengurus.alamat.alamat_detail" label="Detail Alamat Pengurus" placeholder="Masukan Alamat" defaultValue={defaultValue?.alamat_detail} isRequired />
+                    <FormTextarea formMethod={formMethod} id="pengurus.alamat.alamat_detail" label="Detail Alamat" placeholder="Masukan Alamat" defaultValue={defaultValue?.alamat_detail} isRequired />
                 </div>
+
             </div>
         </motion.div>
     );

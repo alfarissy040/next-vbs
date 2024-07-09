@@ -6,7 +6,7 @@ const schemaPengurus = z.object({
     no_ident: z.string(),
     nm_nas: z.string(),
     masa_ident: z.number(),
-    tgl_ident: z.string().datetime(),
+    tgl_ident: z.union([z.string().datetime(), z.null()]).optional(),
     tempat_lahir: z.string(),
     tgl_lahir: z.string().datetime(),
     kd_agama: z.number(),

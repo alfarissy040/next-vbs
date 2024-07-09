@@ -45,10 +45,9 @@ const LoginPage = () => {
             navigateTo("/");
         } catch (error) {
             const errorMessage = error as TCommonApiError;
-            if(!errorMessage.status){
+            if (!errorMessage.status) {
                 toast.error("Something went wrong!")
                 setLoginError("");
-                console.log(error)
             }
             setLoginError(errorMessage.message);
         } finally {

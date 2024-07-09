@@ -23,6 +23,7 @@ const CreateNasabahPage = () => {
         shouldUnregister: false,
     });
     const { getValues } = formMethod
+    console.log(formMethod.formState.errors)
 
     const getTypeNasabah = useMemo(() => {
         const result: Record<TAddFormState, number> = {
@@ -50,7 +51,6 @@ const CreateNasabahPage = () => {
                 },
                 tipe_nas: getTypeNasabah
             }
-            console.log(dataPost)
             const res = await fetch("/api/cis/create", {
                 method: "POST",
                 headers: {
@@ -64,7 +64,6 @@ const CreateNasabahPage = () => {
                 if (res.status === 400) {
                     errorMessage = "Invalid data"
                     mapValues(result.message as Record<string, any>, (value, key) => {
-                        console.log(key, value)
                         formMethod.setError(key, {
                             message: value.join(", "),
                         })

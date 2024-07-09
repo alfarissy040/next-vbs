@@ -55,6 +55,7 @@ export async function GET(request: Request) {
             nm_nas: true,
             tipe_nas: true,
             no_ident: true,
+            status_nas: true,
         },
         skip: (page - 1) * itemPerPage,
         take: itemPerPage,

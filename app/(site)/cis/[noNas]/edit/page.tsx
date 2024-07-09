@@ -45,13 +45,11 @@ const EditNasabahPage = ({ params }: { params: IParamSlug }) => {
                     message: result.message
                 })
             }
-            console.log(result)
             revalidatePath("/api/cis/permintaan-ubah")
             mutate("/api/cis/permintaan-ubah")
             toast.success("Data tersimpan")
             return navigateTo("/cis")
         } catch (err) {
-            console.log(err)
             const error = err as TCommonApiError
             toast.error(error.message)
         } finally {
@@ -59,7 +57,7 @@ const EditNasabahPage = ({ params }: { params: IParamSlug }) => {
             setIsLoading(false)
         }
     };
-    const { data, isLoading:isLoadingData, error } = useSWR(`/api/cis/${noNas}`, fetcherNoCache);
+    const { data, isLoading: isLoadingData, error } = useSWR(`/api/cis/${noNas}`, fetcherNoCache);
 
     const formType = useMemo(() => {
         const tipe: Record<string, string> = {

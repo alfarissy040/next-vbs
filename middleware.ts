@@ -21,8 +21,6 @@ export default async function middleware(req: NextRequest) {
         secret: process.env.NEXTAUTH_SECRET,
     });
     const isExpired = (token?.exp as number) * 1000
-    console.log("middleware: ", isExpired)
-    console.log(moment(token?.exp ?? 0).format("YYYY-MM-DD HH:mm:ss"))
     const level: number = token?.level.level ?? 99
     const isAuthorized = Object.entries(levelRoute).some(([key, paths]) => {
         const levelKey = parseInt(key);

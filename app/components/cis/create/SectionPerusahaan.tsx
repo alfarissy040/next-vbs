@@ -20,11 +20,11 @@ interface SectionPerusahaanProps {
     defaultValue?: extendCisMaster
 }
 
-const SectionPerusahaan:React.FC<SectionPerusahaanProps> = ({ setFormType, onSubmit, isLoading, formMethod, defaultValue }) => {
+const SectionPerusahaan: React.FC<SectionPerusahaanProps> = ({ setFormType, onSubmit, isLoading, formMethod, defaultValue }) => {
     const {
         trigger, handleSubmit, getValues, unregister, formState: { errors },
     } = formMethod;
-    
+
     const [step, setStep] = useState(1);
     const [navDirection, setNavDirection] = useState<TNavDirection>("initial");
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -35,7 +35,7 @@ const SectionPerusahaan:React.FC<SectionPerusahaanProps> = ({ setFormType, onSub
         setNavDirection("out");
     }, [step]);
     const handleNextStep = useCallback(() => {
-        const nextStep = step < 4 ? step + 1 : step;
+        const nextStep = step < 5 ? step + 1 : step;
         trigger().then((res) => {
             if (res) {
                 setNavDirection("in");
@@ -44,12 +44,12 @@ const SectionPerusahaan:React.FC<SectionPerusahaanProps> = ({ setFormType, onSub
         });
     }, [step, trigger]);
     const handleReset = useCallback(() => {
-        if(setFormType) {
+        if (setFormType) {
             const allValues = getValues();
             Object.keys(allValues).map((fieldName) => {
                 unregister(fieldName);
             });
-            
+
             setFormType("home");
         }
     }, [getValues, setFormType, unregister]);
@@ -65,7 +65,7 @@ const SectionPerusahaan:React.FC<SectionPerusahaanProps> = ({ setFormType, onSub
                     }}
                     onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 gap-3 overflow-x-clip" noValidate>
                     <AnimatePresence mode="popLayout">
-                        {step === 1 && <FormMaster kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} handleReset={setFormType ? handleReset:undefined} isLoading={isLoading} defaultValue={defaultValue} />}
+                        {step === 1 && <FormMaster kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} handleReset={setFormType ? handleReset : undefined} isLoading={isLoading} defaultValue={defaultValue} />}
                         {step === 2 && <FormPerusahaan kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} isLoading={isLoading} defaultValue={defaultValue?.cis_perusahaan} />}
                         {step === 3 && <FormAlamat kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} defaultValue={defaultValue?.alamat ?? undefined} />}
                         {step === 4 && <FormPengurus kdTypeNasabah={2} formMethod={formMethod} typeNasabah="perusahaan" navDirection={navDirection} defaultValue={defaultValue?.cis_pengurus} />}

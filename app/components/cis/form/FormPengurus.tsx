@@ -1,10 +1,11 @@
 "use client";
 
+import useFetchPaginateParameter from "@/app/hooks/useFetchPaginateParameter";
 import useFetchParameter from "@/app/hooks/useFetchParameter";
 import { cis_pengurus, para_agama, para_jns_ident, para_negara } from "@prisma/client";
 import { motion } from "framer-motion";
 import moment from "moment";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FieldValues, UseFormReturn } from "react-hook-form";
 import FormInput from "../../FormInput";
 import FormSelect from "../FormSelect";
@@ -19,6 +20,7 @@ interface FormPengurusProps {
 
 const FormPengurus: React.FC<FormPengurusProps> = ({ navDirection, typeNasabah, formMethod, defaultValue }) => {
     const { unregister, getValues } = formMethod;
+    const [isForeverMasaIdent, setIsForeverMasaIdent] = useState(defaultValue?.masa_ident ?? getValues("pengurus.masa_ident"));
 
     const { convertedData: IJnsIdent, isLoading: isLoadingJnsIdent } = useFetchParameter<para_jns_ident>({
         parameter: "jenis-identitas",
@@ -27,17 +29,21 @@ const FormPengurus: React.FC<FormPengurusProps> = ({ navDirection, typeNasabah, 
     const { convertedData: IAgama, isLoading: isLoadingAgama } = useFetchParameter<para_agama>({
         parameter: "agama",
     });
-    const { convertedData: INegara, isLoading: isLoadingNegara } = useFetchParameter<para_negara>({
+    const {
+        data: INegara,
+        isLoading: isLoadingNegara,
+        setSize: setPageNegara,
+        size: sizeNegara,
+        setSearch: setSearchNegara,
+    } = useFetchPaginateParameter<para_negara>({
         parameter: "negara",
     });
 
-    const getMasaIdent = useMemo(() => getValues("pengurus.masa_ident"), [getValues]);
-
     useEffect(() => {
-        if (getMasaIdent !== "1") {
+        if (isForeverMasaIdent !== "1") {
             unregister("pengurus.tgl_ident");
         }
-    }, [getMasaIdent, unregister]);
+    }, [isForeverMasaIdent, unregister]);
     return (
         <motion.div
             layout
@@ -63,7 +69,24 @@ const FormPengurus: React.FC<FormPengurusProps> = ({ navDirection, typeNasabah, 
                 {/* agama */}
                 <FormSelect isLoading={isLoadingAgama} items={IAgama} formMethod={formMethod} id="pengurus.kd_agama" label="Agama" placeholder="Pilih Agama" isRequired defaultValue={defaultValue?.kd_agama} />
                 {/* Kewarganegaraan (kewarganegaraan) - String */}
-                <FormSelect items={INegara} isLoading={isLoadingNegara} formMethod={formMethod} id="pengurus.kd_kewarganegaraan" label="Kewarganegaraan" placeholder="Pilih Kewarganegaraan" isRequired defaultValue={defaultValue?.kd_kewarganegaraan} />
+                <FormSelect
+                    isLoading={isLoadingNegara}
+                    paginateItems={INegara}
+                    currentPage={sizeNegara}
+                    maxPage={INegara ? INegara[0]?.totalPage : 0}
+                    handleChangePage={setPageNegara}
+                    handleSearch={setSearchNegara}
+                    formMethod={formMethod}
+                    id="pengurus.kd_kewarganegaraan"
+                    label="Kewarganegaraan"
+                    placeholder="Pilih Kewarganegaraan"
+                    defaultValue={defaultValue?.kd_kewarganegaraan}
+                    config={{
+                        paginateItems: { value: "kd_negara" }
+                    }}
+                    isSearchable
+                    isRequired
+                />
                 {/* Masa Berlaku Identitas (masa_ident) - String */}
                 <FormSelect
                     items={[
@@ -78,11 +101,11 @@ const FormPengurus: React.FC<FormPengurusProps> = ({ navDirection, typeNasabah, 
                     isRequired
                 />
                 {/* Tanggal Identitas (tgl_ident) - DateTime */}
-                {getMasaIdent !== "1" && <FormInput type="date" label="Tanggal Masa Identitas" formMethod={formMethod} id="pengurus.tgl_ident" placeholder="Masukan Tanggal Masa Identitas" max={moment().format("YYYY-MM-DD")} defaultValue={defaultValue?.tgl_ident?moment(defaultValue?.tgl_ident).format("YYYY-MM-DD"):""} isRequired />}
+                {isForeverMasaIdent !== "1" && <FormInput type="date" label="Tanggal Masa Identitas" formMethod={formMethod} id="pengurus.tgl_ident" placeholder="Masukan Tanggal Masa Identitas" max={moment().format("YYYY-MM-DD")} defaultValue={defaultValue?.tgl_ident} isRequired />}
                 {/* Tempat Lahir (tempat_lahir) - String */}
                 <FormInput type="text" label="Tempat Lahir" formMethod={formMethod} id="pengurus.tempat_lahir" placeholder="Masukan Tempat Lahir" defaultValue={defaultValue?.tempat_lahir} isRequired />
                 {/* Tanggal Lahir (tgl_lahir) - DateTime */}
-                <FormInput type="date" formMethod={formMethod} id="pengurus.tgl_lahir" label="Tanggal Lahir" placeholder="Masukan Tanggal Lahir" max={moment().format("YYYY-MM-DD")} defaultValue={defaultValue?.tgl_lahir?moment(defaultValue?.tgl_lahir).format("YYYY-MM-DD"):""} isRequired />
+                <FormInput type="date" formMethod={formMethod} id="pengurus.tgl_lahir" label="Tanggal Lahir" placeholder="Masukan Tanggal Lahir" max={moment().format("YYYY-MM-DD")} defaultValue={defaultValue?.tgl_lahir} isRequired />
                 {/* Nomor HP (no_hp) - String */}
                 <FormInput
                     type="text"
@@ -137,7 +160,7 @@ const FormPengurus: React.FC<FormPengurusProps> = ({ navDirection, typeNasabah, 
                     }}
                     inputMode="numeric"
                     prefix="%"
-                    defaultValue={defaultValue?.kepemilikan.toString()}
+                    defaultValue={defaultValue?.kepemilikan}
                     isRequired
                 />
                 {/* NPWP (npwp) - String */}

@@ -4,7 +4,9 @@ import { Input } from "@nextui-org/react";
 import moment from "moment";
 import { useMemo } from "react";
 import { FieldValues, RegisterOptions, UseFormReturn } from "react-hook-form";
+import { convertToDate, convertToNumber, convertToString } from "../utilities/Cis";
 import { CINputA } from "./ClassnamesData";
+import { isEmpty, isNull } from "lodash";
 
 interface FormInputProps {
     label: string;
@@ -14,7 +16,7 @@ interface FormInputProps {
     isRequired?: boolean;
     isDisabled?: boolean;
     inputMode?: "text" | "search" | "email" | "tel" | "url" | "none" | "numeric" | "decimal";
-    defaultValue?: string | number | null;
+    defaultValue?: string | number | Date | null;
     min?: string | number;
     max?: string | number;
     rules?: RegisterOptions<FieldValues, string>;
@@ -66,7 +68,7 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, placeholder, isR
             }
         }
 
-        if(type === "number") {
+        if (type === "number") {
             result.pattern = {
                 value: /^[0-9]*$/,
                 message: `${label} harus berupa angka`,
@@ -76,12 +78,19 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, placeholder, isR
         return result;
     }, [isRequired, label, max, min, rules, type]);
 
-    const getDevaultvalue = useMemo(() => {
+    const getDefaultvalue = useMemo(() => {
         const isExist = defaultValue && getValues(id);
+        const values = isEmpty(defaultValue) ? getValues(id) : defaultValue;
         if (type === "date" && isExist) {
-            return moment((defaultValue as string) ?? getValues(id)).format("YYYY-MM-DD");
+            const res = convertToDate(values, "YYYY-MM-DD")
+            return isNull(res) ? undefined : res;
         }
-        return (defaultValue as string) ?? getValues(id);
+        if (type === "date") {
+            console.log(defaultValue)
+            console.log(getValues(id))
+            console.log(values)
+        }
+        return convertToString(values);
     }, [defaultValue, getValues, id, type]);
     return (
         <Input
@@ -93,7 +102,7 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, placeholder, isR
             prefix={prefix}
             {...register(id, getRules)}
             errorMessage={(errors[id]?.message as string) ?? ""}
-            defaultValue={getDevaultvalue}
+            defaultValue={getDefaultvalue}
             isDisabled={isDisabled}
             isRequired={isRequired}
             min={min ? moment(min).format("YYYY-MM-DD") : ""}

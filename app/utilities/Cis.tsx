@@ -1,5 +1,5 @@
 import { cis_master } from "@prisma/client";
-import { isEmpty, isNumber, isString, isUndefined } from "lodash";
+import { isEmpty, isEqual, isNumber, isString, isUndefined, toLower } from "lodash";
 import moment from "moment";
 import { useCallback } from "react";
 import { ISelectItem } from "../types/parameter";
@@ -58,7 +58,6 @@ export const useNasabahType = () => {
  * @return {string} The generated noNas.
  */
 export const generateNoNas = (tipeNas: number, createdAtKantor: number | string, count: number): string => {
-    console.log(createdAtKantor)
     // Pad the type number with leading zeros if necessary
     const paddedTipeNas = tipeNas.toString().padStart(2, "0");
 
@@ -86,6 +85,10 @@ export const getJenisAlamat = (): Array<ISelectItem> => {
     ];
 };
 
+export const isEqualCaseInsensitive = (a: any, b: any) => {
+    return isEqual(toLower(a as string), toLower(b as string))
+}
+
 export const convertToString = (value: string | number | null | undefined) => {
     if (isEmpty(value) || isUndefined(value)) return ""
     return isString(value) ? value : value?.toString()
@@ -105,9 +108,12 @@ export const convertToBoolean = (value: string | number | null | undefined) => {
     return false
 }
 
-export const convertToDate = (value: string | Date) => {
+export const convertToDate = (value: string | Date, type: "ISO" | "YYYY-MM-DD" = "ISO") => {
     if (isEmpty(value) || isUndefined(value)) return undefined
-    return moment(value).toISOString()
+    if (type === "ISO") {
+        return moment(value).toISOString()
+    }
+    return moment(value).format("YYYY-MM-DD")
 }
 
 export const sanitizeCisMaster = (data: Record<string, any>) => {
@@ -137,7 +143,6 @@ export const sanitizeCisMaster = (data: Record<string, any>) => {
 }
 
 export const sanitizeCisPerorangan = (data: Record<string, any>) => {
-    console.log(data.tgl_lahir)
     return ({
         nm_ibu: convertToString(data.nm_ibu),
         tempat_lahir: convertToString(data.tempat_lahir),
@@ -160,7 +165,7 @@ export const sanitizeCisPerorangan = (data: Record<string, any>) => {
 export const sanitizeCisPerusahaan = (data: Record<string, any>) => {
     return ({
         flag_bank: convertToBoolean(data.flag_bank),
-        kd_sgroup_nas: convertToNumber(data.kd_sgroup_nas),
+        kd_group_nas: convertToNumber(data.kd_group_nas),
         modal_sendiri: convertToNumber(data.modal_sendiri),
         modal_setor: convertToNumber(data.modal_setor),
         no_akte_awal: convertToString(data.no_akte_awal),
