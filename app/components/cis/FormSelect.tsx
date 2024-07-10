@@ -1,14 +1,26 @@
 "use client";
 
 import { IPaginateDataAny, ISelectItem } from "@/app/types/parameter";
+import { isNotEmpty } from "@/app/utilities";
 import { convertToSelectItems } from "@/app/utilities/action";
+import { isEqualCaseInsensitive } from "@/app/utilities/Cis";
 import { Autocomplete, AutocompleteItem, Select, SelectItem } from "@nextui-org/react";
 import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll";
-import { debounce, has, isEmpty, some } from "lodash";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { debounce, isEmpty, some } from "lodash";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Controller, FieldValues, RegisterOptions, UseFormReturn } from "react-hook-form";
 import { CSelectPopover, CSelectWarpA } from "../ClassnamesData";
-import { isEqualCaseInsensitive } from "@/app/utilities/Cis";
+
+const getFormValue = (formValue: string, defaultValue?: any): string => {
+    var result = ""
+    if (!isEmpty(formValue)) {
+        result = formValue
+    }
+    if (!isEmpty(defaultValue)) {
+        result = defaultValue
+    }
+    return result
+}
 
 interface FormSelectProps {
     label: string;
@@ -21,7 +33,7 @@ interface FormSelectProps {
     items?: ISelectItem[];
     paginateItems?: IPaginateDataAny[];
     filteredItems?: ISelectItem[];
-    defaultValue?: string | number | null;
+    defaultValue?: ISelectItem | null;
     onChange?: (value: any) => void;
     rules?: RegisterOptions<FieldValues, string>;
     formMethod: UseFormReturn<FieldValues>;
@@ -66,8 +78,8 @@ const FormSelect: React.FC<FormSelectProps> = ({
     } = formMethod;
     const [isOpen, setIsOpen] = useState(false);
     const [currentValue, setCurrentValue] = useState<ISelectItem>({
-        label: getValues(`label.${id}`) ?? "",
-        value: getValues(id) ?? "",
+        label: getFormValue(getValues(`label.${id}`), defaultValue?.label),
+        value: getFormValue(getValues(id), defaultValue?.value?.toString()),
     });
     const hasMore = currentPage < maxPage;
     const [, scrollerRef] = useInfiniteScroll({
@@ -81,16 +93,52 @@ const FormSelect: React.FC<FormSelectProps> = ({
         },
     });
 
-    const sanitizedData = useMemo<ISelectItem[]>(() => {
-        if (!paginateItems || isEmpty(paginateItems)) return [];
-        const items = paginateItems.flatMap((item) => convertToSelectItems(item.data, config?.paginateItems?.label, config?.paginateItems?.value));
-        const isExist = some(items, (item) => isEqualCaseInsensitive(item.value, currentValue.value))
-        if (!isExist && isEmpty(currentValue.value)) {
-            return items
-        }
+    // const sanitizedData = useMemo<ISelectItem[]>(() => {
+    //     if (!paginateItems || isEmpty(paginateItems)) return [];
+    //     const items = paginateItems.flatMap((item) => convertToSelectItems(item.data, config?.paginateItems?.label, config?.paginateItems?.value));
+    //     const isExist = some(items, (item) => isEqualCaseInsensitive(item.value, currentValue.value))
+    //     if (!isExist && isEmpty(currentValue.value)) {
+    //         return items
+    //     }
 
-        return [currentValue, ...items]
-    }, [config?.paginateItems?.label, config?.paginateItems?.value, currentValue, paginateItems]);
+    //     return [currentValue, ...items]
+    // }, [config?.paginateItems?.label, config?.paginateItems?.value, currentValue, paginateItems]);
+
+    const getItemsWithDefault = useMemo(() => {
+        if (isSearchable) {
+            if (!paginateItems || isEmpty(paginateItems)) return [];
+
+            const sanitedItems = paginateItems.flatMap((item) => convertToSelectItems(item.data, config?.paginateItems?.label, config?.paginateItems?.value));
+            const isExist = some(sanitedItems, (item) => isEqualCaseInsensitive(item.value, currentValue.value))
+            if (isExist || isEmpty(currentValue.value)) {
+                return sanitedItems
+            }
+            return [currentValue, ...sanitedItems]
+        } else {
+            if (!items || isEmpty(items)) return [];
+            const isExist = some(items, (item) => isEqualCaseInsensitive(item.value, currentValue.value))
+            if (isExist || isEmpty(currentValue.value)) {
+                return items
+            }
+            return [currentValue, ...items]
+        }
+    }, [config?.paginateItems?.label, config?.paginateItems?.value, currentValue, isSearchable, items, paginateItems])
+
+    // const handleSelectedValue = useCallback((value: string) => {
+    //     const item = sanitizedData.find((item) => isEqualCaseInsensitive(item.value, value))
+    //     if (!isEmpty(item)) {
+    //         setCurrentValue(item)
+    //         setValue(`label.${id}`, item.label);
+    //     }
+    // }, [id, sanitizedData, setValue])
+
+    const handleSelectedValue = useCallback((value: string) => {
+        const item = getItemsWithDefault.find((item) => isEqualCaseInsensitive(item.value, value))
+        if (!isEmpty(item)) {
+            setCurrentValue(item)
+            setValue(`label.${id}`, item.label);
+        }
+    }, [id, getItemsWithDefault, setValue])
 
 
     const searchDebounce = useRef(
@@ -102,24 +150,25 @@ const FormSelect: React.FC<FormSelectProps> = ({
     ).current;
 
     const onSearch = (input: string) => {
-        const isExist = !!sanitizedData.find((item) => isEqualCaseInsensitive(item.label, input))
+        const isExist = !!getItemsWithDefault.find((item) => isEqualCaseInsensitive(item.label, input))
         if (!isExist) {
             searchDebounce.cancel();
             searchDebounce(input);
         }
     };
-    const handleSelectedValue = useCallback((value: string) => {
-        const item = sanitizedData.find((item) => isEqualCaseInsensitive(item.value, value))
-        if (!isEmpty(item)) {
-            setCurrentValue(item)
-            setValue(`label.${id}`, item.label);
-        }
-    }, [id, sanitizedData, setValue])
+    // const onSearch = (input: string) => {
+    //     const isExist = !!sanitizedData.find((item) => isEqualCaseInsensitive(item.label, input))
+    //     if (!isExist) {
+    //         searchDebounce.cancel();
+    //         searchDebounce(input);
+    //     }
+    // };
+    console.log(getItemsWithDefault)
     return (
         <Controller
             control={control}
             name={id}
-            defaultValue={getValues(id) ?? defaultValue}
+            defaultValue={isNotEmpty(currentValue.value) && currentValue.value}
             rules={{
                 required: {
                     value: isRequired,
@@ -146,7 +195,8 @@ const FormSelect: React.FC<FormSelectProps> = ({
                         filterOptions={{
                             sensitivity: "base",
                         }}
-                        defaultItems={[...sanitizedData ?? []]}
+                        // defaultItems={[...sanitizedData ?? []]}
+                        defaultItems={getItemsWithDefault}
                         errorMessage={(errors[id]?.message as string) ?? ""}
                         placeholder={placeholder}
                         defaultSelectedKey={value}
@@ -179,7 +229,8 @@ const FormSelect: React.FC<FormSelectProps> = ({
                         name={name}
                         ref={ref}
                         value={value}
-                        items={items ?? []}
+                        // items={items ?? []}
+                        items={getItemsWithDefault}
                         label={label}
                         placeholder={placeholder}
                         classNames={CSelectWarpA}

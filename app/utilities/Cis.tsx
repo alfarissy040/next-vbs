@@ -89,7 +89,7 @@ export const isEqualCaseInsensitive = (a: any, b: any) => {
     return isEqual(toLower(a as string), toLower(b as string))
 }
 
-export const convertToString = (value: string | number | null | undefined) => {
+export const convertToString = (value: string | number | boolean | null | undefined) => {
     if (isEmpty(value) || isUndefined(value)) return ""
     return isString(value) ? value : value?.toString()
 }

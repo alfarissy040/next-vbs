@@ -1,5 +1,6 @@
 "use client"
 
+import { isEmpty, isNull, isNumber, isUndefined } from "lodash";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 
@@ -9,7 +10,7 @@ import { useRouter } from "next/navigation";
  * @returns {Function} - A function that takes a destination string and navigates to it.
  */
 export const usePrefetchNavigate = () => {
-    
+
     // Get the Next.js Router instance.
     const route = useRouter();
 
@@ -56,14 +57,22 @@ export const flatQueryParams = (params: Record<string, any>) => {
 
 export const dateToString = (params?: Date | string) => {
     const result = moment(params).format("YYYY-MM-DD")
-    return params? result:""
+    return params ? result : ""
 }
 
-export const numberToCurrency = (value?:number) => {
+export const numberToCurrency = (value?: number) => {
     return new Intl.NumberFormat('id-ID', {
         style: 'currency',
         currency: 'IDR',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
-      }).format((value as number) ?? 0);
+    }).format((value as number) ?? 0);
+}
+
+export const isNotEmpty = (value: any) => {
+    if (isNumber(value)) {
+        console.log("number")
+        return !isEmpty(value)
+    }
+    return !isEmpty(value) && !isUndefined(value) && !isNull(value)
 }

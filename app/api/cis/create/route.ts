@@ -206,8 +206,7 @@ export async function POST(request: NextRequest) {
             })
             await prisma.cis_alamat.create({
                 data: {
-                    no_nas: validated.data.pengurus.no_nas,
-                    no_pengurus: pengurus.no_pengurus,
+                    no_nas: pengurus.no_pengurus,
                     jns_alamat: validated.data.pengurus.alamat.jns_alamat,
                     kd_negara: validated.data.pengurus.alamat.kd_negara,
                     kd_provinsi: validated.data.pengurus.alamat.kd_provinsi,

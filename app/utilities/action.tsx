@@ -1,6 +1,5 @@
-import { get, has, isEmpty, toPairs } from "lodash";
+import { get, has, isEmpty, isUndefined, toPairs } from "lodash";
 import moment from "moment";
-import { JWT } from "next-auth/jwt";
 
 export const getFormatedDate = (date: Date | string) => {
     return new Date(date).toLocaleDateString("ID", {
@@ -18,6 +17,14 @@ export const convertToSelectItems = (sourceArray?: any[], label: string = "keter
     }));
     return result;
 };
+
+export const convertToSelectObject = (sourceArray?: Record<string, any>, label: string = "keterangan", value: string = "kode") => {
+    if (isEmpty(sourceArray) || isUndefined(sourceArray)) return undefined;
+    return ({
+        label: sourceArray[label],
+        value: sourceArray[value],
+    });
+}
 
 const convertToString = (value: string | number | Date | boolean | unknown): string => {
     if (typeof value === "undefined") {
@@ -39,7 +46,7 @@ const convertToString = (value: string | number | Date | boolean | unknown): str
 };
 
 export const convertToCisUpdate = (currentData: Record<string, any>, newData: Record<string, any>, noNas: string, dbName: string, kd_kantor: string, usrid_create: string) => {
-    if(isEmpty(currentData) || isEmpty(newData)) return [];
+    if (isEmpty(currentData) || isEmpty(newData)) return [];
     return toPairs(newData).reduce((acc: any[], [key, value]) => {
         if (!has(currentData, key)) return acc
         return [

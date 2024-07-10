@@ -71,7 +71,7 @@ const SectionInstansi: React.FC<SectionInstansiProps> = ({ setFormType, onSubmit
                     </AnimatePresence>
                     <div className="flex items-center justify-end gap-3">
                         <Button variant="solid" color={step === 1 ? "default" : "primary"} onClick={handlePrevStep} isDisabled={step === 1}>Sebelumnya</Button>
-                        {step !== 5 ?
+                        {step !== 4 ?
                             (
                                 <Button variant="solid" color="primary" onClick={handleNextStep}>Selanjutnya</Button>
                             ) : (

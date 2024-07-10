@@ -40,9 +40,13 @@ const FormPengurus: React.FC<FormPengurusProps> = ({ navDirection, typeNasabah, 
     });
 
     useEffect(() => {
-        if (isForeverMasaIdent !== "1") {
-            unregister("pengurus.tgl_ident");
-        }
+        const unregisterIfNotForeverMasaIdent = (): void => {
+            if (isForeverMasaIdent !== "1") {
+                unregister("pengurus.tgl_ident");
+            }
+        };
+
+        unregisterIfNotForeverMasaIdent();
     }, [isForeverMasaIdent, unregister]);
     return (
         <motion.div
@@ -97,6 +101,7 @@ const FormPengurus: React.FC<FormPengurusProps> = ({ navDirection, typeNasabah, 
                     id="pengurus.masa_ident"
                     label="Masa Belaku Identitas"
                     placeholder="Pilih Masa Belaku Identitas"
+                    onChange={setIsForeverMasaIdent}
                     defaultValue={defaultValue?.masa_ident}
                     isRequired
                 />

@@ -62,7 +62,7 @@ const PageDetail = ({ params }: { params: IParamSlug }) => {
                     {/* perorangan */}
                     {nasabahType === 1 && <DetailPerorangan data={data?.cis_perorangan as extendCisPerorangan} isLoading={isLoading} />}
                     {/* perusahaan */}
-                    {nasabahType === 2 || (nasabahType === 4 && <DetailPerusahaan data={data?.cis_perusahaan as extendCisPerusahaan} isLoading={isLoading} />)}
+                    {(nasabahType === 2 || nasabahType === 4) && <DetailPerusahaan data={data?.cis_perusahaan as extendCisPerusahaan} isLoading={isLoading} />}
                     {/* alamat */}
                     <DetailAlamat data={data?.alamat ?? undefined} isLoading={isLoading} />
                     {/* pengurus */}

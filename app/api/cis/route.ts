@@ -64,67 +64,63 @@ export async function GET(request: Request) {
     const totalQuery: TQueryTotal = {
         orderBy: getOrderBy(orderBy, direction),
     };
-
-    if (search) {
-        query.where = {
-            OR: [
-                {
-                    status_nas: {
-                        equals: "01",
-                    },
-                },
-                {
-                    no_nas: {
-                        startsWith: search as string,
-                        mode: "insensitive",
-                    },
-                },
-                {
-                    nm_nas: {
-                        contains: search as string,
-                        mode: "insensitive",
-                    },
-                },
-                {
-                    no_ident: {
-                        contains: search as string,
-                        mode: "insensitive",
-                    },
-                },
-            ],
-        };
-        totalQuery.where = {
-            OR: [
-                {
-                    status_nas: {
-                        equals: "01",
-                    },
-                },
-                {
-                    no_nas: {
-                        startsWith: search as string,
-                        mode: "insensitive",
-                    },
-                },
-                {
-                    nm_nas: {
-                        contains: search as string,
-                        mode: "insensitive",
-                    },
-                },
-                {
-                    no_ident: {
-                        contains: search as string,
-                        mode: "insensitive",
-                    },
-                },
-            ],
-        };
-    }
-
     try {
-        const users = await prisma.cis_master.findMany(query);
-        const totalItems = await prisma.cis_master.count(totalQuery);
+        const users = await prisma.cis_master.findMany({
+            ...query,
+            where: {
+                status_nas: {
+                    equals: "01"
+                },
+                OR: [
+                    {
+                        no_nas: {
+                            startsWith: search as string,
+                            mode: "insensitive",
+                        },
+                    },
+                    {
+                        nm_nas: {
+                            contains: search as string,
+                            mode: "insensitive",
+                        },
+                    },
+                    {
+                        no_ident: {
+                            contains: search as string,
+                            mode: "insensitive",
+                        },
+                    },
+                ],
+            }
+        });
+        const totalItems = await prisma.cis_master.count({
+            ...totalQuery,
+            where: {
+                status_nas: {
+                    equals: "01"
+                },
+                OR: [
+                    {
+                        no_nas: {
+                            startsWith: search as string,
+                            mode: "insensitive",
+                        },
+                    },
+                    {
+                        nm_nas: {
+                            contains: search as string,
+                            mode: "insensitive",
+                        },
+                    },
+                    {
+                        no_ident: {
+                            contains: search as string,
+                            mode: "insensitive",
+                        },
+                    },
+                ],
+            }
+        });
 
         if (!users) return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
 
