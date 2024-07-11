@@ -1,5 +1,7 @@
+import { convertToDate } from "@/app/utilities/Cis";
 import { getValidationMessage, prisma } from "@/app/utilities/ServerUtilities";
 import { Prisma } from "@prisma/client";
+import { startsWith } from "lodash";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -96,50 +98,51 @@ export async function POST(request: NextRequest, { params }: { params: IParams }
         if (isApprove) {
             // Membuat queue tanpa membuat objek baru di setiap iterasi
             const queue: Queue = dataUpdate.reduce<Queue>((acc, curr) => {
+                const isDate = startsWith(curr.nm_field, "tgl_");
                 if (!acc[curr.db_field]) {
                     acc[curr.db_field] = {};
                 }
-                acc[curr.db_field][curr.nm_field] = curr.new_record;
+                acc[curr.db_field][curr.nm_field] = isDate ? convertToDate(curr.new_record) : curr.new_record;
                 return acc;
             }, {});
 
             const updates = [
                 queue["cis_master"] &&
-                    prisma.cis_master.update({
-                        where: { no_nas: nonas },
-                        data: queue["cis_master"],
-                    }),
+                prisma.cis_master.update({
+                    where: { no_nas: nonas },
+                    data: queue["cis_master"],
+                }),
                 queue["cis_perusahaan"] &&
-                    prisma.cis_perusahaan.update({
-                        where: { no_nas: nonas },
-                        data: queue["cis_perusahaan"],
-                    }),
+                prisma.cis_perusahaan.update({
+                    where: { no_nas: nonas },
+                    data: queue["cis_perusahaan"],
+                }),
                 queue["cis_perorangan"] &&
-                    prisma.cis_perorangan.update({
-                        where: { no_nas: nonas },
-                        data: queue["cis_perorangan"],
-                    }),
+                prisma.cis_perorangan.update({
+                    where: { no_nas: nonas },
+                    data: queue["cis_perorangan"],
+                }),
                 queue["cis_alamat"] &&
-                    prisma.cis_alamat.updateMany({
-                        where: {
-                            OR: [{ no_nas: nonas }, { id_pengurus: nonas }],
-                        },
-                        data: queue["cis_alamat"],
-                    }),
+                prisma.cis_alamat.updateMany({
+                    where: {
+                        OR: [{ no_nas: nonas }],
+                    },
+                    data: queue["cis_alamat"],
+                }),
                 queue["cis_pengurus"] &&
-                    prisma.cis_pengurus.updateMany({
-                        where: {
-                            OR: [{ no_nas: nonas }, { id_pengurus: nonas }],
-                        },
-                        data: queue["cis_pengurus"],
-                    }),
+                prisma.cis_pengurus.updateMany({
+                    where: {
+                        OR: [{ no_nas: nonas }],
+                    },
+                    data: queue["cis_pengurus"],
+                }),
             ].filter(Boolean);
 
             await Promise.all(updates);
         }
 
         await prisma.cis_update.updateMany({
-            where: { no_nas: nonas },
+            where: { no_nas: nonas, sts_update: "00" },
             data: { sts_update: isApprove ? "01" : "99" },
         });
         return NextResponse.json({ message: isApprove ? "Data berhasil diupdate" : "Penolakan perubahan berhasil dilakukan" });

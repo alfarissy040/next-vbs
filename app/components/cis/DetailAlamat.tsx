@@ -1,11 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
-import CardField from "../CardField";
+import { paraJenisAlamat } from "@/app/utilities/staticParameter";
 import { Divider } from "@nextui-org/divider";
 import { extendCisAlamat } from "@prisma/client";
-import { getJenisAlamat } from "@/app/utilities/Cis";
+import { motion } from "framer-motion";
 import { useMemo } from "react";
+import CardField from "../CardField";
 
 interface DetailAlamatProps {
     data?: extendCisAlamat;
@@ -13,7 +13,7 @@ interface DetailAlamatProps {
 }
 
 const DetailAlamat: React.FC<DetailAlamatProps> = ({ data }) => {
-    const jenisAlamat = useMemo(() => getJenisAlamat().find((item) => item.value === data?.jns_alamat), [data?.jns_alamat]);
+    const jenisAlamat = useMemo(() => paraJenisAlamat.find((item) => item.value === data?.jns_alamat), [data?.jns_alamat]);
     return (
         <motion.div
             className="mt-3"

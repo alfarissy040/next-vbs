@@ -44,7 +44,7 @@ const DetailMaster: React.FC<DetailMasterProps> = ({ data }) => {
             {/* email */}
             <CardField label="Email" value={data?.email} />
             {/* bidang usaha */}
-            <CardField label="Bidang Usaha" value={data?.bidang_usaha?.keterangan} />
+            {data?.tipe_nas !== 1 && <CardField label="Bidang Usaha" value={data?.bidang_usaha?.keterangan} />}
             {/* flag hubungan bank */}
             <CardField label="Hubungan Bank" value={data?.flag_hub_bank ? "Berhubungan dengan Bank" : "Tidak Berhubungan dengan Bank"} />
         </div>

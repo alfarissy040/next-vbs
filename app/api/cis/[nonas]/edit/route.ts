@@ -1,7 +1,8 @@
+import { isEqualCaseInsensitive } from "@/app/utilities/Cis";
 import { prisma } from "@/app/utilities/ServerUtilities";
 import { convertToCisUpdate } from "@/app/utilities/action";
-import { Prisma } from "@prisma/client";
-import { has, isEmpty, isEqual, toPairs } from "lodash";
+import { cis_update, extendCisMaster, Prisma } from "@prisma/client";
+import { has, isEmpty, startsWith, toPairs } from "lodash";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -9,25 +10,25 @@ interface IParams {
     nonas?: string;
 }
 
-const isInException = (key:string) => {
+const isInException = (key: string) => {
     return ["cis_perorangan", "cis_perusahaan", "alamat", "cis_pengurus", "cis_alamat"].includes(key.trim().toLowerCase())
 }
 
 const getCisDiffData = (nasabah: Record<string, any> | null, data: Record<string, any>) => {
     if (isEmpty(nasabah) || isEmpty(data)) return {};
-  
-    return toPairs(nasabah).reduce((acc, [key, value]) => {
-      if (!has(data, key) || isInException(key)) {
-        return acc;
-      }
-      if (!isEqual(value, data[key])) {
-        acc[key] = data[key];
-      }
-      return acc;
-    }, {} as Record<string, any>);
-  };
 
-// TODOS test this fnction with 4 types of user
+    return toPairs(nasabah).reduce((acc, [key, value]) => {
+        const isDate = startsWith((key), "tgl_");
+        const isNotSame = isDate ? !isEqualCaseInsensitive(value, data[key]) : !isEqualCaseInsensitive(value, data[key], "date")
+        if (!has(data, key) || isInException(key)) {
+            return acc;
+        }
+        if (!isEqualCaseInsensitive(value, data[key])) {
+            acc[key] = data[key];
+        }
+        return acc;
+    }, {} as Record<string, any>);
+};
 
 export async function POST(request: NextRequest, { params }: { params: IParams }) {
     const body = await request.json()
@@ -55,25 +56,46 @@ export async function POST(request: NextRequest, { params }: { params: IParams }
             }
         })
         if (!nasabah) return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
+        const tipeNasabah = (nasabah as extendCisMaster).tipe_nas
+        const entries = (): cis_update[] => {
+            const diffMaster = getCisDiffData(nasabah, body);
+            const diffAlamat = getCisDiffData(nasabah.alamat, body.alamat);
 
-        const diffMaster = getCisDiffData(nasabah, body);
-        const diffPerorangan = getCisDiffData(nasabah.cis_perorangan, body)
-        const diffPerusahaan = getCisDiffData(nasabah.cis_perusahaan, body)
-        const diffAlamat = getCisDiffData(nasabah.alamat, body.alamat)
-        const diffPengurus = getCisDiffData(nasabah.cis_pengurus, body.pengurus)
-        const diffAlamatPengurus = getCisDiffData(nasabah.cis_pengurus?.cis_alamat ?? null, body.pengurus.alamat)
+            let result: cis_update[] = [
+                ...convertToCisUpdate(nasabah, diffMaster, noNas, "cis_master", token.kantor.kd_kantor, token.username),
+                ...convertToCisUpdate(nasabah.alamat, diffAlamat, noNas, "cis_alamat", token.kantor.kd_kantor, token.username),
+            ];
 
-        const entries = [
-            ...convertToCisUpdate(nasabah, diffMaster, noNas, "cis_master", token.kantor.kd_kantor, token.username),
-            ...convertToCisUpdate(nasabah, diffPerorangan, noNas, "cis_perorangan", token.kantor.kd_kantor, token.username),
-            ...convertToCisUpdate(nasabah, diffPerusahaan, noNas, "cis_perusahaan", token.kantor.kd_kantor, token.username),
-            ...convertToCisUpdate(nasabah, diffPengurus, noNas, "cis_pengurus", token.kantor.kd_kantor, token.username),
-            ...convertToCisUpdate(nasabah, diffAlamat, noNas, "cis_alamat", token.kantor.kd_kantor, token.username),
-            ...convertToCisUpdate(nasabah, diffAlamatPengurus, noNas, "cis_alamat", token.kantor.kd_kantor, token.username),
-        ]
-        if (isEmpty(entries)) return NextResponse.json({ message: "Tidak ada data yang diperbarui" }, { status: 404 })
+            if (tipeNasabah === 1) {
+                const diffPerorangan = getCisDiffData(nasabah.cis_perorangan, body);
+                result = result.concat(
+                    convertToCisUpdate(nasabah.cis_perorangan, diffPerorangan, noNas, "cis_perorangan", token.kantor.kd_kantor, token.username)
+                );
+            }
+
+            if (tipeNasabah === 2 || tipeNasabah === 4) {
+                const diffPerusahaan = getCisDiffData(nasabah.cis_perusahaan, body);
+                result = result.concat(
+                    convertToCisUpdate(nasabah.cis_perusahaan, diffPerusahaan, noNas, "cis_perusahaan", token.kantor.kd_kantor, token.username)
+                );
+            }
+
+            if (tipeNasabah !== 1 && !isEmpty(nasabah.cis_pengurus)) {
+                const diffPengurus = getCisDiffData(nasabah.cis_pengurus, body.pengurus);
+                const diffAlamatPengurus = getCisDiffData(nasabah.cis_pengurus?.cis_alamat ?? null, body.pengurus.alamat);
+                result = result.concat(
+                    convertToCisUpdate(nasabah.cis_pengurus, diffPengurus, noNas, "cis_pengurus", token.kantor.kd_kantor, token.username),
+                    convertToCisUpdate(nasabah.cis_pengurus.cis_alamat, diffAlamatPengurus, nasabah.cis_pengurus.no_pengurus, "cis_alamat", token.kantor.kd_kantor, token.username)
+                );
+                console.log(result)
+            }
+
+            return result;
+        };
+
+        if (isEmpty(entries())) return NextResponse.json({ message: "Tidak ada data yang diperbarui" }, { status: 404 })
         await prisma.cis_update.createMany({
-            data: entries
+            data: entries()
         })
 
         return NextResponse.json({ message: "Data berhasil diperbarui" })

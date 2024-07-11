@@ -45,9 +45,14 @@ const convertToString = (value: string | number | Date | boolean | unknown): str
     return JSON.stringify(value);
 };
 
-export const convertToCisUpdate = (currentData: Record<string, any>, newData: Record<string, any>, noNas: string, dbName: string, kd_kantor: string, usrid_create: string) => {
+export const convertToCisUpdate = (currentData: Record<string, any> | null | undefined, newData: Record<string, any> | null | undefined, noNas: string, dbName: string, kd_kantor: string, usrid_create: string) => {
     if (isEmpty(currentData) || isEmpty(newData)) return [];
     return toPairs(newData).reduce((acc: any[], [key, value]) => {
+        console.log({
+            currentData: currentData,
+            key: key,
+            res: has(currentData, key)
+        })
         if (!has(currentData, key)) return acc
         return [
             ...acc,

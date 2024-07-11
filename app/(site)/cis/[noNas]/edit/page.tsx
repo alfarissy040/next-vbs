@@ -3,11 +3,11 @@ import SectionInstansi from "@/app/components/cis/create/SectionInstansi";
 import SectionNonProfit from "@/app/components/cis/create/SectionNonProfit";
 import SectionPerorangan from "@/app/components/cis/create/SectionPerorangan";
 import SectionPerusahaan from "@/app/components/cis/create/SectionPerusahaan";
+import MainLoading from "@/app/components/MainLoading";
 import { TCommonApiError } from "@/app/types";
 import { usePrefetchNavigate } from "@/app/utilities";
 import { fetcherNoCache } from "@/app/utilities/Fetcher";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
-import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -45,7 +45,6 @@ const EditNasabahPage = ({ params }: { params: IParamSlug }) => {
                     message: result.message
                 })
             }
-            revalidatePath("/api/cis/permintaan-ubah")
             mutate("/api/cis/permintaan-ubah")
             toast.success("Data tersimpan")
             return navigateTo("/cis")
@@ -90,10 +89,11 @@ const EditNasabahPage = ({ params }: { params: IParamSlug }) => {
                 </Breadcrumbs>
             </div>
             <div className="flex flex-col flex-1 h-auto gap-3">
-                {formType === "perorangan" && <SectionPerorangan onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} defaultValue={data} />}
-                {formType === "perusahaan" && <SectionPerusahaan onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} defaultValue={data} />}
-                {formType === "pemerintah" && <SectionInstansi onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} defaultValue={data} />}
-                {formType === "Lembaga non-profit" && <SectionNonProfit onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} defaultValue={data} />}
+                {isLoadingData && <MainLoading />}
+                {!isLoadingData && formType === "perorangan" && <SectionPerorangan onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} defaultValue={data} />}
+                {!isLoadingData && formType === "perusahaan" && <SectionPerusahaan onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} defaultValue={data} />}
+                {!isLoadingData && formType === "pemerintah" && <SectionInstansi onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} defaultValue={data} />}
+                {!isLoadingData && formType === "Lembaga non-profit" && <SectionNonProfit onSubmit={onSubmit} isLoading={isLoading ?? isLoadingData} formMethod={formMethod} defaultValue={data} />}
             </div>
         </section>
     )

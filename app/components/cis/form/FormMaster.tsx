@@ -29,9 +29,9 @@ interface FormMasterProps {
 }
 
 const FormMaster: React.FC<FormMasterProps> = ({ navDirection, handleReset, typeNasabah, kdTypeNasabah, formMethod, isLoading = false, defaultValue }) => {
-    const [isForeverMasaIdent, setIsForeverMasaIdent] = useState(defaultValue?.masa_ident ?? '1');
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const { unregister } = formMethod;
+    const { unregister, getValues } = formMethod;
+    const [isForeverMasaIdent, setIsForeverMasaIdent] = useState(((defaultValue?.masa_ident ?? getValues("masa_ident")) ?? 1).toString());
 
     // fetch parameter
     const { convertedData: IJnsIdent, isLoading: isLoadingJnsIdent } = useFetchParameter<para_jns_ident>({

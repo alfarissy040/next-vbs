@@ -81,7 +81,7 @@ const AktivasiNasabahPage = () => {
                 }
             }
             mutate(`/api/cis/permintaan-ubah`)
-            toast.success(isApprove ? "Nasabah Berhasilal Aktivasi" : "Nasabah telah ditolak")
+            toast.success(isApprove ? "Berhasil merubah data" : "Perubahan data ditolak")
         } catch (error) {
             const errorApi = error as TCommonApiError
             toast.error(errorApi.message)
@@ -119,7 +119,7 @@ const AktivasiNasabahPage = () => {
                     </TableColumn>
                     <TableColumn className="flex justify-center items-center">Menu</TableColumn>
                 </TableHeader>
-                <TableBody items={isArray(data) ? data : []} emptyContent={isError ? "Something went wrong!" : (loadingData?"":"Data tidak ditemukan!")} isLoading={loadingData} loadingContent={<Spinner size="md" />}>
+                <TableBody items={isArray(data) ? data : []} emptyContent={isError ? "Something went wrong!" : (loadingData ? "" : "Data tidak ditemukan!")} isLoading={loadingData} loadingContent={<Spinner size="md" />}>
                     {(item: extendCisUpdate) => (
                         <TableRow key={item?.no_nas}>
                             <TableCell>{item?.no_nas}</TableCell>

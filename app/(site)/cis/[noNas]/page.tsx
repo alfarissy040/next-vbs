@@ -7,7 +7,7 @@ import DetailPengurus from "@/app/components/cis/DetailPengurus";
 import DetailPerorangan from "@/app/components/cis/DetailPerorangan";
 import DetailPerusahaan from "@/app/components/cis/create/DetailPerusahaan";
 import { BreadcrumbItem, Breadcrumbs, Button } from "@nextui-org/react";
-import { extendCisAlamat, extendCisMaster, extendCisPengurus, extendCisPerorangan, extendCisPerusahaan } from "@prisma/client";
+import { extendCisMaster, extendCisPengurus, extendCisPerorangan, extendCisPerusahaan } from "@prisma/client";
 import Link from "next/link";
 import { useState } from "react";
 import useSWR from "swr";

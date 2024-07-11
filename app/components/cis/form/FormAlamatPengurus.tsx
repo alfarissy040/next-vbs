@@ -1,8 +1,10 @@
 "use client";
 
 import useFetchPaginateParameter from "@/app/hooks/useFetchPaginateParameter";
+import { convertToSelectObject } from "@/app/utilities/action";
 import { baseFormVariant } from "@/app/utilities/MotionVariant";
-import { cis_alamat, para_kecamatan, para_kelurahan, para_kota, para_negara, para_provinsi } from "@prisma/client";
+import { findStaticParameterValue, paraJenisAlamat } from "@/app/utilities/staticParameter";
+import { extendCisAlamat, para_kecamatan, para_kelurahan, para_kota, para_negara, para_provinsi } from "@prisma/client";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { FieldValues, UseFormReturn } from "react-hook-form";
@@ -15,7 +17,7 @@ interface FormAlamatPengurusProps {
     typeNasabah: TNasabahType;
     formMethod: UseFormReturn<FieldValues>;
     kdTypeNasabah: number;
-    defaultValue?: cis_alamat
+    defaultValue?: extendCisAlamat
 }
 
 const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, typeNasabah, formMethod, defaultValue }) => {
@@ -103,16 +105,12 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
             <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mt-3">
                 {/* jenis alamat */}
                 <FormSelect
-                    items={[
-                        { label: "Sesuai Identitas", value: 1 },
-                        { label: "Sesuai Domisili", value: 2 },
-                        { label: "Sesuai Alamat", value: 3 },
-                    ]}
+                    items={paraJenisAlamat}
                     formMethod={formMethod}
                     id="pengurus.alamat.jns_alamat"
                     label="Jenis Alamat Pengurus"
                     placeholder="Pilih Jenis Alamat"
-                    defaultValue={defaultValue?.jns_alamat}
+                    defaultValue={findStaticParameterValue(paraJenisAlamat, defaultValue?.jns_alamat)}
                     isRequired
                 />
                 {/* negara */}
@@ -127,7 +125,7 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
                     id="pengurus.alamat.kd_negara"
                     label="Negara"
                     placeholder="Pilih Negara"
-                    defaultValue={defaultValue?.kd_negara}
+                    defaultValue={convertToSelectObject(defaultValue?.negara, undefined, "kd_negara")}
                     config={{
                         paginateItems: { value: "kd_negara" }
                     }}
@@ -147,7 +145,7 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
                     id="pengurus.alamat.kd_provinsi"
                     label="Provinsi"
                     placeholder="Pilih Provinsi"
-                    defaultValue={defaultValue?.kd_provinsi}
+                    defaultValue={convertToSelectObject(defaultValue?.provinsi, undefined, "kd_provinsi")}
                     config={{
                         paginateItems: { value: "kd_provinsi" }
                     }}
@@ -167,7 +165,7 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
                     id="pengurus.alamat.kd_kota"
                     label="Kota"
                     placeholder="Pilih Kota"
-                    defaultValue={defaultValue?.kd_kota}
+                    defaultValue={convertToSelectObject(defaultValue?.kota, undefined, "kd_kota")}
                     config={{
                         paginateItems: { value: "kd_kota" }
                     }}
@@ -187,7 +185,7 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
                     id="pengurus.alamat.kd_kecamatan"
                     label="Kecamatan"
                     placeholder="Pilih Kecamatan"
-                    defaultValue={defaultValue?.kd_kecamatan}
+                    defaultValue={convertToSelectObject(defaultValue?.kecamatan, undefined, "kd_kecamatan")}
                     config={{
                         paginateItems: { value: "kd_kecamatan" }
                     }}
@@ -206,7 +204,7 @@ const FormAlamatPengurus: React.FC<FormAlamatPengurusProps> = ({ navDirection, t
                     id="pengurus.alamat.kd_kelurahan"
                     label="Kelurahan"
                     placeholder="Pilih Kelurahan"
-                    defaultValue={defaultValue?.kd_kelurahan}
+                    defaultValue={convertToSelectObject(defaultValue?.kelurahan, undefined, "kd_kelurahan")}
                     config={{
                         paginateItems: { value: "kd_kelurahan" }
                     }}

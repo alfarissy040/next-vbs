@@ -72,7 +72,7 @@ const AktivasiNasabahPage = () => {
                 }
             }
             mutate(`/api/cis/aktivasi-nasabah/?${flatQueryParams(qParams)}`)
-            toast.success(isApprove ? "Nasabah Berhasilal Aktivasi" : "Nasabah telah ditolak")
+            toast.success(isApprove ? "Nasabah berhasil Aktivasi" : "Aktivasi nasabah ditolak")
         } catch (error) {
             const errorApi = error as TCommonApiError
             toast.error(errorApi.message)

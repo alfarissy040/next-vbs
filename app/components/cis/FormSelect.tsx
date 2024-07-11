@@ -163,7 +163,6 @@ const FormSelect: React.FC<FormSelectProps> = ({
     //         searchDebounce(input);
     //     }
     // };
-    console.log(getItemsWithDefault)
     return (
         <Controller
             control={control}

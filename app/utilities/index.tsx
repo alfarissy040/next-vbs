@@ -1,7 +1,6 @@
 "use client"
 
 import { isEmpty, isNull, isNumber, isUndefined } from "lodash";
-import moment from "moment";
 import { useRouter } from "next/navigation";
 
 /**
@@ -55,10 +54,6 @@ export const flatQueryParams = (params: Record<string, any>) => {
     return result;
 };
 
-export const dateToString = (params?: Date | string) => {
-    const result = moment(params).format("YYYY-MM-DD")
-    return params ? result : ""
-}
 
 export const numberToCurrency = (value?: number) => {
     return new Intl.NumberFormat('id-ID', {

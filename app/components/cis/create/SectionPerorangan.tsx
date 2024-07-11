@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
-import { cis_alamat, extendCisMaster } from "@prisma/client";
+import { cis_alamat, extendCisAlamat, extendCisMaster, extendCisPerorangan } from "@prisma/client";
 import { AnimatePresence, motion } from "framer-motion";
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { FieldValues, FormProvider, SubmitHandler, UseFormReturn } from "react-hook-form";
@@ -18,11 +18,11 @@ interface SectionPeroranganProps {
     defaultValue?: extendCisMaster
 }
 
-const SectionPerorangan:React.FC<SectionPeroranganProps> = ({ setFormType, onSubmit, isLoading, formMethod, defaultValue }) => {
+const SectionPerorangan: React.FC<SectionPeroranganProps> = ({ setFormType, onSubmit, isLoading, formMethod, defaultValue }) => {
     const {
         trigger, handleSubmit, getValues, unregister, formState: { errors },
     } = formMethod;
-    
+
     const [step, setStep] = useState(1);
     const [navDirection, setNavDirection] = useState<TNavDirection>("initial");
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -44,17 +44,17 @@ const SectionPerorangan:React.FC<SectionPeroranganProps> = ({ setFormType, onSub
         // setStep(nextStep);
     }, [step, trigger]);
     const handleReset = useCallback(() => {
-        if(setFormType) {
+        if (setFormType) {
             const allValues = getValues();
             Object.keys(allValues).map((fieldName) => {
                 unregister(fieldName);
             });
-            
+
             setFormType("home");
         }
     }, [getValues, setFormType, unregister]);
 
-    
+
     return (
         <>
             <FormProvider {...formMethod}>
@@ -70,9 +70,9 @@ const SectionPerorangan:React.FC<SectionPeroranganProps> = ({ setFormType, onSub
                     noValidate
                 >
                     <AnimatePresence mode="popLayout">
-                        {step === 1 && <FormMaster kdTypeNasabah={1} formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} handleReset={setFormType? handleReset:undefined} isLoading={isLoading} defaultValue={defaultValue} />}
-                        {step === 2 && <FormPerorangan formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} defaultValue={defaultValue?.cis_perorangan} />}
-                        {step === 3 && <FormAlamat kdTypeNasabah={1} formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} defaultValue={defaultValue?.alamat as cis_alamat} />}
+                        {step === 1 && <FormMaster kdTypeNasabah={1} formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} handleReset={setFormType ? handleReset : undefined} isLoading={isLoading} defaultValue={defaultValue} />}
+                        {step === 2 && <FormPerorangan formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} defaultValue={defaultValue?.cis_perorangan as extendCisPerorangan} />}
+                        {step === 3 && <FormAlamat kdTypeNasabah={1} formMethod={formMethod} typeNasabah="perorangan" navDirection={navDirection} defaultValue={defaultValue?.alamat as extendCisAlamat} />}
                     </AnimatePresence>
                     <div className="flex items-center justify-end gap-3">
                         <Button variant="solid" color={step === 1 ? "default" : "primary"} onClick={handlePrevStep} isDisabled={step === 1}>

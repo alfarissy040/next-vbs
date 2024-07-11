@@ -79,19 +79,17 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, placeholder, isR
     }, [isRequired, label, max, min, rules, type]);
 
     const getDefaultvalue = useMemo(() => {
-        const isExist = defaultValue && getValues(id);
         const values = isEmpty(defaultValue) ? getValues(id) : defaultValue;
-        if (type === "date" && isExist) {
-            const res = convertToDate(values, "YYYY-MM-DD")
-            return isNull(res) ? undefined : res;
-        }
         if (type === "date") {
-            console.log(defaultValue)
-            console.log(getValues(id))
-            console.log(values)
+            const res = convertToDate(values, "YYYY-MM-DD")
+            return isEmpty(res) ? undefined : res;
+        }
+        if (type === "number") {
+            return convertToString(values) ?? "0";
         }
         return convertToString(values);
     }, [defaultValue, getValues, id, type]);
+
     return (
         <Input
             type={type}

@@ -1,8 +1,6 @@
-import { cis_master } from "@prisma/client";
 import { isEmpty, isEqual, isNumber, isString, isUndefined, toLower } from "lodash";
 import moment from "moment";
 import { useCallback } from "react";
-import { ISelectItem } from "../types/parameter";
 
 /**
  * A custom hook that provides functions for getting the name and color of a
@@ -71,26 +69,15 @@ export const generateNoNas = (tipeNas: number, createdAtKantor: number | string,
     return `${paddedTipeNas}${paddedCreatedAtKantor}${paddedCount}`;
 };
 
-/**
- * Returns a list of select items for the jenis alamat field, or a single select item if the value is provided.
- *
- * @param {number | string | undefined} value - The value of the jenis alamat field.
- * @return {(ISelectItem[] | ISelectItem)} The list of select items or a single select item.
- */
-export const getJenisAlamat = (): Array<ISelectItem> => {
-    return [
-        { label: "Sesuai Identitas", value: "1" },
-        { label: "Sesuai Domisili", value: "2" },
-        { label: "Sesuai Alamat", value: "3" },
-    ];
-};
-
-export const isEqualCaseInsensitive = (a: any, b: any) => {
+export const isEqualCaseInsensitive = (a: any, b: any, type?: "date") => {
+    if (type === "date") {
+        return isEqual(convertToDate(a), convertToDate(b))
+    }
     return isEqual(toLower(a as string), toLower(b as string))
 }
 
 export const convertToString = (value: string | number | boolean | null | undefined) => {
-    if (isEmpty(value) || isUndefined(value)) return ""
+    if (isEmpty(value)) return undefined
     return isString(value) ? value : value?.toString()
 }
 export const convertToNumber = (value: string | number | null | undefined) => {
@@ -108,7 +95,7 @@ export const convertToBoolean = (value: string | number | null | undefined) => {
     return false
 }
 
-export const convertToDate = (value: string | Date, type: "ISO" | "YYYY-MM-DD" = "ISO") => {
+export const convertToDate = (value?: string | Date, type: "ISO" | "YYYY-MM-DD" = "ISO") => {
     if (isEmpty(value) || isUndefined(value)) return undefined
     if (type === "ISO") {
         return moment(value).toISOString()

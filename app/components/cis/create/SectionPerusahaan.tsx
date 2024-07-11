@@ -36,6 +36,7 @@ const SectionPerusahaan: React.FC<SectionPerusahaanProps> = ({ setFormType, onSu
     }, [step]);
     const handleNextStep = useCallback(() => {
         const nextStep = step < 5 ? step + 1 : step;
+
         trigger().then((res) => {
             if (res) {
                 setNavDirection("in");

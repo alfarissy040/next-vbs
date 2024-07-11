@@ -1,10 +1,10 @@
 "use client";
 
 import useFetchPaginateParameter from "@/app/hooks/useFetchPaginateParameter";
-import { ISelectItem } from "@/app/types/parameter";
-import { getJenisAlamat } from "@/app/utilities/Cis";
+import { convertToSelectObject } from "@/app/utilities/action";
 import { baseFormVariant } from "@/app/utilities/MotionVariant";
-import { cis_alamat, para_kecamatan, para_kelurahan, para_kota, para_negara, para_provinsi } from "@prisma/client";
+import { findStaticParameterValue, paraJenisAlamat } from "@/app/utilities/staticParameter";
+import { extendCisAlamat, para_kecamatan, para_kelurahan, para_kota, para_negara, para_provinsi } from "@prisma/client";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { FieldValues, UseFormReturn } from "react-hook-form";
@@ -17,7 +17,7 @@ interface FormAlamatProps {
     typeNasabah: TNasabahType;
     formMethod: UseFormReturn<FieldValues>;
     kdTypeNasabah: number;
-    defaultValue?: cis_alamat
+    defaultValue?: extendCisAlamat
 }
 
 const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defaultValue, formMethod }) => {
@@ -104,7 +104,7 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
             </h2>
             <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mt-3">
                 {/* jenis alamat */}
-                <FormSelect items={getJenisAlamat() as ISelectItem[]} formMethod={formMethod} id="alamat.jns_alamat" label="Jenis Alamat" placeholder="Pilih Jenis Alamat" isRequired />
+                <FormSelect items={paraJenisAlamat} formMethod={formMethod} id="alamat.jns_alamat" label="Jenis Alamat" placeholder="Pilih Jenis Alamat" defaultValue={findStaticParameterValue(paraJenisAlamat, defaultValue?.jns_alamat)} isRequired />
                 {/* negara */}
                 <FormSelect
                     isLoading={isLoadingNegara}
@@ -117,7 +117,7 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     id="alamat.kd_negara"
                     label="Negara"
                     placeholder="Pilih Negara"
-                    defaultValue={defaultValue?.kd_negara}
+                    defaultValue={convertToSelectObject(defaultValue?.negara, undefined, "kd_negara")}
                     config={{
                         paginateItems: { value: "kd_negara" }
                     }}
@@ -137,7 +137,7 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     id="alamat.kd_provinsi"
                     label="Provinsi"
                     placeholder="Pilih Provinsi"
-                    defaultValue={defaultValue?.kd_provinsi}
+                    defaultValue={convertToSelectObject(defaultValue?.provinsi, undefined, "kd_provinsi")}
                     config={{
                         paginateItems: { value: "kd_provinsi" }
                     }}
@@ -157,7 +157,7 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     id="alamat.kd_kota"
                     label="Kota"
                     placeholder="Pilih Kota"
-                    defaultValue={defaultValue?.kd_kota}
+                    defaultValue={convertToSelectObject(defaultValue?.kota, undefined, "kd_kota")}
                     config={{
                         paginateItems: { value: "kd_kota" }
                     }}
@@ -177,7 +177,7 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     id="alamat.kd_kecamatan"
                     label="Kecamatan"
                     placeholder="Pilih Kecamatan"
-                    defaultValue={defaultValue?.kd_kecamatan}
+                    defaultValue={convertToSelectObject(defaultValue?.kecamatan, undefined, "kd_kecamatan")}
                     config={{
                         paginateItems: { value: "kd_kecamatan" }
                     }}
@@ -196,7 +196,7 @@ const FormAlamat: React.FC<FormAlamatProps> = ({ navDirection, typeNasabah, defa
                     id="alamat.kd_kelurahan"
                     label="Kelurahan"
                     placeholder="Pilih Kelurahan"
-                    defaultValue={defaultValue?.kd_kelurahan}
+                    defaultValue={convertToSelectObject(defaultValue?.kelurahan, undefined, "kd_kelurahan")}
                     config={{
                         paginateItems: { value: "kd_kelurahan" }
                     }}

@@ -2,25 +2,27 @@
 
 import useFetchPaginateParameter from "@/app/hooks/useFetchPaginateParameter";
 import useFetchParameter from "@/app/hooks/useFetchParameter";
-import { cis_pengurus, para_agama, para_jns_ident, para_negara } from "@prisma/client";
+import { extendCisPengurus, para_agama, para_jns_ident, para_negara } from "@prisma/client";
 import { motion } from "framer-motion";
 import moment from "moment";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, UseFormReturn } from "react-hook-form";
 import FormInput from "../../FormInput";
 import FormSelect from "../FormSelect";
+import { convertToSelectObject } from "@/app/utilities/action";
+import { findStaticParameterValue, paraMasaBelakuIdentitas } from "@/app/utilities/staticParameter";
 
 interface FormPengurusProps {
     navDirection: TNavDirection;
     typeNasabah: TNasabahType;
     formMethod: UseFormReturn<FieldValues>;
     kdTypeNasabah: number;
-    defaultValue?: cis_pengurus
+    defaultValue?: extendCisPengurus
 }
 
 const FormPengurus: React.FC<FormPengurusProps> = ({ navDirection, typeNasabah, formMethod, defaultValue }) => {
     const { unregister, getValues } = formMethod;
-    const [isForeverMasaIdent, setIsForeverMasaIdent] = useState(defaultValue?.masa_ident ?? getValues("pengurus.masa_ident"));
+    const [isForeverMasaIdent, setIsForeverMasaIdent] = useState(((defaultValue?.masa_ident ?? getValues("pengurus.masa_ident") ?? 1)).toString());
 
     const { convertedData: IJnsIdent, isLoading: isLoadingJnsIdent } = useFetchParameter<para_jns_ident>({
         parameter: "jenis-identitas",
@@ -67,11 +69,11 @@ const FormPengurus: React.FC<FormPengurusProps> = ({ navDirection, typeNasabah, 
                 {/* Nama Pengurus (nm_nas) - String */}
                 <FormInput type="text" formMethod={formMethod} id="pengurus.nm_nas" label="Nama Pengurus" placeholder="Masukan Nama Pengurus" defaultValue={defaultValue?.nm_nas} isRequired />
                 {/* Jenis Identitas (jns_ident) - Int */}
-                <FormSelect items={IJnsIdent} isLoading={isLoadingJnsIdent} formMethod={formMethod} id="pengurus.kd_jns_ident" label="Jenis Identitas" placeholder="Pilih Jenis Identitas" defaultValue={defaultValue?.kd_jns_ident} isRequired />
+                <FormSelect items={IJnsIdent} isLoading={isLoadingJnsIdent} formMethod={formMethod} id="pengurus.kd_jns_ident" label="Jenis Identitas" placeholder="Pilih Jenis Identitas" defaultValue={convertToSelectObject(defaultValue?.jenis_identitas)} isRequired />
                 {/* Nomor Identitas (no_ident) - String */}
                 <FormInput type="text" inputMode="numeric" formMethod={formMethod} id="pengurus.no_ident" label="Nomor Identitas" placeholder="Masukan Nomor Identitas" isRequired defaultValue={defaultValue?.no_ident} />
                 {/* agama */}
-                <FormSelect isLoading={isLoadingAgama} items={IAgama} formMethod={formMethod} id="pengurus.kd_agama" label="Agama" placeholder="Pilih Agama" isRequired defaultValue={defaultValue?.kd_agama} />
+                <FormSelect isLoading={isLoadingAgama} items={IAgama} formMethod={formMethod} id="pengurus.kd_agama" label="Agama" placeholder="Pilih Agama" isRequired defaultValue={convertToSelectObject(defaultValue?.agama)} />
                 {/* Kewarganegaraan (kewarganegaraan) - String */}
                 <FormSelect
                     isLoading={isLoadingNegara}
@@ -84,7 +86,7 @@ const FormPengurus: React.FC<FormPengurusProps> = ({ navDirection, typeNasabah, 
                     id="pengurus.kd_kewarganegaraan"
                     label="Kewarganegaraan"
                     placeholder="Pilih Kewarganegaraan"
-                    defaultValue={defaultValue?.kd_kewarganegaraan}
+                    defaultValue={convertToSelectObject(defaultValue?.negara, undefined, "kd_negara")}
                     config={{
                         paginateItems: { value: "kd_negara" }
                     }}
@@ -93,16 +95,13 @@ const FormPengurus: React.FC<FormPengurusProps> = ({ navDirection, typeNasabah, 
                 />
                 {/* Masa Berlaku Identitas (masa_ident) - String */}
                 <FormSelect
-                    items={[
-                        { label: "Seumur Hidup", value: "1" },
-                        { label: "Berlaku Sampai", value: "0" },
-                    ]}
+                    items={paraMasaBelakuIdentitas}
                     formMethod={formMethod}
                     id="pengurus.masa_ident"
                     label="Masa Belaku Identitas"
                     placeholder="Pilih Masa Belaku Identitas"
                     onChange={setIsForeverMasaIdent}
-                    defaultValue={defaultValue?.masa_ident}
+                    defaultValue={findStaticParameterValue(paraMasaBelakuIdentitas, defaultValue?.masa_ident.toString())}
                     isRequired
                 />
                 {/* Tanggal Identitas (tgl_ident) - DateTime */}
@@ -152,7 +151,7 @@ const FormPengurus: React.FC<FormPengurusProps> = ({ navDirection, typeNasabah, 
                 <FormInput type="text" formMethod={formMethod} id="pengurus.jabatan" label="Jabatan" placeholder="Masukan Jabatan" defaultValue={defaultValue?.jabatan} isRequired />
                 {/* Kepemilikan (kepemilikan) - Int */}
                 <FormInput
-                    type="text"
+                    type="number"
                     formMethod={formMethod}
                     id="pengurus.kepemilikan"
                     label="Kepemilikan"
