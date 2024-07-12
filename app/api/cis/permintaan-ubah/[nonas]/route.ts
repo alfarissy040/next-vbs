@@ -1,7 +1,7 @@
-import { convertToDate } from "@/app/utilities/Cis";
+import { convertToDate, isDataEmpty, sanitizeCisAlamat, sanitizeCisAlamatPengurus, sanitizeCisMaster, sanitizeCisPengurus, sanitizeCisPerorangan, sanitizeCisPerusahaan } from "@/app/utilities/Cis";
 import { getValidationMessage, prisma } from "@/app/utilities/ServerUtilities";
 import { Prisma } from "@prisma/client";
-import { startsWith } from "lodash";
+import { isEmpty, isNull, isNumber, isUndefined, omitBy, startsWith, toPairs } from "lodash";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -98,11 +98,25 @@ export async function POST(request: NextRequest, { params }: { params: IParams }
         if (isApprove) {
             // Membuat queue tanpa membuat objek baru di setiap iterasi
             const queue: Queue = dataUpdate.reduce<Queue>((acc, curr) => {
-                const isDate = startsWith(curr.nm_field, "tgl_");
                 if (!acc[curr.db_field]) {
                     acc[curr.db_field] = {};
                 }
-                acc[curr.db_field][curr.nm_field] = isDate ? convertToDate(curr.new_record) : curr.new_record;
+                const convertedData: Record<string, any> = {
+                    "cis_master": sanitizeCisMaster({ [curr.nm_field]: curr.new_record }),
+                    "cis_alamat": sanitizeCisAlamat({ [curr.nm_field]: curr.new_record }),
+                    "cis_perorangan": sanitizeCisPerorangan({ [curr.nm_field]: curr.new_record }),
+                    "cis_perusahaan": sanitizeCisPerusahaan({ [curr.nm_field]: curr.new_record }),
+                    "cis_pengurus": sanitizeCisPengurus({ [curr.nm_field]: curr.new_record })
+                }
+                const filteredData: Record<string, any> = toPairs(convertedData[curr.db_field]).reduce((acc, [key, value]) => {
+                    if (isDataEmpty(curr.new_record)) return { ...acc, [key]: "" }
+                    if (!isDataEmpty(value)) return { ...acc, [key]: value }
+                    return acc
+                }, {})
+
+                const isDate = startsWith(curr.nm_field, "tgl_");
+                acc[curr.db_field][curr.nm_field] = isDate ? convertToDate(curr.new_record) : filteredData[curr.nm_field];
+
                 return acc;
             }, {});
 

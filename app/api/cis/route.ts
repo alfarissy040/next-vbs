@@ -1,3 +1,4 @@
+import { prisma } from "@/app/utilities/ServerUtilities";
 import { Prisma, PrismaClient, cis_alamat, cis_master, cis_pengurus, cis_perorangan, cis_perusahaan } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -44,7 +45,6 @@ const getOrderBy = (orderBy: string, direction: "asc" | "desc"): any => {
     }
 };
 
-const prisma = new PrismaClient();
 export async function GET(request: Request) {
     const { page, orderBy, direction, search } = getQueryParams(new URL(request.url));
     const itemPerPage = 25;

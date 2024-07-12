@@ -22,8 +22,6 @@ const CreateNasabahPage = () => {
     const formMethod = useForm({
         shouldUnregister: false,
     });
-    const { getValues } = formMethod
-    console.log(formMethod.formState.errors)
 
     const getTypeNasabah = useMemo(() => {
         const result: Record<TAddFormState, number> = {

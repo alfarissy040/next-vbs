@@ -1,4 +1,4 @@
-import { isEmpty, isEqual, isNumber, isString, isUndefined, toLower } from "lodash";
+import { isEmpty, isEqual, isNull, isNumber, isString, isUndefined, toLower } from "lodash";
 import moment from "moment";
 import { useCallback } from "react";
 
@@ -76,8 +76,11 @@ export const isEqualCaseInsensitive = (a: any, b: any, type?: "date") => {
     return isEqual(toLower(a as string), toLower(b as string))
 }
 
+export const isDataEmpty = (value: any) => (!isNumber(value) && isEmpty(value)) || (isNumber(value) && isNull(value))
+
 export const convertToString = (value: string | number | boolean | null | undefined) => {
-    if (isEmpty(value)) return undefined
+    if (isDataEmpty(value)) return undefined
+
     return isString(value) ? value : value?.toString()
 }
 export const convertToNumber = (value: string | number | null | undefined) => {
@@ -95,8 +98,8 @@ export const convertToBoolean = (value: string | number | null | undefined) => {
     return false
 }
 
-export const convertToDate = (value?: string | Date, type: "ISO" | "YYYY-MM-DD" = "ISO") => {
-    if (isEmpty(value) || isUndefined(value)) return undefined
+export const convertToDate = (value?: string | Date | null, type: "ISO" | "YYYY-MM-DD" = "ISO") => {
+    if (isEmpty(value) || isUndefined(value) || isNull(value)) return undefined
     if (type === "ISO") {
         return moment(value).toISOString()
     }

@@ -148,8 +148,8 @@ const AktivasiNasabahPage = () => {
                                         <CardUpdate
                                             key={item.id_update}
                                             label={item?.nm_field}
-                                            currentValue={item?.current_record}
-                                            newValue={item?.new_record}
+                                            currentValue={item?.current_record ?? "null"}
+                                            newValue={item?.new_record ?? "null"}
                                             created_at={item?.created_at}
                                         />
                                     ))}

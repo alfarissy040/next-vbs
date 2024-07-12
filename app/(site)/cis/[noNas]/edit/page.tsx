@@ -6,6 +6,7 @@ import SectionPerusahaan from "@/app/components/cis/create/SectionPerusahaan";
 import MainLoading from "@/app/components/MainLoading";
 import { TCommonApiError } from "@/app/types";
 import { usePrefetchNavigate } from "@/app/utilities";
+import { convertToNumber, sanitizeCisAlamat, sanitizeCisAlamatPengurus, sanitizeCisMaster, sanitizeCisPengurus, sanitizeCisPerorangan, sanitizeCisPerusahaan } from "@/app/utilities/Cis";
 import { fetcherNoCache } from "@/app/utilities/Fetcher";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import Link from "next/link";
@@ -27,10 +28,32 @@ const EditNasabahPage = ({ params }: { params: IParamSlug }) => {
         shouldUnregister: false,
     });
 
+    const { data, isLoading: isLoadingData, error } = useSWR(`/api/cis/${noNas}`, fetcherNoCache);
+
+    const formType = useMemo(() => {
+        const tipe: Record<string, string> = {
+            "1": "perorangan",
+            "2": "perusahaan",
+            "3": "pemerintah",
+            "4": "Lembaga non-profit",
+        }
+        return tipe[data?.tipe_nas] ?? "perorangan";
+    }, [data])
     const onSubmit: SubmitHandler<FieldValues> = async (values) => {
         setIsLoading(true)
         const loadingToast = toast.loading("Sedang memproses...")
         try {
+            const dataPost = {
+                ...sanitizeCisMaster(values),
+                alamat: sanitizeCisAlamat(values["alamat"]),
+                ...(convertToNumber(data?.tipe_nas) === 1 ? sanitizeCisPerorangan(values) : {}),
+                ...(convertToNumber(data?.tipe_nas) === 2 || convertToNumber(data?.tipe_nas) === 4 ? sanitizeCisPerusahaan(values) : {}),
+                pengurus: {
+                    ...(convertToNumber(data?.tipe_nas) !== 1 ? sanitizeCisPengurus(values["pengurus"]) : {}),
+                    alamat: (convertToNumber(data?.tipe_nas) !== 1 ? sanitizeCisAlamatPengurus(values["pengurus"]["alamat"]) : {}),
+                },
+                tipe_nas: convertToNumber(data?.tipe_nas)
+            }
             const res = await fetch(`/api/cis/${noNas}/edit`, {
                 method: "POST",
                 headers: {
@@ -56,17 +79,6 @@ const EditNasabahPage = ({ params }: { params: IParamSlug }) => {
             setIsLoading(false)
         }
     };
-    const { data, isLoading: isLoadingData, error } = useSWR(`/api/cis/${noNas}`, fetcherNoCache);
-
-    const formType = useMemo(() => {
-        const tipe: Record<string, string> = {
-            "1": "perorangan",
-            "2": "perusahaan",
-            "3": "pemerintah",
-            "4": "Lembaga non-profit",
-        }
-        return tipe[data?.tipe_nas] ?? "perorangan";
-    }, [data])
     return (
         <section className="flex flex-col gap-3 flex-1 h-auto">
             <div className="flex flex-col gap-1">

@@ -87,10 +87,19 @@ export async function POST(request: NextRequest, { params }: { params: IParams }
                     convertToCisUpdate(nasabah.cis_pengurus, diffPengurus, noNas, "cis_pengurus", token.kantor.kd_kantor, token.username),
                     convertToCisUpdate(nasabah.cis_pengurus.cis_alamat, diffAlamatPengurus, nasabah.cis_pengurus.no_pengurus, "cis_alamat", token.kantor.kd_kantor, token.username)
                 );
-                console.log(result)
             }
 
-            return result;
+            const res = result.reduce((acc, item) => {
+                if (
+                    isEqualCaseInsensitive(item.current_record, item.new_record) ||
+                    (has(acc, item.nm_field) && has(acc, item.db_field))
+                ) {
+                    return acc;
+                }
+                return [...acc, item];
+            }, [] as cis_update[]);
+
+            return res;
         };
 
         if (isEmpty(entries())) return NextResponse.json({ message: "Tidak ada data yang diperbarui" }, { status: 404 })

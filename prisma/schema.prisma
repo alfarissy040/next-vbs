@@ -274,12 +274,12 @@ model cis_pengurus {
 }
 
 model cis_update {
-    id_update      String @id @default(auto()) @map("_id") @db.ObjectId
+    id_update      String  @id @default(auto()) @map("_id") @db.ObjectId
     no_nas         String
     db_field       String
     nm_field       String
-    current_record String
-    new_record     String
+    current_record String?
+    new_record     String?
 
     sts_update       String   @default("00")
     kd_kantor_update String

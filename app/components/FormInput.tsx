@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import { FieldValues, RegisterOptions, UseFormReturn } from "react-hook-form";
 import { convertToDate, convertToNumber, convertToString } from "../utilities/Cis";
 import { CINputA } from "./ClassnamesData";
-import { isEmpty, isNull } from "lodash";
+import { isEmpty, isNull, isUndefined } from "lodash";
 
 interface FormInputProps {
     label: string;
@@ -79,7 +79,7 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, placeholder, isR
     }, [isRequired, label, max, min, rules, type]);
 
     const getDefaultvalue = useMemo(() => {
-        const values = isEmpty(defaultValue) ? getValues(id) : defaultValue;
+        const values = isUndefined(defaultValue) ? getValues(id) : defaultValue;
         if (type === "date") {
             const res = convertToDate(values, "YYYY-MM-DD")
             return isEmpty(res) ? undefined : res;

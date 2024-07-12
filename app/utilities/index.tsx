@@ -66,7 +66,6 @@ export const numberToCurrency = (value?: number) => {
 
 export const isNotEmpty = (value: any) => {
     if (isNumber(value)) {
-        console.log("number")
         return !isEmpty(value)
     }
     return !isEmpty(value) && !isUndefined(value) && !isNull(value)
