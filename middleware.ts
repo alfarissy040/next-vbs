@@ -1,49 +1,27 @@
-import moment from "moment";
-import { getToken } from "next-auth/jwt";
-import { signOut } from "next-auth/react";
 import { NextRequest, NextResponse } from "next/server";
 
-const excludeRoute = ["/cs"];
-const route = ["/", "/login", "/cis", "/parameter", "/account", "/cs"];
-const levelRoute: Record<number, string[]> = {
-    1: ["/parameter", "/cis/aktivasi-nasabah", "cis/permintaan-ubah"],
-    99: ["/", "/login", "/cis", "/account", "/cs", "/api"]
-}
 export default async function middleware(req: NextRequest) {
     const {
         nextUrl: { origin, pathname },
     } = req;
-    const isExcludedRoute = excludeRoute.includes(pathname);
-    const isInRoute = route.includes(pathname);
-    const isLoginPage = pathname === "/login";
-    const token = await getToken({
-        req: req,
-        secret: process.env.NEXTAUTH_SECRET,
-    });
-    const isExpired = (token?.exp as number) * 1000
-    const level: number = token?.level.level ?? 99
-    const isAuthorized = Object.entries(levelRoute).some(([key, paths]) => {
-        const levelKey = parseInt(key);
-        return level <= levelKey && paths.includes(pathname);
-    });
+    const apiUrl = new URL(`/api/middleware`, origin)
     const redirectTo = (path: string) => NextResponse.redirect(new URL(path, origin));
+    const fetchRedirect = await fetch(apiUrl.href, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        cache: "no-cache",
+        body: JSON.stringify({pathname:pathname})
+    })
+    const isRedirect = await fetchRedirect.json()
 
-    if (!isInRoute) {
-        return NextResponse.next();
+    if(!isRedirect.status) {
+        return NextResponse.next()
     }
 
-    if (isLoginPage && token) {
-        return redirectTo("/");
-    }
+    return redirectTo(isRedirect.dest)
 
-    if (!token && !isLoginPage && !isExcludedRoute) {
-        signOut();
-        return redirectTo("/login");
-    }
-
-    if (!isAuthorized) {
-        return redirectTo("/error/403");
-    }
 }
 
 export const config = {
