@@ -1,5 +1,6 @@
 import Navbar from "../components/sidebar/Navbar";
 import Sidebar from "../components/sidebar/Sidebar";
+import AuthMiddleware from "../context/AuthMiddleware";
 
 
 export default function MainLayout({
@@ -9,6 +10,7 @@ export default function MainLayout({
 }) {
 
     return (
+        <AuthMiddleware>
         <div className="w-full flex flex-col lg:flex-row h-[100dvh] ">
             {/* sidebar */}
             <Sidebar />
@@ -18,5 +20,6 @@ export default function MainLayout({
                 {children}
             </main>
         </div>
+        </AuthMiddleware>
     );
 }

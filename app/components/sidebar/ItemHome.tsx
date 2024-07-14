@@ -30,6 +30,11 @@ const ItemHome: React.FC<ItemHomeProps> = ({ setNavState }) => {
                 <span>Customer Service</span>
                 <FaChevronRight className="w-3 h-3 text-slate-400" />
             </li>
+            <li>
+                <Link href={"/users"} className="sidebar__item">
+                    Users Pemakai
+                </Link>
+            </li>
             <li className="sidebar__item justify-between" onClick={() => setNavState("parameter")}>
                 <span>Parameter</span>
                 <FaChevronRight className="w-3 h-3 text-slate-400" />

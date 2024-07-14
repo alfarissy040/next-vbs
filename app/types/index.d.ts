@@ -6,6 +6,8 @@ import {
     cis_perorangan,
     cis_perusahaan,
     cis_update,
+    kantor,
+    karyawan,
     para_agama,
     para_bidang_usaha,
     para_bntk_hkm,
@@ -93,5 +95,12 @@ declare module "@prisma/client" {
         jenis_identitas: para_jns_ident;
         negara: para_negara;
         agama: para_agama;
+    }
+    interface extendKaryawan extends karyawan {
+        kantor: kantor;
+    }
+    interface extendAksPemakai extends aks_pemakai {
+        karyawan: extendKaryawan;
+        para_level_user:para_level_user
     }
 }

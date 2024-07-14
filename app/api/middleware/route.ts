@@ -1,10 +1,12 @@
+import { authOption } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 import { getToken } from "next-auth/jwt";
+import { getSession } from "next-auth/react";
 import { NextRequest, NextResponse } from "next/server";
 
 const excludeRoute = ["/cs"];
-const route = ["/", "/login", "/cis", "/parameter", "/account", "/cs"];
 const levelRoute: Record<number, string[]> = {
-    1: ["/parameter", "/cis/aktivasi-nasabah", "cis/permintaan-ubah"],
+    1: ["/parameter", "/cis/aktivasi-nasabah", "cis/permintaan-ubah", "/users"],
     99: ["/", "/login", "/cis", "/account", "/cs", "/api"]
 }
 
