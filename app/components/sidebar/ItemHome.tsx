@@ -1,8 +1,9 @@
 "use client"
 
 import { navProps } from "@/app/types/sidebar";
+import { usePrefetchNavigate } from "@/app/utilities";
 import { motion } from "framer-motion";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { FaChevronRight } from "react-icons/fa";
@@ -13,6 +14,16 @@ interface ItemHomeProps {
 
 const ItemHome: React.FC<ItemHomeProps> = ({ setNavState }) => {
     const { theme } = useTheme()
+    const navigateTo = usePrefetchNavigate()
+    const session = useSession()
+    const level = session?.data?.user.level.level
+
+    const handleSignOut = () => {
+        signOut().then((item) => {
+            console.log(item)
+            navigateTo("/login")
+        })
+    }
     return (
         <motion.ul
             initial={{ translateX: '-100%' }}
@@ -30,15 +41,15 @@ const ItemHome: React.FC<ItemHomeProps> = ({ setNavState }) => {
                 <span>Customer Service</span>
                 <FaChevronRight className="w-3 h-3 text-slate-400" />
             </li>
-            <li>
+            {level <= 2 && <li>
                 <Link href={"/users"} className="sidebar__item">
                     Users Pemakai
                 </Link>
-            </li>
-            <li className="sidebar__item justify-between" onClick={() => setNavState("parameter")}>
+            </li>}
+            {level === 1 && <li className="sidebar__item justify-between" onClick={() => setNavState("parameter")}>
                 <span>Parameter</span>
                 <FaChevronRight className="w-3 h-3 text-slate-400" />
-            </li>
+            </li>}
             <div className="w-full h-0.5 bg-slate-200 dark:bg-slate-700 my-1" />
             <h3 className="text-medium text-slate-400 px-2">Settings</h3>
             <li>
@@ -52,7 +63,7 @@ const ItemHome: React.FC<ItemHomeProps> = ({ setNavState }) => {
                 </p>
                 <FaChevronRight className="w-3 h-3 text-slate-400" />
             </li>
-            <button className="sidebar__item w-full" onClick={() => signOut()}>
+            <button className="sidebar__item w-full" onClick={handleSignOut}>
                 Logout
             </button>
         </motion.ul>

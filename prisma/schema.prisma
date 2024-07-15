@@ -83,8 +83,9 @@ model karyawan {
     name          String
     jenis_kelamin String
 
-    aks_pemakai aks_pemakai?
-    kantor      kantor       @relation(fields: [kd_kantor], references: [kd_kantor], onDelete: NoAction, onUpdate: Cascade)
+    aks_pemakai     aks_pemakai?
+    jenis_identitas para_jns_ident @relation(fields: [kd_jns_ident], references: [kode], onDelete: NoAction, onUpdate: NoAction)
+    kantor          kantor         @relation(fields: [kd_kantor], references: [kd_kantor], onDelete: NoAction, onUpdate: Cascade)
 }
 
 model cis_master {
@@ -388,6 +389,7 @@ model para_jns_ident {
     cis_master   cis_master[]
     cis_pengurus cis_pengurus[]
     cs_form      cs_form[]
+    karyawan     karyawan[]
 }
 
 model para_bntk_hkm {

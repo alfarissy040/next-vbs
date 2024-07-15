@@ -1,7 +1,7 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { prisma } from "@/app/utilities/ServerUtilities";
+import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 
-const prisma = new PrismaClient();
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const kode = searchParams.get("kode");

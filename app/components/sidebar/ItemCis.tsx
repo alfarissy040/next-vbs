@@ -5,6 +5,7 @@ import { Dispatch, SetStateAction } from "react"
 import { motion } from "framer-motion"
 import { FaChevronLeft } from "react-icons/fa"
 import Link from "next/link"
+import { useSession } from "next-auth/react"
 
 interface ItemCisProps {
     setNavState: (state: navProps) => void
@@ -12,6 +13,8 @@ interface ItemCisProps {
 }
 
 const ItemCis: React.FC<ItemCisProps> = ({ setNavState, handleToggle = () => { } }) => {
+    const session = useSession()
+    const level = session?.data?.user.level.level
     return (
         <motion.ul
             initial={{ translateX: '100%' }}
@@ -32,16 +35,16 @@ const ItemCis: React.FC<ItemCisProps> = ({ setNavState, handleToggle = () => { }
                     <span>Informasi Customer</span>
                 </Link>
             </li>
-            <li>
+            {level <= 2 && <li>
                 <Link href={"/cis/aktivasi-nasabah"} className="sidebar__item" onClick={() => handleToggle(false)}>
                     <span>Aktivasi Customer</span>
                 </Link>
-            </li>
-            <li>
+            </li>}
+            {level <= 2 && <li>
                 <Link href={"/cis/permintaan-ubah"} className="sidebar__item" onClick={() => handleToggle(false)}>
                     <span>Persetujuan Perubahan Informasi</span>
                 </Link>
-            </li>
+            </li>}
         </motion.ul >
     )
 }

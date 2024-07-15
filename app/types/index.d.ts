@@ -19,6 +19,7 @@ import {
     para_kecamatan,
     para_kelurahan,
     para_kota,
+    para_level_user,
     para_negara,
     para_penghasilan,
     para_profesi,
@@ -41,7 +42,7 @@ declare module "@prisma/client" {
     interface extendCisMaster extends cis_master {
         aks_pemakai_create: aks_pemakai;
         aks_pemakai_update?: aks_pemakai;
-        alamat:? extendCisAlamat;
+        alamat: ?extendCisAlamat;
         cis_perusahaan?: extendCisPerusahaan;
         cis_perorangan?: extendCisPerorangan;
         cis_pengurus?: extendCisPengurus;
@@ -98,9 +99,10 @@ declare module "@prisma/client" {
     }
     interface extendKaryawan extends karyawan {
         kantor: kantor;
+        jenis_identitas: para_jns_ident;
     }
     interface extendAksPemakai extends aks_pemakai {
         karyawan: extendKaryawan;
-        para_level_user:para_level_user
+        para_level_user: para_level_user;
     }
 }

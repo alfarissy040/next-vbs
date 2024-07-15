@@ -34,15 +34,15 @@ const getOrderBy = (orderBy: string, direction: "asc" | "desc"): any => {
     const sortDir = direction;
     switch (orderBy) {
         case "jenis-user":
-            return { para_level_user: { keterangan: sortDir }}
+            return { para_level_user: { keterangan: sortDir } }
         case "username":
-            return { karyawan: { name: sortDir }};
+            return { karyawan: { name: sortDir } };
         default:
             return { username: sortDir };
     }
 };
 
-export async function GET(request:NextRequest) {
+export async function GET(request: NextRequest) {
     const { page, orderBy, direction } = getQueryParams(new URL(request.url));
     const itemPerPage = 25;
     const token = await getToken({
@@ -50,7 +50,7 @@ export async function GET(request:NextRequest) {
         secret: process.env.NEXTAUTH_SECRET,
     });
 
-    if(isEmpty(token)) return NextResponse.json({message: "Unauthorized"}, {status: 401})
+    if (isEmpty(token)) return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
 
     const query: TQuery = {
         skip: (page - 1) * itemPerPage,
@@ -61,9 +61,9 @@ export async function GET(request:NextRequest) {
         orderBy: getOrderBy(orderBy, direction),
     };
 
-    if(token.level.level !== 1) {
+    if (token.level.level !== 1) {
         query.where = {
-            karyawan : {
+            karyawan: {
                 kd_kantor: token?.kantor.kd_kantor
             }
         }
@@ -73,13 +73,14 @@ export async function GET(request:NextRequest) {
         const users = await prisma.aks_pemakai.findMany({
             ...query,
             select: {
-                id_pemakai:true,
+                id_pemakai: true,
                 username: true,
                 para_level_user: true,
                 karyawan: {
                     select: {
-                        name:true,
-                        kantor:true,
+                        id_karyawan: true,
+                        name: true,
+                        kantor: true,
                     }
                 }
             },

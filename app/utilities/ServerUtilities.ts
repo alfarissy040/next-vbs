@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import nodemailer from "nodemailer"
 
 export const prisma = new PrismaClient();
 
@@ -26,3 +27,11 @@ export const getValidationMessage = (error: Record<string, any>) => {
         return acc;
     }, {});
 };
+
+export const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.NODEMAILER_EMAIL,
+        pass: process.env.NODEMAILER_PW,
+    },
+});

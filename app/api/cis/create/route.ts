@@ -85,7 +85,6 @@ export async function POST(request: NextRequest) {
             }
             return NextResponse.json(validationErrorMessage, { status: 400 });
         }
-        console.log(validated.data)
 
         await prisma.cis_master.create({
             data: {

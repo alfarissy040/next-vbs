@@ -18,7 +18,7 @@ export async function generateMetadata(
 const LoginLayout: React.FC<layoutProps> = async ({ children }) => {
     const session = await getServerSession(authOption)
 
-    if(session) {
+    if (session) {
         return redirect("/")
     }
     return (

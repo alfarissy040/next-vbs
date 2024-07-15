@@ -44,7 +44,7 @@ const Sidebar = () => {
                 <div className="flex-1">
                     <User
                         name={dataSession?.user?.name}
-                        description="Administrator"
+                        description={dataSession?.user?.level.keterangan}
                         classNames={{
                             description: "text-slate-500",
                         }}
