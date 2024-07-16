@@ -53,6 +53,7 @@ export const authOption: NextAuthOptions = {
 
                     return Promise.resolve({
                         id: user.id_pemakai,
+                        id_karyawan: user.karyawan.id_karyawan,
                         email: user.email,
                         username: user.username,
                         name: user.karyawan.name,
@@ -80,6 +81,7 @@ export const authOption: NextAuthOptions = {
                 return {
                     ...token,
                     id: user.id,
+                    id_karyawan: user.id_karyawan,
                     username: user.username,
                     email: user.email,
                     name: user.name,
@@ -96,6 +98,7 @@ export const authOption: NextAuthOptions = {
                 user: {
                     ...session.user,
                     id: token.id,
+                    id_karyawan: token.id_karyawan,
                     username: token.username,
                     email: token.email,
                     level: token.level,

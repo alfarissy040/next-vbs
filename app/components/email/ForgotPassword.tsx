@@ -1,6 +1,6 @@
 import { Html, Head, Body, Tailwind, Link, Button } from "@react-email/components"
 
-const ForgotPassword = (name: string, url: string) => {
+const ForgotPassword = (name: string, url: string, expires: string) => {
     return (
         <Html>
             <Head />
@@ -22,6 +22,9 @@ const ForgotPassword = (name: string, url: string) => {
                             </div>
                             <p className="text-gray-700 mb-4">
                                 or open this link <Link href={url} target="_blank">{url}</Link>
+                            </p>
+                            <p className="text-gray-700 mb-4">
+                                Please note that this link will expire in GMT+7 {expires}.
                             </p>
                             <p className="text-gray-700 mb-4">
                                 If you did not request a password reset, please ignore this email or contact our support team if you have questions.

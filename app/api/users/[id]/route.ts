@@ -90,12 +90,6 @@ export async function PUT(request: NextRequest, { params }: { params: IParams })
                 id_karyawan: true
             }
         })
-        console.log({
-            a: token?.id,
-            b: token,
-            bb: user.id_karyawan !== idUser,
-            c: level > 2
-        })
 
         if (level > 2 && (!token || user.id_karyawan !== idUser)) {
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -110,7 +104,7 @@ export async function PUT(request: NextRequest, { params }: { params: IParams })
             id_lvl: z.string(),
             email: z.string().email(),
             username: z.string(),
-        })
+        }).required()
         const validated = schema.safeParse(body);
         // validasi schema
         if (!validated.success) {

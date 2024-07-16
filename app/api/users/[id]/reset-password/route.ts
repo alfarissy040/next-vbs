@@ -1,7 +1,10 @@
 import ForgotPassword from "@/app/components/email/ForgotPassword";
+import { baseUrl } from "@/app/utilities/action";
 import { prisma, transporter } from "@/app/utilities/ServerUtilities";
 import { Prisma } from "@prisma/client";
 import { render } from '@react-email/components';
+import { randomBytes } from "crypto";
+import moment from "moment";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -17,13 +20,21 @@ export async function POST(request: NextRequest, { params }: { params: IParams }
     try {
         const user = await prisma.aks_pemakai.findFirstOrThrow({
             where: { karyawan: { id_karyawan: idUser } },
-            select: { id_karyawan: true, email: true, karyawan: { select: { name: true } } }
+            select: { id_karyawan: true, email: true, id_pemakai: true, karyawan: { select: { name: true } } }
         })
         if (level > 2 && (!token || user.id_karyawan !== idUser)) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-        const emailBody = render(ForgotPassword(user.karyawan.name, "http://localhost:3000"));
+        const resetToken = await randomBytes(32).toString('hex')
+        const expiredToken = moment().add(1, "hour").toISOString()
 
-        await transporter.sendMail({
+        await prisma.aks_pemakai.update({
+            where: { id_pemakai: user.id_pemakai },
+            data: { reset_token: resetToken, reset_expired: expiredToken }
+        })
+
+        const emailBody = render(ForgotPassword(user.karyawan.name, `${baseUrl}/reset-password/${resetToken}`, moment(expiredToken).format("DD MMMM YYYY HH:mm:ss")));
+
+        transporter.sendMail({
             from: process.env.NODEMAILER_EMAIL,
             to: user.email,
             subject: "Reset Password",

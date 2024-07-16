@@ -8,6 +8,7 @@ declare module "next-auth" {
     interface Session extends DefaultSession {
         user: {
             id: string;
+            id_karyawan: string;
             username: string;
             email: string;
             level: para_level_user;
@@ -18,6 +19,7 @@ declare module "next-auth" {
     export interface AdapterUser extends User {
         /** A unique identifier for the user. */
         id: string;
+        id_karyawan: string;
         username: string;
         email: string;
         name: string;
@@ -30,6 +32,7 @@ declare module "next-auth/jwt" {
     /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
     interface JWT {
         id: string;
+        id_karyawan: string;
         username: string;
         email: string;
         name: string;

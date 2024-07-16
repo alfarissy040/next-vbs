@@ -63,3 +63,5 @@ export const convertToCisUpdate = (currentData: Record<string, any> | null | und
         ]
     }, []);
 }
+
+export const baseUrl = process.env.NEXTAUTH_URL

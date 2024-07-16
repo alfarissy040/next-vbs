@@ -11,12 +11,14 @@ datasource db {
 }
 
 model aks_pemakai {
-    id_pemakai  String @id @default(auto()) @map("_id") @db.ObjectId
-    id_lvl      String @db.ObjectId
-    id_karyawan String @unique @db.ObjectId
-    email       String @unique
-    username    String @unique
-    password    String
+    id_pemakai    String    @id @default(auto()) @map("_id") @db.ObjectId
+    id_lvl        String    @db.ObjectId
+    id_karyawan   String    @unique @db.ObjectId
+    email         String    @unique
+    username      String    @unique
+    password      String
+    reset_token   String?
+    reset_expired DateTime?
 
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt

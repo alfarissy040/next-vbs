@@ -1,5 +1,6 @@
 import { getCsrfToken } from "next-auth/react";
 import { convertToSelectItems } from "./action";
+import { TCommonApiError } from "../types";
 
 export const fetchCisMaster = async (url: string) => {
     return await fetch(url, {
@@ -55,16 +56,29 @@ export const fetcher = async (url: string) => {
 };
 
 export const fetcherNoCache = async (url: string) => {
-    return await fetch(url, {
-        headers: {
-            "Content-Type": "application/json",
-        },
-        cache: "no-cache",
-    })
-        .then((res) => res.json())
-        .catch(() => {
-            throw new Error("Something went wrong")
-        });
+    try {
+        const res = await fetch(url, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cache: "no-cache",
+        })
+        const result = await res.json()
+
+        if (!res.ok) {
+            throw ({
+                status: res.status,
+                message: result.message
+            })
+        }
+        return result
+    } catch (err) {
+        const error = err as TCommonApiError
+        throw ({
+            status: error.status,
+            message: error.message
+        })
+    }
 };
 
 export const parameterFetcher = async (url: string) => {
