@@ -1,7 +1,9 @@
+import PermintaanUbahData from "@/app/components/email/PermintaanUbahData";
 import { isEqualCaseInsensitive } from "@/app/utilities/Cis";
-import { prisma } from "@/app/utilities/ServerUtilities";
+import { prisma, transporter } from "@/app/utilities/ServerUtilities";
 import { convertToCisUpdate } from "@/app/utilities/action";
 import { cis_update, extendCisMaster, Prisma } from "@prisma/client";
+import { render } from "@react-email/components";
 import { has, isEmpty, startsWith, toPairs } from "lodash";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
@@ -105,6 +107,38 @@ export async function POST(request: NextRequest, { params }: { params: IParams }
         if (isEmpty(entries())) return NextResponse.json({ message: "Tidak ada data yang diperbarui" }, { status: 404 })
         await prisma.cis_update.createMany({
             data: entries()
+        })
+
+        const accOfficer = await prisma.aks_pemakai.findMany({
+            where: {
+                karyawan: {
+                    kd_kantor: token.kantor.kd_kantor,
+                },
+                para_level_user: {
+                    level: {
+                        lte: 2,
+                    }
+                }
+            },
+            include: {
+                karyawan: true,
+            }
+        })
+
+        accOfficer.map((data) => {
+            const emailBody = render(PermintaanUbahData(data.karyawan.name, token.name, nasabah.no_nas, nasabah.nm_nas));
+            // const emailBody = render(PermintaanUbahData(data.karyawan.name, token.name, nasabah.no_nas, nasabah.nm_nas));
+            transporter.sendMail({
+                from: process.env.NODEMAILER_EMAIL,
+                to: data.email,
+                subject: "Permintaan Perubahan Data - VBS",
+                html: emailBody
+            }, (err, info) => {
+                throw ({
+                    name: err?.name,
+                    message: err?.message
+                })
+            })
         })
 
         return NextResponse.json({ message: "Data berhasil diperbarui" })

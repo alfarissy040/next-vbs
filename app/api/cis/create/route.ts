@@ -1,7 +1,9 @@
+import PermintaanAktivasi from "@/app/components/email/PermintaanAktivasi";
 import { schemaTypeInstansi, schemaTypePerorangan, schemaTypePerusahaanNonProfit } from "@/app/schema/schemaCis";
 import { generateNoNas } from "@/app/utilities/Cis";
-import { getValidationMessage, prisma } from "@/app/utilities/ServerUtilities";
+import { getValidationMessage, prisma, transporter } from "@/app/utilities/ServerUtilities";
 import { Prisma } from "@prisma/client";
+import { render } from "@react-email/components";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodObject } from "zod";
@@ -220,6 +222,37 @@ export async function POST(request: NextRequest) {
                 }
             })
         }
+
+        const accOfficer = await prisma.aks_pemakai.findMany({
+            where: {
+                karyawan: {
+                    kd_kantor: token.kantor.kd_kantor,
+                },
+                para_level_user: {
+                    level: {
+                        lte: 2,
+                    }
+                }
+            },
+            include: {
+                karyawan: true,
+            }
+        })
+
+        accOfficer.map((data) => {
+            const emailBody = render(PermintaanAktivasi(data.karyawan.name, validated.data.no_nas, validated.data.nm_nas));
+            transporter.sendMail({
+                from: process.env.NODEMAILER_EMAIL,
+                to: data.email,
+                subject: "Permintaan Aktivasi - VBS",
+                html: emailBody
+            }, (err, info) => {
+                throw ({
+                    name: err?.name,
+                    message: err?.message
+                })
+            })
+        })
 
         return NextResponse.json({ message: "data berhasil ditambahkan, silahkan lakukan aktivasi" }, { status: 202 });
     } catch (error) {

@@ -55,11 +55,9 @@ export async function GET(request: NextRequest) {
             orderBy: getOrderby(orderBy, direction),
         });
 
-
-
         if (!result || result.length === 0) return NextResponse.json({ message: "Data not found" }, { status: 404 });
 
-        return NextResponse.json(result, {status: 200});
+        return NextResponse.json(result, { status: 200 });
     } catch (error) {
         console.log(error);
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
