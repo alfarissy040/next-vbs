@@ -91,9 +91,9 @@ export async function PUT(request: NextRequest, { params }: { params: IParams })
             }
         })
 
-        if (level > 2 && (!token || user.id_karyawan !== idUser)) {
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-        }
+        // if ((level > 2 && !token) || user.id_karyawan !== idUser) {
+        //     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+        // }
 
         const schema = z.object({
             kd_kantor: z.string(),

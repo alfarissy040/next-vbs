@@ -2,7 +2,7 @@
 
 import { IPaginateData } from "@/app/types/parameter";
 import { flatQueryParams, usePrefetchNavigate } from "@/app/utilities";
-import { fetcher } from "@/app/utilities/Fetcher";
+import { fetcher, fetcherNoCache } from "@/app/utilities/Fetcher";
 import { BreadcrumbItem, Breadcrumbs, Button, Pagination, SortDescriptor, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 import { extendAksPemakai } from "@prisma/client";
 import { isEmpty } from "lodash";
@@ -38,7 +38,7 @@ const UsersPage = () => {
         }))
     };
 
-    const { data, isLoading: isLoadingData, error: isErrorData } = useSWR<IPaginateData<extendAksPemakai>>(`/api/users?${flatQueryParams(qParams)}`, fetcher)
+    const { data, isLoading: isLoadingData, error: isErrorData } = useSWR<IPaginateData<extendAksPemakai>>(`/api/users?${flatQueryParams(qParams)}`, fetcherNoCache)
     const handlePaginator = useCallback(
         (page: number) => {
             setQParams({
