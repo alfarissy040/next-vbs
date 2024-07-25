@@ -32,9 +32,9 @@ const Sidebar = () => {
                     {navState == "cis" && (
                         <ItemCis setNavState={setNavState} />
                     )}
-                    {navState == "parameter" && (
+                    {/* {navState == "parameter" && (
                         <ItemParameter setNavState={setNavState} />
-                    )}
+                    )} */}
                     {navState == "tema" && (
                         <ItemTheme setNavState={setNavState} />
                     )}
@@ -51,9 +51,9 @@ const Sidebar = () => {
                     />
                 </div>
                 {/* notifikasi button */}
-                <Popover placement="right-end" showArrow>
+                <Popover placement="right-end" className="hidden" showArrow>
                     <PopoverTrigger>
-                        <Button variant="light" radius="full" size="sm" className="relative" isIconOnly>
+                        <Button variant="light" radius="full" size="sm" className="relative hidden" isIconOnly>
                             {/* jika ada notif */}
                             <span className="w-2 h-2 absolute rounded-full bg-red-600 inset-1 ml-auto" />
                             <MdNotifications className="w-5 h-5 dark:text-slate-50 text-slate-900" />
@@ -72,7 +72,6 @@ const Sidebar = () => {
                         </ScrollShadow >
                     </PopoverContent>
                 </Popover>
-
             </div>
         </aside>
     )

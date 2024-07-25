@@ -29,7 +29,9 @@ const AktivasiNasabahPage = () => {
     const { getBadgeColor, getTypeName } = useNasabahType();
     const { isOpen, onOpen, onOpenChange, onClose: closeModal } = useDisclosure();
 
-    const { data, error: isError, isLoading: loadingData } = useSWR(`/api/cis/aktivasi-nasabah/?${flatQueryParams(qParams)}`, fetcherNoCache);
+    const { data, error: isError, isLoading: loadingData } = useSWR(`/api/cis/aktivasi-nasabah/?${flatQueryParams(qParams)}`, fetcherNoCache, {
+        refreshInterval: 5000
+    });
 
     const handleSortChange = (sortDescriptor: SortDescriptor) => {
         const orderByParam = sortDescriptor.column?.toString() ?? "";

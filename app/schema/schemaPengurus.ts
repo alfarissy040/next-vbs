@@ -11,7 +11,7 @@ const schemaPengurus = z.object({
     tgl_lahir: z.string().datetime(),
     kd_agama: z.number(),
     no_hp: z.string(),
-    no_telp: z.string(),
+    no_telp: z.string().optional(),
     email: z.string().email(),
     nm_ibu: z.string(),
     jabatan: z.string(),

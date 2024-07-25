@@ -60,7 +60,7 @@ const Navbar = () => {
                         }}
                     />
                     {/* notifikasi button */}
-                    <Popover placement="bottom-end" showArrow>
+                    <Popover placement="bottom-end" className='hidden' showArrow>
                         <PopoverTrigger>
                             <Button variant="light" radius="full" size="sm" className="relative" isIconOnly>
                                 {/* jika ada notif */}
@@ -91,9 +91,9 @@ const Navbar = () => {
                     {navState == "cis" && (
                         <ItemCis setNavState={handleNavigate} handleToggle={handleToggle} />
                     )}
-                    {navState == "parameter" && (
+                    {/* {navState == "parameter" && (
                         <ItemParameter setNavState={handleNavigate} handleToggle={handleToggle} />
-                    )}
+                    )} */}
                     {navState == "tema" && (
                         <ItemTheme setNavState={setNavState} />
                     )}

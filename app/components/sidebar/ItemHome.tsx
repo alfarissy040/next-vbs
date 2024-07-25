@@ -46,10 +46,10 @@ const ItemHome: React.FC<ItemHomeProps> = ({ setNavState }) => {
                     Users Pemakai
                 </Link>
             </li>}
-            {level === 1 && <li className="sidebar__item justify-between" onClick={() => setNavState("parameter")}>
+            {/* {level === 1 && <li className="sidebar__item justify-between" onClick={() => setNavState("parameter")}>
                 <span>Parameter</span>
                 <FaChevronRight className="w-3 h-3 text-slate-400" />
-            </li>}
+            </li>} */}
             <div className="w-full h-0.5 bg-slate-200 dark:bg-slate-700 my-1" />
             <h3 className="text-medium text-slate-400 px-2">Settings</h3>
             <li>

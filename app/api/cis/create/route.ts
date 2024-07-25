@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
                 tgl_ident: validated.data.tgl_ident,
                 status_nas: validated.data.status_nas,
                 flag_hub_bank: validated.data.flag_hub_bank,
-                kd_acc_off: validated.data.kd_acc_off,
+                kd_acc_off: token.username,
                 kd_jns_ident: validated.data.kd_jns_ident,
                 kd_bntk_hkm: validated.data.kd_bntk_hkm,
                 kd_gol_pemilik: validated.data.kd_gol_pemilik,
@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
                 usrid_create: validated.data.usrid_create,
                 kd_bidang_usaha: validated.data.bidang_usaha,
                 npwp: validated.data.npwp,
-                no_telp: validated.data.no_telp,
+                no_telp: validated.data.no_telp ?? "",
                 email: validated.data.email,
             }
         })
@@ -196,7 +196,7 @@ export async function POST(request: NextRequest) {
                     tempat_lahir: validated.data.pengurus.tempat_lahir,
                     tgl_lahir: validated.data.pengurus.tgl_lahir,
                     no_hp: validated.data.pengurus.no_hp,
-                    no_telp: validated.data.pengurus.no_telp,
+                    no_telp: validated.data.pengurus.no_telp ?? "",
                     email: validated.data.pengurus.email,
                     nm_ibu: validated.data.pengurus.nm_ibu,
                     jabatan: validated.data.pengurus.jabatan,

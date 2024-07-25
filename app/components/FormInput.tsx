@@ -90,6 +90,14 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, placeholder, isR
         return convertToString(values);
     }, [defaultValue, getValues, id, type]);
 
+    const getErrorMessage = () => {
+        const errorId = id.split(".")
+        const errorObject: Record<string, any> = errorId.reduce((acc: Record<string, any>, item) => isEmpty(acc) ? ({ ...errors[item] }) : ({ ...acc[item] }), {})
+        console.log(errorObject, errorId)
+
+        return errorObject?.message
+    }
+
     return (
         <Input
             type={type}
@@ -99,7 +107,7 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, placeholder, isR
             classNames={CINputA}
             prefix={prefix}
             {...register(id, getRules)}
-            errorMessage={(errors[id]?.message as string) ?? ""}
+            errorMessage={(getErrorMessage ?? errors[id]?.message as string) ?? ""}
             defaultValue={getDefaultvalue}
             isDisabled={isDisabled}
             isRequired={isRequired}

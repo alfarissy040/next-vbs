@@ -46,20 +46,20 @@ const EditNasabahPage = ({ params }: { params: IParamSlug }) => {
             const dataPost = {
                 ...sanitizeCisMaster(values),
                 alamat: sanitizeCisAlamat(values["alamat"]),
-                ...(convertToNumber(data?.tipe_nas) === 1 ? sanitizeCisPerorangan(values) : {}),
-                ...(convertToNumber(data?.tipe_nas) === 2 || convertToNumber(data?.tipe_nas) === 4 ? sanitizeCisPerusahaan(values) : {}),
+                ...(data?.tipe_nas === 1 ? sanitizeCisPerorangan(values) : {}),
+                ...(data?.tipe_nas === 2 || data?.tipe_nas === 4 ? sanitizeCisPerusahaan(values) : {}),
                 pengurus: {
-                    ...(convertToNumber(data?.tipe_nas) !== 1 ? sanitizeCisPengurus(values["pengurus"]) : {}),
-                    alamat: (convertToNumber(data?.tipe_nas) !== 1 ? sanitizeCisAlamatPengurus(values["pengurus"]["alamat"]) : {}),
+                    ...(data?.tipe_nas !== 1 ? sanitizeCisPengurus(values["pengurus"]) : {}),
+                    alamat: (data?.tipe_nas !== 1 ? sanitizeCisAlamatPengurus(values["pengurus"]["alamat"]) : {}),
                 },
-                tipe_nas: convertToNumber(data?.tipe_nas)
+                tipe_nas: data?.tipe_nas
             }
             const res = await fetch(`/api/cis/${noNas}/edit`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(values),
+                body: JSON.stringify(dataPost),
             })
             const result = await res.json()
             if (!res.ok) {
@@ -73,6 +73,7 @@ const EditNasabahPage = ({ params }: { params: IParamSlug }) => {
             return navigateTo("/cis")
         } catch (err) {
             const error = err as TCommonApiError
+            console.log(error)
             toast.error(error.message)
         } finally {
             toast.dismiss(loadingToast)

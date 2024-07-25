@@ -69,7 +69,7 @@ const FormPerorangan: React.FC<FormPeroranganProps> = async ({ navDirection, for
                 <FormSelect
                     items={paraJenisKelamin}
                     formMethod={formMethod}
-                    id="kd_jns_kel"
+                    id="jns_kelamin"
                     label="Jenis Kelamin"
                     placeholder="Pilih Jenis Kelamin"
                     isRequired

@@ -21,8 +21,9 @@ interface FormPengurusProps {
 }
 
 const FormPengurus: React.FC<FormPengurusProps> = ({ navDirection, typeNasabah, formMethod, defaultValue }) => {
-    const { unregister, getValues } = formMethod;
+    const { unregister, getValues, formState: { errors } } = formMethod;
     const [isForeverMasaIdent, setIsForeverMasaIdent] = useState(((defaultValue?.masa_ident ?? getValues("pengurus.masa_ident") ?? 1)).toString());
+    console.log(errors)
 
     const { convertedData: IJnsIdent, isLoading: isLoadingJnsIdent } = useFetchParameter<para_jns_ident>({
         parameter: "jenis-identitas",
@@ -101,7 +102,7 @@ const FormPengurus: React.FC<FormPengurusProps> = ({ navDirection, typeNasabah, 
                     label="Masa Belaku Identitas"
                     placeholder="Pilih Masa Belaku Identitas"
                     onChange={setIsForeverMasaIdent}
-                    defaultValue={findStaticParameterValue(paraMasaBelakuIdentitas, defaultValue?.masa_ident.toString())}
+                    defaultValue={findStaticParameterValue(paraMasaBelakuIdentitas, (defaultValue?.masa_ident ?? 1).toString())}
                     isRequired
                 />
                 {/* Tanggal Identitas (tgl_ident) - DateTime */}
