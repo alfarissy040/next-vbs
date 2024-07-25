@@ -43,9 +43,9 @@ export async function GET(request: NextRequest, { params }: { params: IParams })
 
         if (!user) return NextResponse.json({ message: "Data tidak ditemukan" }, { status: 404 });
 
-        if (!has(token, user.karyawan.kantor.kd_kantor) && token?.level.level !== 1) {
-            return NextResponse.json({ message: "Unauthorized action!" }, { status: 401 })
-        }
+        // if (!has(token, user.karyawan.kantor.kd_kantor) && token?.level.level !== 1) {
+        //     return NextResponse.json({ message: "Unauthorized action!" }, { status: 401 })
+        // }
 
         return NextResponse.json(user);
     } catch (error) {
