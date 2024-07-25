@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
                 cis_update: {
                     some: {
                         kd_kantor_update: token?.kantor.kd_kantor,
-                        sts_update: "00"
+                        sts_update: "00",
                     },
                 },
             },
@@ -42,15 +42,10 @@ export async function GET(request: NextRequest) {
                 tipe_nas: true,
                 created_at: true,
                 cis_update: {
-                    select: {
-                        usrid_create: true,
-                        nm_field: true,
-                        current_record: true,
-                        new_record: true,
-                        created_at: true,
-                        id_update: true,
-                    }
-                }
+                    where: {
+                        sts_update: "00",
+                    },
+                },
             },
             orderBy: getOrderby(orderBy, direction),
         });

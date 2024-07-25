@@ -29,7 +29,9 @@ const AktivasiNasabahPage = () => {
     })
     const { isOpen, onOpen, onClose: closeModal } = useDisclosure();
 
-    const { data, error: isError, isLoading: loadingData } = useSWR<extendCisUpdate[]>(`/api/cis/permintaan-ubah?${flatQueryParams(qParams)}`, fetcherNoCache);
+    const { data, error: isError, isLoading: loadingData } = useSWR<extendCisUpdate[]>(`/api/cis/permintaan-ubah?${flatQueryParams(qParams)}`, fetcherNoCache, {
+        refreshInterval: 3000
+    });
     const handleSortChange = (sortDescriptor: SortDescriptor) => {
         const orderByParam = sortDescriptor.column?.toString() ?? "";
         const directionParam = sortDescriptor.direction === "ascending" ? "asc" : "desc";

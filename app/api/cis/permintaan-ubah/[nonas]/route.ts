@@ -84,14 +84,8 @@ export async function POST(request: NextRequest, { params }: { params: IParams }
         const isApprove = validated.data.isApprove;
         const dataUpdate = await prisma.cis_update.findMany({
             where: {
-                AND: [
-                    {
-                        no_nas: nonas,
-                    },
-                    {
-                        sts_update: { equals: "00" },
-                    },
-                ],
+                no_nas: nonas,
+                sts_update: { equals: "00" },
             },
         });
 
