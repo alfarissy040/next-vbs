@@ -254,7 +254,7 @@ async function main() {
             kd_acc_off: nasabahA.kd_acc_off,
             kd_bntk_hkm: nasabahA.kd_bntk_hkm,
             kd_gol_pemilik: nasabahA.kd_gol_pemilik,
-            kd_sumber_dana:nasabahA.kd_sumber_dana,
+            kd_sumber_dana: nasabahA.kd_sumber_dana,
             kd_tujuan_dana: nasabahA.kd_tujuan_dana,
             kd_maks_trans: nasabahA.kd_maks_trans,
             kd_penghasilan_bulan: nasabahA.kd_penghasilan_bulan,

@@ -6,14 +6,14 @@ generator client {
 }
 
 datasource db {
-    provider = "mongodb"
+    provider = "postgresql"
     url      = env("DATABASE_URL")
 }
 
 model aks_pemakai {
-    id_pemakai    String    @id @default(auto()) @map("_id") @db.ObjectId
-    id_lvl        String    @db.ObjectId
-    id_karyawan   String    @unique @db.ObjectId
+    id_pemakai    String    @id @default(cuid())
+    id_lvl        String
+    id_karyawan   String    @unique
     email         String    @unique
     username      String    @unique
     password      String
@@ -78,7 +78,7 @@ model aks_pemakai {
 }
 
 model karyawan {
-    id_karyawan   String @id @default(auto()) @map("_id") @db.ObjectId
+    id_karyawan   String @id @default(cuid())
     kd_kantor     String
     kd_jns_ident  Int
     no_ident      String
@@ -91,7 +91,7 @@ model karyawan {
 }
 
 model cis_master {
-    id_master              String    @id @default(auto()) @map("_id") @db.ObjectId
+    id_master              String    @id @default(cuid())
     no_nas                 String    @unique
     created_at_kantor      String
     nm_nas                 String
@@ -144,7 +144,8 @@ model cis_master {
 }
 
 model cis_alamat {
-    id_alamat     String  @id @default(auto()) @map("_id") @db.ObjectId
+    id_alamat     String  @id @default(cuid())
+    id_pengurus   String? @unique
     no_nas        String? @unique
     jns_alamat    String
     kd_negara     String
@@ -164,19 +165,18 @@ model cis_alamat {
 
     aks_pemakai_create aks_pemakai    @relation("aks_pemakai_create", fields: [usrid_create], references: [username], onDelete: NoAction, onUpdate: Cascade)
     aks_pemakai_update aks_pemakai?   @relation("aks_pemakai_update", fields: [usrid_update], references: [username], onDelete: NoAction, onUpdate: Cascade)
-    cis_master         cis_master?    @relation(fields: [no_nas], references: [no_nas], onDelete: NoAction, onUpdate: Cascade)
-    cis_pengurus       cis_pengurus?  @relation(fields: [no_nas], references: [no_pengurus], onDelete: NoAction, onUpdate: Cascade)
+    cis_master         cis_master?    @relation(fields: [no_nas], references: [no_nas])
+    cis_pengurus       cis_pengurus?  @relation(fields: [id_pengurus], references: [id_pengurus])
     negara             para_negara    @relation(fields: [kd_negara], references: [kd_negara], onDelete: NoAction, onUpdate: Cascade)
     provinsi           para_provinsi  @relation(fields: [kd_provinsi], references: [kd_provinsi], onDelete: NoAction, onUpdate: Cascade)
     kota               para_kota      @relation(fields: [kd_kota], references: [kd_kota], onDelete: NoAction, onUpdate: Cascade)
     kecamatan          para_kecamatan @relation(fields: [kd_kecamatan], references: [kd_kecamatan], onDelete: NoAction, onUpdate: Cascade)
     kelurahan          para_kelurahan @relation(fields: [kd_kelurahan], references: [kd_kelurahan], onDelete: NoAction, onUpdate: Cascade)
-    kantor             kantor?        @relation(fields: [kantorId], references: [id])
-    kantorId           String?        @db.ObjectId
+    kantor             kantor[]
 }
 
 model cis_perorangan {
-    id_perorangan        String   @id @default(auto()) @map("_id") @db.ObjectId
+    id_perorangan        String   @id @default(cuid())
     no_nas               String   @unique
     nm_ibu               String
     tempat_lahir         String
@@ -210,7 +210,7 @@ model cis_perorangan {
 }
 
 model cis_perusahaan {
-    id_perusahaan      String   @id @default(auto()) @map("_id") @db.ObjectId
+    id_perusahaan      String   @id @default(cuid())
     no_nas             String   @unique
     kd_group_nas       Int
     flag_bank          Boolean
@@ -242,7 +242,7 @@ model cis_perusahaan {
 }
 
 model cis_pengurus {
-    id_pengurus        String    @id @default(auto()) @map("_id") @db.ObjectId
+    id_pengurus        String    @id @default(cuid())
     no_pengurus        String    @unique @default(cuid())
     no_nas             String    @unique
     kd_agama           Int
@@ -277,7 +277,7 @@ model cis_pengurus {
 }
 
 model cis_update {
-    id_update      String  @id @default(auto()) @map("_id") @db.ObjectId
+    id_update      String  @id @default(cuid())
     no_nas         String
     db_field       String
     nm_field       String
@@ -298,7 +298,7 @@ model cis_update {
 }
 
 model cs_form {
-    id_form       String @id @default(auto()) @map("_id") @db.ObjectId
+    id_form       String @id @default(cuid())
     kd_tujuan     Int
     nama          String
     jns_ident     Int
@@ -326,7 +326,7 @@ model cs_form {
 }
 
 model notification {
-    id_notifikasi String   @id @default(auto()) @map("_id") @db.ObjectId
+    id_notifikasi String   @id @default(cuid())
     title         String
     message       String
     // utility
@@ -340,18 +340,18 @@ model notification {
 }
 
 model kantor {
-    id         String       @id @default(auto()) @map("_id") @db.ObjectId
-    kd_kantor  String       @unique
-    nm_kantor  String
-    // alamat
-    alamat     cis_alamat[]
+    id        String @id @default(cuid())
+    kd_kantor String @unique
+    nm_kantor String
+
+    alamat     cis_alamat   @relation(fields: [id], references: [id_alamat])
     karyawan   karyawan[]
     cis_master cis_master[]
     cis_update cis_update[]
 }
 
 model para_cs_tujuan {
-    id_tujuan  String @id @default(auto()) @map("_id") @db.ObjectId
+    id_tujuan  String @id @default(cuid())
     kode       Int    @unique
     keterangan String
 
@@ -367,7 +367,7 @@ model para_cs_tujuan {
 }
 
 model para_level_user {
-    id_level   String @id @default(auto()) @map("_id") @db.ObjectId
+    id_level   String @id @default(cuid())
     level      Int
     keterangan String
 
@@ -375,7 +375,7 @@ model para_level_user {
 }
 
 model para_jns_ident {
-    id_ident   String @id @default(auto()) @map("_id") @db.ObjectId
+    id_ident   String @id @default(cuid())
     kode       Int    @unique
     keterangan String
     jns_nas    Int
@@ -395,7 +395,7 @@ model para_jns_ident {
 }
 
 model para_bntk_hkm {
-    id_bntk_hkm String @id @default(auto()) @map("_id") @db.ObjectId
+    id_bntk_hkm String @id @default(cuid())
     kode        Int    @unique
     keterangan  String
     jns_nas     Int
@@ -412,7 +412,7 @@ model para_bntk_hkm {
 }
 
 model para_gol_pmlk {
-    id_gol_pmlk String @id @default(auto()) @map("_id") @db.ObjectId
+    id_gol_pmlk String @id @default(cuid())
     kode        Int    @unique
     keterangan  String
 
@@ -428,7 +428,7 @@ model para_gol_pmlk {
 }
 
 model para_dana {
-    id_dana    String @id @default(auto()) @map("_id") @db.ObjectId
+    id_dana    String @id @default(cuid())
     kode       Int    @unique
     keterangan String
 
@@ -445,7 +445,7 @@ model para_dana {
 }
 
 model para_transaksi {
-    id_transaksi   String @id @default(auto()) @map("_id") @db.ObjectId
+    id_transaksi   String @id @default(cuid())
     kode           Int    @unique
     keterangan     String
     batas_maksimum Int
@@ -462,7 +462,7 @@ model para_transaksi {
 }
 
 model para_penghasilan {
-    id_penghasilan String @id @default(auto()) @map("_id") @db.ObjectId
+    id_penghasilan String @id @default(cuid())
     kode           Int    @unique
     keterangan     String
 
@@ -480,7 +480,7 @@ model para_penghasilan {
 }
 
 model para_bidang_usaha {
-    id_bidang_usaha String @id @default(auto()) @map("_id") @db.ObjectId
+    id_bidang_usaha String @id @default(cuid())
     kode            Int    @unique
     keterangan      String
 
@@ -496,7 +496,7 @@ model para_bidang_usaha {
 }
 
 model para_grup_nas {
-    id_gruop_nas String @id @default(auto()) @map("_id") @db.ObjectId
+    id_gruop_nas String @id @default(cuid())
     kode         Int    @unique
     keterangan   String
 
@@ -512,7 +512,7 @@ model para_grup_nas {
 }
 
 model para_sts_nikah {
-    id_sts_nikah String @id @default(auto()) @map("_id") @db.ObjectId
+    id_sts_nikah String @id @default(cuid())
     kode         Int    @unique
     keterangan   String
 
@@ -528,7 +528,7 @@ model para_sts_nikah {
 }
 
 model para_agama {
-    id_agama   String @id @default(auto()) @map("_id") @db.ObjectId
+    id_agama   String @id @default(cuid())
     kode       Int    @unique
     keterangan String
 
@@ -545,7 +545,7 @@ model para_agama {
 }
 
 model para_profesi {
-    id_profesi String @id @default(auto()) @map("_id") @db.ObjectId
+    id_profesi String @id @default(cuid())
     kode       Int    @unique
     keterangan String
 
@@ -561,7 +561,7 @@ model para_profesi {
 }
 
 model para_jns_pekerjaan {
-    id_jns_pekerjaan String @id @default(auto()) @map("_id") @db.ObjectId
+    id_jns_pekerjaan String @id @default(cuid())
     kode             Int    @unique
     keterangan       String
 
@@ -577,7 +577,7 @@ model para_jns_pekerjaan {
 }
 
 model para_negara {
-    id_negara  String @id @default(auto()) @map("_id") @db.ObjectId
+    id_negara  String @id @default(cuid())
     kd_negara  String @unique
     keterangan String
 
@@ -596,7 +596,7 @@ model para_negara {
 }
 
 model para_provinsi {
-    id          String @id @default(auto()) @map("_id") @db.ObjectId
+    id          String @id @default(cuid())
     kd_negara   String
     kd_provinsi Int    @unique
     keterangan  String
@@ -616,7 +616,7 @@ model para_provinsi {
 }
 
 model para_kota {
-    id          String @id @default(auto()) @map("_id") @db.ObjectId
+    id          String @id @default(cuid())
     kd_provinsi Int
     kd_kota     Int    @unique
     keterangan  String
@@ -636,7 +636,7 @@ model para_kota {
 }
 
 model para_kecamatan {
-    id           String @id @default(auto()) @map("_id") @db.ObjectId
+    id           String @id @default(cuid())
     kd_kota      Int
     kd_kecamatan Int    @unique
     keterangan   String
@@ -656,7 +656,7 @@ model para_kecamatan {
 }
 
 model para_kelurahan {
-    id_kelurahan String @id @default(auto()) @map("_id") @db.ObjectId
+    id_kelurahan String @id @default(cuid())
     kd_kecamatan Int
     kd_kelurahan Int    @unique
     keterangan   String
