@@ -1,8 +1,11 @@
 "use client";
 
 import { usePrefetchNavigate } from "@/app/utilities";
-import { Button, Input } from "@nextui-org/react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { debounce } from "lodash";
+import { useTheme } from "next-themes";
+import Link from "next/link";
 import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { MdSearch } from "react-icons/md";
@@ -40,35 +43,22 @@ const SearchBar: React.FC<SearchBarProps> = ({ qParams, setQParams }) => {
         },
         [searchDebounce]
     );
+
     return (
         <div className="flex items-center sm:gap-2 gap-1">
-            <Input
-                size="sm"
-                placeholder="Cari Nomor nasabah, Nama atau Nomor Identitas"
-                isClearable
-                fullWidth
-                onValueChange={handleSearch}
-                onClear={() => handleSearch("")}
-                value={searchInput}
-                startContent={<MdSearch className="w-5 h-5 dark:text-slate-400 text-slate-500" />}
-                classNames={{
-                    inputWrapper: [
-                        "dark:bg-slate-800",
-                        "dark:group-data-[focus=true]:bg-slate-800",
-                        "dark:group-data-[hover=true]:bg-slate-700",
-                        "bg-slate-200",
-                        "group-data-[focus=true]:bg-slate-200",
-                        "group-data-[hover=true]:bg-slate-300",
-                    ],
-                }}
-            />
+            <div className="relative flex items-center justify-center w-full">
+                <MdSearch className="w-5 h-5 dark:text-slate-400 text-slate-600 absolute inset-0 my-auto mx-2 pointer-events-none" />
+                <Input onChange={(e) => handleSearch(e.target.value)} className="text-background dark:text-foreground pl-9" placeholder="Cari Nomor nasabah, Nama atau Nomor Identitas" />
+            </div>
             {/* btn add */}
-            <Button className="hidden md:grid md:grid-flow-col" size="lg" color="primary" radius="sm" onPress={() => navigateTo("/cis/create-nasabah")} endContent={<FaPlus className="w-4 h-4 text-white" />}>
-                Nasabah baru
+            <Button className="hidden md:grid md:grid-flow-col text-foreground" variant={"default"} asChild>
+                <Link href={"/cis/informasi-nasabah/create-nasabah"}>Nasabah baru</Link>
             </Button>
             {/* btn add icon only */}
-            <Button className="flex md:hidden" size="lg" color="primary" radius="sm" onPress={() => navigateTo("/cis/create-nasabah")} isIconOnly>
-                <FaPlus className="w-4 h-4 text-white" />
+            <Button className="flex md:hidden" size={"icon"} variant={"default"} onClick={() => navigateTo("/cis/informasi-nasabah/create-nasabah")} asChild>
+                <Link href={"/cis/informasi-nasabah/create-nasabah"}>
+                    <FaPlus className="w-4 h-4 text-white" />
+                </Link>
             </Button>
         </div>
     );

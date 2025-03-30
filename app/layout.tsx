@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { Poppins } from "next/font/google";
 import SessionProvider from "./context/SessionProvider";
 import "./globals.css";
+import { ThemeProvider } from "./context/ThemeProvider";
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -20,13 +21,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     const session = await getServerSession(authOption);
 
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <body className={poppins.className}>
-                <SessionProvider session={session}>
-                    <ClientStyleProvider>
-                        {children}
-                    </ClientStyleProvider>
-                </SessionProvider>
+                <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+                    <SessionProvider session={session}>
+                        <ClientStyleProvider>{children}</ClientStyleProvider>
+                    </SessionProvider>
+                </ThemeProvider>
             </body>
         </html>
     );

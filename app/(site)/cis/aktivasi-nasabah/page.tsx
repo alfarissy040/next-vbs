@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import { CDialog } from "@/app/components/ClassnamesData"
-import { TCommonApiError } from "@/app/types"
-import { flatQueryParams } from "@/app/utilities"
-import { useNasabahType } from "@/app/utilities/Cis"
-import { fetcherNoCache } from "@/app/utilities/Fetcher"
-import { Button, Chip, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, SortDescriptor, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from "@nextui-org/react"
-import { cis_master } from "@prisma/client"
-import { useSearchParams } from "next/navigation"
-import { useState } from "react"
-import toast from "react-hot-toast"
-import useSWR, { useSWRConfig } from "swr"
+import { CDialog } from "@/app/components/ClassnamesData";
+import { TCommonApiError } from "@/app/types";
+import { flatQueryParams } from "@/app/utilities";
+import { useNasabahType } from "@/app/utilities/Cis";
+import { fetcherNoCache } from "@/app/utilities/Fetcher";
+import { Button, Chip, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, SortDescriptor, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from "@nextui-org/react";
+import { cis_master } from "@prisma/client";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import useSWR, { useSWRConfig } from "swr";
 
 const AktivasiNasabahPage = () => {
     const queryParams = useSearchParams();
-    const { mutate } = useSWRConfig()
-    const [isLoading, setIsLoading] = useState(false)
+    const { mutate } = useSWRConfig();
+    const [isLoading, setIsLoading] = useState(false);
     const [selectedUser, setSelectedUser] = useState("");
-    const [modalState, setModalState] = useState<"terima" | "tolak" | null>(null)
+    const [modalState, setModalState] = useState<"terima" | "tolak" | null>(null);
     const [sortState, setSortState] = useState<SortDescriptor>({
         column: queryParams.get("orderby") ?? "nomor-nasabah",
         direction: queryParams.get("direction") === "asc" ? "ascending" : "descending",
@@ -25,12 +25,16 @@ const AktivasiNasabahPage = () => {
     const [qParams, setQParams] = useState({
         orderBy: sortState.column,
         direction: sortState.direction === "ascending" ? "asc" : "desc",
-    })
+    });
     const { getBadgeColor, getTypeName } = useNasabahType();
     const { isOpen, onOpen, onOpenChange, onClose: closeModal } = useDisclosure();
 
-    const { data, error: isError, isLoading: loadingData } = useSWR(`/api/cis/aktivasi-nasabah/?${flatQueryParams(qParams)}`, fetcherNoCache, {
-        refreshInterval: 5000
+    const {
+        data,
+        error: isError,
+        isLoading: loadingData,
+    } = useSWR(`/api/cis/aktivasi-nasabah/?${flatQueryParams(qParams)}`, fetcherNoCache, {
+        refreshInterval: 5000,
     });
 
     const handleSortChange = (sortDescriptor: SortDescriptor) => {
@@ -40,20 +44,20 @@ const AktivasiNasabahPage = () => {
         setQParams({
             orderBy: orderByParam,
             direction: directionParam,
-        })
+        });
     };
     const handleOpenModal = (noNas: string) => {
-        onOpen()
-        setSelectedUser(noNas)
-    }
+        onOpen();
+        setSelectedUser(noNas);
+    };
     const handleCloseModal = () => {
-        setModalState(null)
-        closeModal()
-    }
+        setModalState(null);
+        closeModal();
+    };
     const handleSubmit = async (isApprove: boolean) => {
-        const loadingToast = toast.loading("Memperoses...")
-        setIsLoading(true)
-        closeModal()
+        const loadingToast = toast.loading("Memperoses...");
+        setIsLoading(true);
+        closeModal();
 
         try {
             const res = await fetch(`/api/cis/aktivasi-nasabah/${selectedUser}`, {
@@ -62,33 +66,32 @@ const AktivasiNasabahPage = () => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    isApprove: isApprove
+                    isApprove: isApprove,
                 }),
-            })
-            const result = await res.json()
+            });
+            const result = await res.json();
 
             if (!res.ok) {
                 throw {
                     status: res.status,
-                    message: result.message
-                }
+                    message: result.message,
+                };
             }
-            mutate(`/api/cis/aktivasi-nasabah/?${flatQueryParams(qParams)}`)
-            toast.success(isApprove ? "Nasabah berhasil Aktivasi" : "Aktivasi nasabah ditolak")
+            mutate(`/api/cis/aktivasi-nasabah/?${flatQueryParams(qParams)}`);
+            toast.success(isApprove ? "Nasabah berhasil Aktivasi" : "Aktivasi nasabah ditolak");
         } catch (error) {
-            const errorApi = error as TCommonApiError
-            toast.error(errorApi.message)
+            const errorApi = error as TCommonApiError;
+            toast.error(errorApi.message);
         } finally {
-            toast.dismiss(loadingToast)
-            setIsLoading(false)
-            setModalState(null)
-            closeModal()
+            toast.dismiss(loadingToast);
+            setIsLoading(false);
+            setModalState(null);
+            closeModal();
         }
-    }
+    };
 
     return (
         <section className="w-full h-full flex flex-col">
-            <h1 className="font-medium text-2xl">Aktivasi Nasabah</h1>
             <Table
                 aria-label="table for data cis"
                 className="flex-1"
@@ -135,7 +138,9 @@ const AktivasiNasabahPage = () => {
                                 </Chip>
                             </TableCell>
                             <TableCell className="flex items-center justify-center gap-2">
-                                <Button color="primary" onPress={() => handleOpenModal(item?.no_nas)}>Menu</Button>
+                                <Button color="primary" onPress={() => handleOpenModal(item?.no_nas)}>
+                                    Menu
+                                </Button>
                             </TableCell>
                         </TableRow>
                     )}
@@ -143,19 +148,22 @@ const AktivasiNasabahPage = () => {
             </Table>
             <Modal isOpen={isOpen} onOpenChange={handleCloseModal} backdrop="blur" classNames={CDialog}>
                 <ModalContent>
-                    <ModalHeader className="flex flex-col gap-1">
-                        {modalState === null ? "Permintaan Persetujuan" : "Konfirmasi Tindakan"}
-                    </ModalHeader>
+                    <ModalHeader className="flex flex-col gap-1">{modalState === null ? "Permintaan Persetujuan" : "Konfirmasi Tindakan"}</ModalHeader>
                     <ModalBody>
                         {modalState === null && (
-                            <p>Silakan konfirmasi keputusan Anda untuk permintaan ini. Pilih <span className="font-semibold border-b-2 dark:border-slate-50 border-slate-900">Terima</span> untuk menyetujui atau <span className="font-semibold border-b-2 dark:border-slate-50 border-slate-900">Tolak</span> untuk menolak.</p>
+                            <p>
+                                Silakan konfirmasi keputusan Anda untuk permintaan ini. Pilih <span className="font-semibold border-b-2 dark:border-slate-50 border-slate-900">Terima</span> untuk menyetujui atau{" "}
+                                <span className="font-semibold border-b-2 dark:border-slate-50 border-slate-900">Tolak</span> untuk menolak.
+                            </p>
                         )}
                         {modalState === "terima" && (
-                            <p>Apakah Anda yakin ingin <span className="font-semibold border-b-2 dark:border-slate-50 border-slate-900">menerima</span> permintaan ini? Harap pastikan semua informasi sudah benar sebelum melanjutkan.
+                            <p>
+                                Apakah Anda yakin ingin <span className="font-semibold border-b-2 dark:border-slate-50 border-slate-900">menerima</span> permintaan ini? Harap pastikan semua informasi sudah benar sebelum melanjutkan.
                             </p>
                         )}
                         {modalState === "tolak" && (
-                            <p>Apakah Anda yakin ingin <span className="font-semibold border-b-2 dark:border-slate-50 border-slate-900">menolak</span> permintaan ini? Harap pastikan semua informasi sudah benar sebelum melanjutkan.
+                            <p>
+                                Apakah Anda yakin ingin <span className="font-semibold border-b-2 dark:border-slate-50 border-slate-900">menolak</span> permintaan ini? Harap pastikan semua informasi sudah benar sebelum melanjutkan.
                             </p>
                         )}
                     </ModalBody>
@@ -183,7 +191,7 @@ const AktivasiNasabahPage = () => {
                 </ModalContent>
             </Modal>
         </section>
-    )
-}
+    );
+};
 
-export default AktivasiNasabahPage
+export default AktivasiNasabahPage;

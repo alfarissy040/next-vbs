@@ -1,44 +1,73 @@
-'use client'
+"use client";
 
 import type { navProps } from "@/app/types/sidebar";
 import { Button, Popover, PopoverContent, PopoverTrigger, ScrollShadow, User } from "@nextui-org/react";
-import { AnimatePresence } from "framer-motion";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 import { MdArrowRight, MdNotifications } from "react-icons/md";
 import { SiNginx } from "react-icons/si";
-import ItemCis from "./ItemCis";
-import ItemHome from "./ItemHome";
-import ItemParameter from "./ItemParameter";
-import ItemTheme from "./ItemTheme";
+
+const menuTree = [
+    {
+        title: "Customer Information Services",
+        children: [
+            {
+                title: "Informasi Customer",
+                href: "/cis/informasi-nasabah",
+            },
+            {
+                title: "Aktivasi Customer",
+                href: "/cis/aktivasi-nasabah",
+            },
+            {
+                title: "Persetujuan Perubahan Data",
+                href: "/cis/permintaan-ubah",
+            },
+        ],
+    },
+    {
+        title: "Parameter",
+        children: [
+            {
+                title: "Parameter Provinsi",
+                href: "/parameter/provinsi",
+            },
+        ],
+    },
+];
 
 const Sidebar = () => {
-    const [navState, setNavState] = useState<navProps>("home")
-    const { data: dataSession } = useSession()
+    const [navState, setNavState] = useState<navProps>("home");
+    const { data: dataSession } = useSession();
     return (
         <aside className="p-3 w-full max-w-xs min-h-[100dvh] bg-white shadow border-r border-slate-200 dark:bg-slate-800 dark:border-slate-600 lg:flex flex-col hidden">
             {/* title */}
             <div className="flex justify-center items-center gap-x-3">
-                <SiNginx className="text-blue-500 dark:text-secondary w-10 h-10" />
+                <SiNginx className="text-primary size-10" />
                 <h1 className="text-xl font-bold text-black dark:text-white">Neural Bank</h1>
             </div>
             {/* navigasi */}
             <nav className="overflow-clip mt-4 flex-1 overflow-y-auto">
-                <AnimatePresence>
-                    {navState == "home" && (
-                        <ItemHome setNavState={setNavState} />
-                    )}
-                    {navState == "cis" && (
-                        <ItemCis setNavState={setNavState} />
-                    )}
-                    {/* {navState == "parameter" && (
-                        <ItemParameter setNavState={setNavState} />
-                    )} */}
-                    {navState == "tema" && (
-                        <ItemTheme setNavState={setNavState} />
-                    )}
-                </AnimatePresence>
+                {[...menuTree].map((item, i) => (
+                    <div key={`parrent-${item.title}-${i}`} className="mt-4">
+                        <h3 className="text-slate-400">{item.title}</h3>
+                        <ul>
+                            {[...item.children].map((child, childIndex) => (
+                                <li key={`${i}-${item.title}-${child.title}`}>
+                                    <Link href={child.href} className="sidebar__item">
+                                        {child.title}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
+                {/* <AnimatePresence>
+                    {navState == "home" && <ItemHome setNavState={setNavState} />}
+                    {navState == "cis" && <ItemCis setNavState={setNavState} />}
+                    {navState == "tema" && <ItemTheme setNavState={setNavState} />}
+                </AnimatePresence> */}
             </nav>
             <div className="px-3 flex items gap-x-2">
                 <div className="flex-1">
@@ -62,19 +91,21 @@ const Sidebar = () => {
                     <PopoverContent className="bg-slate-100 dark:bg-slate-800 border dark:border-slate-900 border-slate-200 w-80 rounded-lg p-1">
                         <h3 className="font-medium text-lg px-3 py-2 w-full text-start">Notifikasi</h3>
                         <ScrollShadow className="flex flex-col gap-1 w-full h-auto max-h-[85dvh] scrollbar-hide overflow-y-auto">
-                            {[...Array(25)].map((_, i) => <Link key={i} href={"#"} className="group w-full px-3 py-2 rounded-md dark:bg-slate-700 bg-slate-200 flex items-center hover:bg-slate-300 dark:hover:bg-slate-600 transition">
-                                <div className="flex-1">
-                                    <h4 className="font-medium">Aktivasi Customer {i + 1}</h4>
-                                    <p className="dark:text-slate-300 text-slate-700">Foo meminta aktivasi customer</p>
-                                </div>
-                                <MdArrowRight className="w-5 h-5 dark:text-white text-slate-900 opacity-0 group-hover:opacity-100 transition" />
-                            </Link>)}
-                        </ScrollShadow >
+                            {[...Array(25)].map((_, i) => (
+                                <Link key={i} href={"#"} className="group w-full px-3 py-2 rounded-md dark:bg-slate-700 bg-slate-200 flex items-center hover:bg-slate-300 dark:hover:bg-slate-600 transition">
+                                    <div className="flex-1">
+                                        <h4 className="font-medium">Aktivasi Customer {i + 1}</h4>
+                                        <p className="dark:text-slate-300 text-slate-700">Foo meminta aktivasi customer</p>
+                                    </div>
+                                    <MdArrowRight className="w-5 h-5 dark:text-white text-slate-900 opacity-0 group-hover:opacity-100 transition" />
+                                </Link>
+                            ))}
+                        </ScrollShadow>
                     </PopoverContent>
                 </Popover>
             </div>
         </aside>
-    )
-}
+    );
+};
 
 export default Sidebar;

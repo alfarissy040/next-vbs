@@ -15,10 +15,10 @@ export const authOption: NextAuthOptions = {
             },
             async authorize(credentials, req) {
                 if (!credentials) {
-                    throw ({
+                    throw {
                         status: 401,
-                        message: "invalid crendetials!"
-                    });
+                        message: "invalid crendetials!",
+                    };
                 }
                 const username = credentials?.username;
                 const password = credentials?.password;
@@ -42,10 +42,11 @@ export const authOption: NextAuthOptions = {
                         },
                     });
 
-                    if (!user) throw ({
-                        status: 404,
-                        message: "User not found!"
-                    });
+                    if (!user)
+                        throw {
+                            status: 404,
+                            message: "User not found!",
+                        };
 
                     const isMatch = await compare(password, user.password);
 
@@ -87,7 +88,7 @@ export const authOption: NextAuthOptions = {
                     name: user.name,
                     kantor: user.kantor,
                     level: user.level,
-                    expires: token.expires
+                    expires: token.expires,
                 };
             }
             return token;
@@ -111,5 +112,5 @@ export const authOption: NextAuthOptions = {
     pages: {
         signIn: "/login",
     },
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.AUTH_SECRET,
 };

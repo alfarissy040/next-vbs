@@ -6,12 +6,12 @@ export default async function middleware(req: NextRequest) {
     const {
         nextUrl: { origin, pathname },
     } = req;
-    
+
     return NextResponse.next({
         headers: {
-            "x-url":pathname
-        }
-    })
+            "x-url": pathname,
+        },
+    });
     // const apiUrl = new URL(`/api/middleware`, origin)
     // const redirectTo = (path: string) => NextResponse.redirect(new URL(path, origin));
     // const fetchRedirect = await fetch(apiUrl.href, {
@@ -30,7 +30,6 @@ export default async function middleware(req: NextRequest) {
     // }
 
     // return redirectTo(isRedirect.dest)
-
 }
 
 export const config = {
